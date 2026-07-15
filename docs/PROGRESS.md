@@ -56,13 +56,13 @@ The first unchecked milestone is the active milestone.
 
 ## M6 — Nine multiple-reflection classes
 
-- [ ] Dihedral generator setup complete.
-- [ ] `q = 2` four cases complete.
-- [ ] `q = 3` two cases complete.
-- [ ] `q = 4` two cases complete.
-- [ ] `q = 6` one case complete.
-- [ ] Distinct signatures proved inequivalent.
-- [ ] Clean `lake build`.
+- [x] Dihedral generator setup complete.
+- [x] `q = 2` four cases complete.
+- [x] `q = 3` two cases complete.
+- [x] `q = 4` two cases complete.
+- [x] `q = 6` one case complete.
+- [x] Distinct signatures proved inequivalent.
+- [x] Clean `lake build`.
 
 ## M7 — Models and main theorem
 

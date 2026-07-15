@@ -277,3 +277,33 @@ equivalence relation, shift-class strategy, or milestone boundaries.
   shift class, using functoriality and lift independence.
 - **M6 boundary:** paired reflections, their compatibility relation, and joint dihedral lattice
   normal forms are not inferred from the single-reflection dichotomy and remain M6 work.
+
+## FD-014: multiple-reflection classes use joint integral normal forms and quotient shift pairs
+
+- **Status:** accepted.
+- **Decision:** choose adjacent reversing point elements whose product generates the positive
+  cyclic subgroup, and normalize their simultaneous integral action.  The resulting joint forms
+  are the primitive and centered order-two forms, the two order-three axis-span forms, and one
+  form each in orders four and six.  The public extension invariant is the pair of the two
+  quotient-valued reflection shift classes, never a pair of raw lift vectors.
+- **Finite case split:** order two has the four normalized signatures `cmm`, `pmm`, `pmg`, and
+  `pgg`; the asymmetric primitive descriptions of `pmg` are identified by an explicit exchange
+  of the adjacent reflections.  Order three is distinguished intrinsically by the span of all
+  reflection axes, giving `p3m1` versus `p31m`.  Order four is distinguished by the vanishing
+  pattern of the primitive adjacent reflection, giving `p4m` versus `p4g`; order six has the
+  single signature `p6m`.
+- **Models and comparison:** all nine standard groups use one transparent finite-coset normal
+  form: an explicit rank-two lattice coordinate together with a finite dihedral coordinate and a
+  proved affine cocycle.  A word-section dihedral-extension equivalence compares groups with the
+  same joint lattice form and normalized shift pair.  This avoids relying on subgroup-generator
+  drawings or unproved presentation intuition.
+- **Inequivalence:** rotation order separates the four order families.  Within an order, the
+  centered/primitive lattice invariant, reflection-axis span, and the invariant number of
+  reversing point elements with zero quotient shift separate the remaining signatures.  These
+  invariants are transported by `TranslationPreservingIso`.
+- **Paper correspondence:** with the paper's page-130 conventions, full reflection-axis span is
+  `p3m1` and the index-three span is `p31m`.  In order six both selected adjacent reflection
+  actions have centered one-reflection normal form; uniqueness comes from their joint dihedral
+  normal form, not from treating either reflection in isolation.
+- **M7 boundary:** the nine-way theorem is exported independently.  The global 17-constructor
+  enumeration, quotient equivalence, and final cardinality theorem remain M7 work.
