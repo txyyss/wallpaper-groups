@@ -31,12 +31,13 @@ The first unchecked milestone is the active milestone.
 
 ## M3 — Crystallographic restriction
 
-- [ ] Primary proof route selected and documented.
-- [ ] Rotation orders restricted to `1,2,3,4,6`.
-- [ ] Orientation-preserving point subgroup shown cyclic.
-- [ ] Cyclic/dihedral point-group theorem complete.
-- [ ] Required lattice normal forms complete.
-- [ ] Clean `lake build`.
+- [x] Primary proof route selected and documented.
+- [x] Rotation orders restricted to `1,2,3,4,6`.
+- [x] Orientation-preserving point subgroup shown cyclic.
+- [x] Cyclic/dihedral point-group theorem complete.
+- [x] Required lattice normal forms complete.
+- [x] Clean `lake build`.
+- [x] Human specification review approved: crystallographic restriction and lattice normal forms.
 
 ## M4 — Five no-reflection classes
 

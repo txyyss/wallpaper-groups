@@ -208,3 +208,31 @@ equivalence relation, shift-class strategy, or milestone boundaries.
 - **Public-invariant policy:** raw matrices depend on the selected lattice basis.  The public
   invariant is the coordinate-free lattice action; basis changes and translation-preserving
   equivalences produce proved `GL₂(ℤ)` conjugacies.
+
+## FD-011: restriction uses trace and Cayley–Hamilton; orbit bases use shortest vectors
+
+- **Status:** accepted.
+- **Decision:** prove the crystallographic order restriction by casting the integral lattice-action
+  trace to the real trace of the ambient plane isometry.  Bound that trace in `[-2, 2]`, use
+  positive determinant to obtain determinant `1`, and apply the two-dimensional
+  Cayley–Hamilton identity.  This gives the exact orders `1`, `2`, `3`, `4`, and `6` without any
+  analytic approximation of angles.
+- **Normal-form supplement:** use a shortest-vector argument only for the distinct task of
+  producing the later classification basis.  A rank-two lattice is first identified with the
+  integer span of its real basis, so bounded intersections are finite and a shortest nonzero
+  vector exists.  For trace `c = -1, 0, 1`, nearest-integer reduction in the real orbit frame
+  `(t, A t)` bounds a nonzero coordinate remainder by `3/4 * ‖t‖²`, contradicting minimality.
+  Thus `(t, A t)` is an integer basis and its action matrix is `!![0, -1; 1, c]`.
+- **Rejected route for the order restriction:** the paper's full shortest-vector/angle argument
+  would duplicate the shortest-vector infrastructure and require more angle case analysis than
+  the compiled trace bridge.  It is therefore not maintained as a second restriction proof.
+  Conversely, classifying torsion matrices in `SL₂(ℤ)` up to integral conjugacy would require
+  arithmetic normal-form machinery not otherwise needed; the direct orbit-basis proof is shorter
+  and yields the actual vector required by M4–M6.
+- **Orientation and point-group boundary:** the orientation-preserving subgroup is the
+  positive-real-determinant subgroup.  It is proved cyclic through an injective complex rotation
+  parameter.  A reversing element is an involution and conjugates every positive element to its
+  inverse.  The exported `DihedralData` records this cyclic subgroup, a reversing generator, and
+  the two-coset normal form, including the trivial-rotation boundary case.
+- **Review boundary:** no field or meaning of `PlaneGroup`, `TranslationPreservingIso`, or the M2
+  lattice action is changed.  The project owner approved this decision with the M3 specification.
