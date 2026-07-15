@@ -1,4 +1,10 @@
 import WallpaperGroups.Basic.EuclideanMotion
+import WallpaperGroups.Basic.Equivalence
+import WallpaperGroups.Basic.Plane
+import WallpaperGroups.Basic.PlaneGroup
+import WallpaperGroups.Basic.RankTwoLattice
+import WallpaperGroups.Invariants.EquivalenceAction
 import WallpaperGroups.Invariants.ExactSequence
+import WallpaperGroups.Invariants.IntegralAction
 import WallpaperGroups.Invariants.PointGroup
 import WallpaperGroups.Invariants.Translation

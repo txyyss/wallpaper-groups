@@ -21,11 +21,13 @@ The first unchecked milestone is the active milestone.
 
 ## M2 — Plane groups and equivalence
 
-- [ ] Strong plane-group definition complete.
-- [ ] Translation-preserving isomorphism complete.
-- [ ] Equivalence relation proved.
-- [ ] Integral action/basis-change API complete.
-- [ ] Clean `lake build`.
+- [x] Strong plane-group definition complete.
+- [x] Translation-preserving isomorphism complete.
+- [x] Equivalence relation proved.
+- [x] Integral action/basis-change API complete.
+- [x] Clean `lake build`.
+- [x] Human specification review approved:
+      `PlaneGroup` and translation-preserving equivalence.
 
 ## M3 — Crystallographic restriction
 

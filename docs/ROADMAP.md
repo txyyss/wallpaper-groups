@@ -424,9 +424,15 @@ classes remain deferred to M5.
 5. Prove that an equivalence induces:
    - an isomorphism of translation lattices;
    - a conjugacy/intertwining relation for point-group actions;
-   - preservation of shift classes once they are defined.
+   - the transport prerequisites for preserving shift classes once they are defined.
 6. Prove that the point group is faithfully represented on the lattice.
 7. Establish a basis-change API from lattice automorphisms to `GL₂(ℤ)` matrices.
+
+M2 does not define a shift class.  Its translation-lattice equivalence, point-group equivalence,
+and action-intertwining theorems are the inputs to the shift-class functoriality theorem in M5.
+After the implementation checklist is complete, the exact `PlaneGroup` and
+`TranslationPreservingIso` specifications require an explicit human review before M2 may be
+committed or work may begin on M3.
 
 ### Acceptance criteria
 

@@ -349,3 +349,89 @@ Mathlib.Analysis.Normed.Affine.Isometry
 ```
 
 `WallpaperGroups.Prototype.APIAudit` is no longer imported by the public umbrella module.
+
+## M2 implementation supplement
+
+M2 re-audited the current APIs before fixing the public plane, lattice, plane-group, and
+equivalence structures.  The checks below were compiled against the pinned Lean/mathlib revisions;
+they are not inferred from roadmap pseudocode.
+
+### Euclidean plane and derived real bases
+
+- **Mathlib module / minimum direct import:**
+  `Mathlib.Analysis.InnerProductSpace.PiL2`.
+- **Declarations used:** `EuclideanSpace`, `finrank_euclideanSpace_fin`,
+  `EuclideanSpace.basisFun`, `OrthonormalBasis.toBasis`,
+  `basisOfLinearIndependentOfCardEqFinrank`, and
+  `coe_basisOfLinearIndependentOfCardEqFinrank`.
+- **Compiling result:** `EuclideanSpace ℝ (Fin 2)` has finrank two and its canonical orthonormal
+  basis gives a `Module.Basis (Fin 2) ℝ`.  A real-linearly independent pair indexed by `Fin 2`
+  therefore gives a basis of the entire plane.
+- **Fit:** this supplies a genuine real inner-product plane for M3 while keeping M2's public
+  invariants coordinate-free.  A bare function type is unnecessary.
+
+### Lattice matrices and real extension
+
+- **Mathlib modules / direct imports:** `Mathlib.LinearAlgebra.Matrix.ToLin` and
+  `Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs`.
+- **Declarations used:** `LinearMap.toMatrix`, `LinearMap.toMatrix_apply`,
+  `LinearMap.toMatrix_comp`, `LinearMap.toMatrix_mulVec_repr`, `Matrix.map_mul`,
+  `Matrix.toLinOfInv`, `Matrix.toLinOfInv_apply`, `Matrix.toLin_self`,
+  `Matrix.GeneralLinearGroup.toLin'`, `LinearMap.GeneralLinearGroup.generalLinearEquiv`,
+  `Int.castRingHom`, and `Int.cast_smul_eq_zsmul`.
+- **Compiling result:** for `f : L.carrier ≃ₗ[ℤ] L'.carrier`, the matrices of `f` and `f.symm`
+  are mutual inverses.  Mapping both matrices along `ℤ → ℝ` and applying `Matrix.toLinOfInv` to
+  the real bases derived from `L` and `L'` gives a `Plane ≃ₗ[ℝ] Plane` that agrees with `f` on
+  every lattice element.
+- **Convention verified by application and composition probes:**
+
+  ```text
+  matrix (f.comp g) = matrix f * matrix g
+  ```
+
+  Thus, if `f ∘ A = B ∘ f`, and `P`, `A`, `B` are their matrices in the stated source and
+  target bases, the commuting relation is `P * A = B * P`, and the corresponding conjugacy is
+  `B = P * A * P⁻¹`.  Matrix rows are target coordinates and columns are source coordinates.
+- **Gap / risk:** `LinearEquiv.restrictScalars` only restricts scalars; it cannot extend an
+  arbitrary integer-linear equivalence to the reals.  Likewise, scalar-extension helpers that
+  require a surjective scalar map or a localization do not apply to `ℤ → ℝ`.  The explicit
+  inverse-matrix construction is the stable route.
+
+### Translation-preserving subgroup and quotient transport
+
+- **Mathlib modules / direct imports:** `Mathlib.Algebra.Group.Subgroup.Map` and
+  `Mathlib.GroupTheory.QuotientGroup.Basic`.
+- **Declarations used:** `MulEquiv.subgroupMap`, `MulEquiv.subgroupCongr`,
+  `Subgroup.map_symm_eq_iff_map_eq`, `Subgroup.map_map`, `QuotientGroup.congr`,
+  `QuotientGroup.congr_mk`, and `QuotientGroup.quotientKerEquivRange`.
+- **Compiling result:** an equality saying that a group equivalence maps the source translation
+  subgroup onto the target gives stable restriction, inverse, and composition APIs.  Since M1
+  defines the translation subgroup and point group as the kernel and range of the same restricted
+  linear-part homomorphism, the canonical equivalence
+
+  ```text
+  G / translationSubgroup G ≃* pointGroup G
+  ```
+
+  is `QuotientGroup.quotientKerEquivRange (restrictedLinearPart G)`.  Sandwiching
+  `QuotientGroup.congr` between these endpoint equivalences gives the induced point-group map and
+  its projection-commutation theorem without choosing lifts.
+- **Fit:** subgroup-map equality expresses exactly “maps onto,” composes cleanly, and does not
+  strengthen the classification equivalence to ambient conjugacy or metric preservation.
+
+### Integral point action and faithfulness
+
+- **Additional declarations used:** `AddEquiv.addSubgroupCongr`,
+  `AddEquiv.toIntLinearEquiv`, `Module.Basis.ext`,
+  `LinearIsometryEquiv.toLinearEquiv_injective`, and
+  `LinearEquiv.toLinearMap_injective`.
+- **Compiling result:** the exact equality between the stored lattice carrier and M1 translation
+  vectors gives an additive equivalence that is definitionally the identity on ambient vectors.
+  Conjugating M1's `pointAction` by it yields a `ℤ`-linear lattice automorphism.  Equality of two
+  such actions on the two lattice basis vectors implies equality on the derived real basis, hence
+  equality of the ambient linear isometries and of the point-group elements.  The faithful action
+  is therefore a theorem, not a subtype-coercion shortcut.
+- **GL bridge:** composing the faithful lattice-action homomorphism with
+  `LinearMap.GeneralLinearGroup.generalLinearEquiv` and
+  `Matrix.GeneralLinearGroup.toLin'` produces the chosen-basis `GL₂(ℤ)` representation.  Both
+  intervening maps are equivalences, so injectivity transports directly.

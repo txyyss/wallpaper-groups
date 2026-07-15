@@ -108,3 +108,103 @@ equivalence relation, shift-class strategy, or milestone boundaries.
 - **Re-evaluate if:** M2 endpoint transport under translation-preserving isomorphisms becomes
   substantially simpler with another maintained mathlib abstraction.  Any replacement must
   retain the current five exactness facts and must not assume a splitting.
+
+## FD-004: the ambient plane is mathlib's Euclidean two-space
+
+- **Status:** accepted.
+- **Decision:** define `Plane` as `EuclideanSpace ℝ (Fin 2)`.  Export its finrank theorem and a
+  thin canonical real-basis interface, while keeping public group and lattice definitions free of
+  coordinate projections.
+- **Rejected alternative:** `Fin 2 → ℝ` was useful for the M0 coordinate experiment but does not
+  itself advertise the intended Euclidean inner-product geometry.  A project-local pair type
+  would duplicate mathlib instances and later orientation/reflection bridges.
+- **M3 effect:** the norm, inner product, finite-dimensional, and orthonormal-basis APIs are
+  available directly for crystallographic restriction.  Re-evaluate only if a future mathlib
+  release supplies a more canonical bundled two-dimensional Euclidean-space type.
+
+## FD-005: the formal rank-two lattice realizes FD-002 directly
+
+- **Status:** accepted.
+- **Decision:** the production `RankTwoLattice E` has exactly the three FD-002 fields: an integer
+  `Submodule`, a chosen `Fin 2` integer `Module.Basis`, and real linear independence of the two
+  ambient basis vectors.  Coordinates, the derived real basis, full real span in `Plane`, matrix
+  representations, and real-linear extension are theorems or definitions built from these
+  fields.
+- **Computational frame:** the chosen basis is deliberately part of the framed lattice value so
+  coordinates are computable and matrices are explicit.  It is not required to be preserved by
+  `TranslationPreservingIso`, and M2 proves equivalence after reframing.
+- **Still rejected:** discreteness, `IsZLattice`, shortest vectors, and metric normal forms are not
+  stored.  They remain possible derived results in milestones where they are mathematically used.
+
+## FD-006: a plane group binds the full translation carrier by equality
+
+- **Status:** accepted.
+- **Decision:** store a motion subgroup, a `RankTwoLattice Plane`, the equality
+
+  ```text
+  translationLattice.carrier =
+    (translationVectors carrier).toIntSubmodule
+  ```
+
+  and `Finite (pointGroup carrier)`.  The equality is intentionally exact: it excludes both a
+  proper and a finite-index stored sublattice while allowing thin rewrite and additive-equivalence
+  interfaces.
+- **Rejected alternatives:** merely storing containment or finite index weakens the paper's
+  definition.  Storing a second independent basis directly on the M1 additive subgroup reduces
+  one transport but obscures the reusable lattice API.  `Fintype` is not stored; enumeration may
+  install `Fintype.ofFinite` locally.
+- **Boundary:** discreteness, cocompactness, orientation, rotations/reflections, shortest vectors,
+  shifts, and classification labels are not fields.
+
+## FD-007: translation preservation is subgroup-map equality
+
+- **Status:** accepted.
+- **Decision:** `TranslationPreservingIso G G'` stores an abstract
+  `G.carrier ≃* G'.carrier` and equality between the image of the entire source translation
+  subgroup and the target translation subgroup.  This form gives membership iff, restriction,
+  inverse, and composition through maintained `Subgroup.map` APIs.
+- **Rejected alternatives:** one-sided containment does not express “onto.”  Ambient Euclidean
+  conjugacy, affine conjugacy, isometry, norm preservation, and chosen-basis preservation are all
+  stronger than the equivalence on printed page 127 and would retain metric parameters that the
+  17-class theorem intentionally forgets.
+
+## FD-008: the induced point-group equivalence is canonical quotient transport
+
+- **Status:** accepted.
+- **Decision:** identify `G / translationSubgroup G` with `pointGroup G` using
+  `QuotientGroup.quotientKerEquivRange (restrictedLinearPart G)`, transport the quotient through
+  `QuotientGroup.congr`, and identify the target quotient with its point group.  The resulting map
+  commutes with `pointProjection` by construction.
+- **Rejected alternative:** choosing an arbitrary lift for every point-group element adds
+  noncanonical choice and a duplicate well-definedness proof.  The quotient construction records
+  exactly the kernel argument suppressed in the paper.
+
+## FD-009: lattice equivalences extend through cast inverse matrices
+
+- **Status:** accepted.
+- **Decision:** represent a lattice equivalence and its inverse in the selected integer bases,
+  cast both matrices along `ℤ → ℝ`, and use `Matrix.toLinOfInv` between the derived real bases.
+  Prove separately that the resulting `Plane ≃ₗ[ℝ] Plane` agrees with the integer map on every
+  lattice element.
+- **Rejected alternatives:** merely matching selected basis indices does not extend an arbitrary
+  lattice equivalence.  `restrictScalars` runs in the wrong direction, and the relevant generic
+  scalar-extension helpers do not apply to `ℤ → ℝ`.
+- **Metric warning:** this construction is an ordinary real-linear equivalence.  It is not stored
+  or claimed as a `LinearIsometryEquiv`, because the paper's `λ` need not preserve lengths or
+  angles.
+
+## FD-010: matrix composition follows mathlib's column-vector convention
+
+- **Status:** accepted.
+- **Decision:** use the compiled identity
+
+  ```text
+  toMatrix (f.comp g) = toMatrix f * toMatrix g
+  ```
+
+  with source coordinates as columns and target coordinates as rows.  Consequently an
+  intertwiner `f ∘ A = B ∘ f` gives `P * A = B * P`, and hence
+  `B = P * A * P⁻¹`.
+- **Public-invariant policy:** raw matrices depend on the selected lattice basis.  The public
+  invariant is the coordinate-free lattice action; basis changes and translation-preserving
+  equivalences produce proved `GL₂(ℤ)` conjugacies.
