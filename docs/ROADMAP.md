@@ -376,6 +376,11 @@ Do not begin M1 until the two representation decisions are documented and the pr
 
 **Goal:** formalize the algebraic skeleton used on pages 123–124 of the paper.
 
+In this implementation order, M1 provides the Euclidean-motion core, translation subgroup,
+point group, point-group action, normality, and exact-sequence interface.  Although the paper
+groups shift vectors with these data, the canonical shift-class, norm-map, and lift-independence
+API remains deferred to M5.
+
 ### Tasks
 
 1. Define or wrap `EuclideanMotion E`.
@@ -400,7 +405,9 @@ example (g : G) (t : G.translationVectors) :
   ...
 ```
 
-The exact syntax may differ. All four basic invariants must be available to later files.
+The exact syntax may differ.  The Euclidean-motion core, translation subgroup, point group,
+point-group action, and exact-sequence interface must be available to later files.  Shift
+classes remain deferred to M5.
 
 ---
 

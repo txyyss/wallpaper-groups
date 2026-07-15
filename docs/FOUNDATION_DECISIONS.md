@@ -1,7 +1,8 @@
 # Foundation decisions
 
-These decisions close M0 only.  The compiling declarations remain in the `Prototype` namespace;
-the stable interfaces will be introduced when their roadmap milestone becomes active.
+FD-001 and FD-002 close M0; later numbered entries record foundation-level choices made while
+implementing their active milestone.  M0 experiments remain under `Prototype`, while stable
+interfaces move into production modules only when their roadmap milestone becomes active.
 
 ## FD-001: Euclidean motions use affine isometry equivalences
 
@@ -18,13 +19,14 @@ the stable interfaces will be introduced when their roadmap milestone becomes ac
 - **Other rejected alternatives:** a raw pair `(E × (E ≃ₗᵢ[ℝ] E))` would duplicate group laws;
   general affine equivalences forget the metric; matrices make the public representation depend
   on coordinates.
-- **Compiling evidence:** `WallpaperGroups/Prototype/EuclideanMotion.lean` defines
-  `EuclideanMotionCandidate`, `translationCandidate`, `translationPartCandidate`, and
-  `linearPartCandidate`.  It proves the action decomposition, multiplication of both parts, the
-  inverse translation formula, composition of pure translations, and
-  `g * translation(t) * g⁻¹ = translation(linearPart(g) t)` without axioms or placeholders.
-- **Expected M1--M3 effect:** M1 can define translation and point groups directly as subgroups or
-  ranges of actual affine isometries and can build the kernel--range `GroupExtension`.  M2's
+- **Compiling evidence:** the original M0 candidate compiled all required formulas.  M1 migrated
+  it to `WallpaperGroups/Basic/EuclideanMotion.lean`, which defines the stable alias and thin
+  parts API and proves the action decomposition, multiplication and inverse formulas,
+  extensionality, composition of pure translations, and
+  `g * translation(t) * g⁻¹ = translation(linearPart(g) t)`.  The former prototype file now
+  imports the production API and serves as a regression test.
+- **Expected M1--M3 effect:** M1 defines translation and point groups directly as subgroups or
+  ranges of actual affine isometries and builds the kernel--range `GroupExtension`.  M2's
   equivalences act on genuine geometric transformations.  M3 can remain coordinate-free until a
   lattice basis is deliberately selected for its integral matrix argument.
 - **Re-evaluate if:** the stable linear-part group homomorphism cannot be made simp-friendly,
@@ -81,5 +83,28 @@ the stable interfaces will be introduced when their roadmap milestone becomes ac
 - `GroupExtension` already packages the short exact sequence data needed by M1; a project-local
   structure should wrap or specialize it, not duplicate its fields without a demonstrated need.
 
-These are minimal API adaptations.  They do not alter the roadmap's mathematical objects,
+The M0 adaptations above are minimal.  They do not alter the roadmap's mathematical objects,
 equivalence relation, shift-class strategy, or milestone boundaries.
+
+## FD-003: the M1 exact sequence is a `GroupExtension`
+
+- **Status:** accepted for the M1 exact-sequence interface.
+- **Decision:** package the canonical sequence as
+  `GroupExtension (translationSubgroup G) G (pointGroup G)`.  Its inclusion is the subgroup
+  subtype homomorphism and its projection is the range restriction of `restrictedLinearPart G`.
+  Continue to export the individual injectivity, surjectivity, and range-equals-kernel theorems
+  for direct use.
+- **Rejected alternatives:** do not introduce a category-theoretic short-exact-sequence layer for
+  M1.  `Function.MulExact` alone is too weak because it omits endpoint injectivity and
+  surjectivity; a project-local structure duplicating all five `GroupExtension` fields would add
+  no information.
+- **Compiling evidence:** `WallpaperGroups/Invariants/ExactSequence.lean` defines
+  `pointGroupExtension`, proves the inclusion range equals the point-projection kernel, and proves
+  that `GroupExtension.conjAct` agrees with the geometric point action on translation elements.
+- **Expected M2--M6 effect:** later files can use the named low-level facts without importing
+  more extension theory, while extension-oriented arguments can use the bundled object.  This
+  does not assert a splitting and therefore preserves the non-split data needed by later shift
+  classes.
+- **Re-evaluate if:** M2 endpoint transport under translation-preserving isomorphisms becomes
+  substantially simpler with another maintained mathlib abstraction.  Any replacement must
+  retain the current five exactness facts and must not assume a splitting.

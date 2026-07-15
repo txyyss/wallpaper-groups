@@ -1,3 +1,4 @@
-import WallpaperGroups.Prototype.APIAudit
-import WallpaperGroups.Prototype.EuclideanMotion
-import WallpaperGroups.Prototype.RankTwoLattice
+import WallpaperGroups.Basic.EuclideanMotion
+import WallpaperGroups.Invariants.ExactSequence
+import WallpaperGroups.Invariants.PointGroup
+import WallpaperGroups.Invariants.Translation

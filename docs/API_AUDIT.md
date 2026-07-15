@@ -15,12 +15,13 @@ The persistent compiling experiments are:
 - `WallpaperGroups/Prototype/APIAudit.lean` for representative `#check` commands, finite-range
   transport, a kernel--range group extension, and the integral two-dimensional
   Cayley--Hamilton identity;
-- `WallpaperGroups/Prototype/EuclideanMotion.lean` for the Euclidean-motion representation;
+- `WallpaperGroups/Prototype/EuclideanMotion.lean` for regression examples against the formal
+  Euclidean-motion representation now in `WallpaperGroups/Basic/EuclideanMotion.lean`;
 - `WallpaperGroups/Prototype/RankTwoLattice.lean` for the lattice representation, coordinates,
   the standard lattice, and the `GL₂(ℤ)` bridge.
 
-All declarations in those files are under `WallpaperGroups.Prototype`; M0 deliberately does not
-freeze an M1 public API.
+M0-only declarations remain under `WallpaperGroups.Prototype`.  M1 migrated the Euclidean-motion
+results to production modules and removed all prototype imports from the public umbrella module.
 
 ## Affine isometry equivalences
 
@@ -33,8 +34,9 @@ freeze an M1 public API.
   `AffineIsometryEquiv.constVAdd`, `AffineIsometryEquiv.coe_constVAdd`,
   `AffineIsometryEquiv.constVAdd_zero`, `AffineIsometryEquiv.mk'`, and
   `LinearIsometryEquiv.toAffineIsometryEquiv`.
-- **Compiling experiment:** `WallpaperGroups/Prototype/EuclideanMotion.lean` and the affine
-  checks in `WallpaperGroups/Prototype/APIAudit.lean`.
+- **Compiling experiment:** `WallpaperGroups/Basic/EuclideanMotion.lean`, the regression examples
+  in `WallpaperGroups/Prototype/EuclideanMotion.lean`, and the affine checks in
+  `WallpaperGroups/Prototype/APIAudit.lean`.
 - **Fit:** excellent as the coordinate-free primary representation.  It already has a group
   structure, an action on points, a canonical linear isometry, and a translation constructor.
 - **Gap / risk:** mathlib does not expose a bundled linear-part group homomorphism, a translation
@@ -54,7 +56,8 @@ freeze an M1 public API.
   `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`,
   `Matrix.mem_orthogonalGroup_iff`, `Matrix.mem_specialOrthogonalGroup_iff`, and
   `Matrix.mem_specialOrthogonalGroup_fin_two_iff`.
-- **Compiling experiment:** `WallpaperGroups/Prototype/EuclideanMotion.lean` and
+- **Compiling experiment:** `WallpaperGroups/Basic/EuclideanMotion.lean`,
+  `WallpaperGroups/Prototype/EuclideanMotion.lean`, and
   `WallpaperGroups/Prototype/APIAudit.lean`.
 - **Fit:** use `E ≃ₗᵢ[ℝ] E` for the coordinate-free linear part.  Matrix orthogonal groups
   are suitable after a basis is chosen, especially for M3.
@@ -264,3 +267,85 @@ No audited area blocks the roadmap.  The principal API risks are localized: thin
 affine isometries, basis transport for lattices, finite-range instance transport, arbitrary-group
 dihedral recognition, and a few two-dimensional orientation/reflection bridge lemmas.  None
 requires replacing mathlib foundations or introducing general group cohomology.
+
+## M1 implementation supplement
+
+M1 rechecked the subgroup, action, and exactness APIs while migrating the Euclidean-motion
+prototype into production modules.  The following choices compile at the pinned revisions above.
+
+### Kernels, ranges, and subgroup restrictions
+
+- **Mathlib module / minimum direct import:** `Mathlib.Algebra.Group.Subgroup.Ker`.  Production
+  code obtains it transitively through `WallpaperGroups.Basic.EuclideanMotion`; the invariants
+  file's only direct project import is that core module.
+- **Declarations used:** `MonoidHom.comp`, `MonoidHom.ker`, `MonoidHom.range`,
+  `MonoidHom.rangeRestrict`, `MonoidHom.rangeRestrict_surjective`,
+  `MonoidHom.ker_rangeRestrict`, `Subgroup.subtype`, `Subgroup.subtype_injective`, and
+  `Subgroup.range_subtype`.
+- **Compiling files:** `WallpaperGroups/Invariants/Translation.lean` and
+  `WallpaperGroups/Invariants/PointGroup.lean`.
+- **Fit:** `restrictedLinearPart G := linearPart.comp G.subtype` supports both constructions
+  directly.  Its kernel is the translation subgroup; its range is the point group; and
+  `rangeRestrict` is the canonical surjection onto that range without changing the kernel.
+- **Gap / risk:** subtype coercions create two layers for elements of the kernel subgroup.  The
+  project therefore exports named coercion and membership lemmas instead of asking later proofs
+  to repeatedly unfold `Subgroup.ker` and `MonoidHom.range`.
+
+### Normal subgroups
+
+- **Mathlib module / minimum direct import:** `Mathlib.Algebra.Group.Subgroup.Ker`.
+- **Declaration used:** `MonoidHom.normal_ker`, exposed through the normal instance on a kernel.
+- **Compiling files:** `WallpaperGroups/Invariants/Translation.lean` and
+  `WallpaperGroups/Invariants/ExactSequence.lean`.
+- **Fit:** defining `translationSubgroup G` as `(restrictedLinearPart G).ker` makes normality an
+  immediate structural fact rather than a repeated conjugation calculation.  A separate
+  geometric conjugation theorem remains available for calculations.
+- **Gap / risk:** none for M1.  No rank, discreteness, or lattice assumptions are involved.
+
+### Point-group action on translations
+
+- **Mathlib module / minimum direct import:** `Mathlib.Algebra.Group.End` for `AddAut` and its
+  composition law; the production file directly imports the preceding project invariants module.
+- **Declarations used:** `AddAut`, `AddEquiv.ext`, `Multiplicative`, and the ordinary additive-map
+  laws of `LinearIsometryEquiv`.
+- **Compiling file:** `WallpaperGroups/Invariants/PointGroup.lean`.
+- **Fit:** `pointAction G h` is an explicit `AddAut (translationVectors G)`.  Closure is proved by
+  taking the range witness for `h`, applying the motion conjugation formula, and using subgroup
+  closure.  The bundled composition map is
+  `pointActionHom G : pointGroup G →* Multiplicative (AddAut (translationVectors G))`.
+- **Gap / risk:** in current mathlib, `AddAut A` is deliberately an additive group whose addition
+  denotes composition.  Consequently `pointGroup G →* AddAut A` is not a well-typed multiplicative
+  homomorphism; the `Multiplicative` tag is required.  M1 uses an explicit action rather than
+  installing a global `DistribMulAction`, keeping typeclass search and future lattice adapters
+  local and predictable.
+
+### Exact-sequence interface
+
+- **Mathlib module / minimum direct import:** `Mathlib.GroupTheory.GroupExtension.Defs`.
+- **Declarations used:** `GroupExtension` and its fields `inl`, `rightHom`, `inl_injective`,
+  `range_inl_eq_ker_rightHom`, and `rightHom_surjective`; also `GroupExtension.conjAct` and
+  `GroupExtension.inl_conjAct_comm`.
+- **Compiling file:** `WallpaperGroups/Invariants/ExactSequence.lean`.
+- **Fit:** `pointGroupExtension G` packages exactly
+  `1 → translationSubgroup G → G → pointGroup G → 1`.  The file also exports each injectivity,
+  surjectivity, and range--kernel fact separately, plus a theorem identifying the extension's
+  abstract conjugation action with the geometric point action.
+- **Gap / risk:** `GroupExtension.Equiv` fixes the endpoint types, so M2's equivalences between
+  different plane groups may still need endpoint transport.  M1 does not import
+  `GroupExtension.Basic`, category-theoretic short exact sequences, or general extension
+  classification; none is needed for the exactness facts above.
+
+### Production import graph
+
+The stable M1 graph is intentionally narrow:
+
+```text
+Mathlib.Analysis.Normed.Affine.Isometry
+  → WallpaperGroups.Basic.EuclideanMotion
+  → WallpaperGroups.Invariants.Translation
+  → WallpaperGroups.Invariants.PointGroup
+  → WallpaperGroups.Invariants.ExactSequence
+      + Mathlib.GroupTheory.GroupExtension.Defs
+```
+
+`WallpaperGroups.Prototype.APIAudit` is no longer imported by the public umbrella module.

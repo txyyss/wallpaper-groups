@@ -13,11 +13,11 @@ The first unchecked milestone is the active milestone.
 
 ## M1 — Euclidean motions and basic invariants
 
-- [ ] Euclidean motion core complete.
-- [ ] Translation subgroup complete.
-- [ ] Point group and action complete.
-- [ ] Normality and exact-sequence API complete.
-- [ ] Clean `lake build`.
+- [x] Euclidean motion core complete.
+- [x] Translation subgroup complete.
+- [x] Point group and action complete.
+- [x] Normality and exact-sequence API complete.
+- [x] Clean `lake build`.
 
 ## M2 — Plane groups and equivalence
 
