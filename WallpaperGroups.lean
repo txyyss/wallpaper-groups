@@ -8,6 +8,10 @@ import WallpaperGroups.Invariants.ExactSequence
 import WallpaperGroups.Invariants.IntegralAction
 import WallpaperGroups.Invariants.PointGroup
 import WallpaperGroups.Invariants.Translation
+import WallpaperGroups.Models.Common
+import WallpaperGroups.Models.RotationModels
+import WallpaperGroups.Presentations.CyclicExtension
 import WallpaperGroups.Restriction.Orientation
 import WallpaperGroups.Restriction.Crystallographic
 import WallpaperGroups.Restriction.LatticeNormalForms
+import WallpaperGroups.Classification.NoReflections

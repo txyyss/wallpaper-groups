@@ -41,10 +41,10 @@ The first unchecked milestone is the active milestone.
 
 ## M4 — Five no-reflection classes
 
-- [ ] Rotation shift vanishing proved.
-- [ ] Cyclic extension isomorphism lemma complete.
-- [ ] `p1 p2 p3 p4 p6` classification complete.
-- [ ] Clean `lake build`.
+- [x] Rotation shift vanishing proved.
+- [x] Cyclic extension isomorphism lemma complete.
+- [x] `p1 p2 p3 p4 p6` classification complete.
+- [x] Clean `lake build`.
 
 ## M5 — Three one-reflection classes
 
