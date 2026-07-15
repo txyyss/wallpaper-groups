@@ -7,11 +7,16 @@ import WallpaperGroups.Invariants.EquivalenceAction
 import WallpaperGroups.Invariants.ExactSequence
 import WallpaperGroups.Invariants.IntegralAction
 import WallpaperGroups.Invariants.PointGroup
+import WallpaperGroups.Invariants.ShiftClass
 import WallpaperGroups.Invariants.Translation
 import WallpaperGroups.Models.Common
+import WallpaperGroups.Models.ReflectionModels
 import WallpaperGroups.Models.RotationModels
 import WallpaperGroups.Presentations.CyclicExtension
+import WallpaperGroups.Presentations.ReflectionExtension
 import WallpaperGroups.Restriction.Orientation
 import WallpaperGroups.Restriction.Crystallographic
 import WallpaperGroups.Restriction.LatticeNormalForms
+import WallpaperGroups.Restriction.ReflectionNormalForms
 import WallpaperGroups.Classification.NoReflections
+import WallpaperGroups.Classification.OneReflection

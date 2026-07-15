@@ -258,3 +258,22 @@ equivalence relation, shift-class strategy, or milestone boundaries.
   rotations.  It deliberately does not introduce a general raw-vector invariant.  The canonical
   quotient-valued shift class, norm map, lift independence, and reflection computations remain a
   single coherent API for M5.
+
+## FD-013: one-reflection classes use quotient shifts and integral reflection normal forms
+
+- **Status:** accepted.
+- **Decision:** the invariant of a finite-order point element is its lift-power translation in
+  the quotient of fixed translations by the finite norm image.  Lift independence and transport
+  under `TranslationPreservingIso` are proved before specializing to reflections, so no raw shift
+  vector is treated as canonical.  For an integral reflection on a rank-two lattice, an exact
+  basis reduction yields the primitive matrix `!![1, 0; 0, -1]` or the centered matrix
+  `!![1, 1; 0, -1]`.
+- **Classification:** every centered fixed translation lies in the norm image and gives `cm`.
+  In the primitive form the quotient has exactly the zero class and the class of the first basis
+  vector, represented by `pm` and `pg`.  The transparent models use two explicit lattice cosets;
+  the reusable two-coset extension isomorphism compares actions and shifts modulo a norm.
+- **Inequivalence:** centered versus primitive is detected by whether the first fixed basis vector
+  is a norm.  The primitive mirror/glide distinction is detected by zero versus nonzero quotient
+  shift class, using functoriality and lift independence.
+- **M6 boundary:** paired reflections, their compatibility relation, and joint dihedral lattice
+  normal forms are not inferred from the single-reflection dichotomy and remain M6 work.

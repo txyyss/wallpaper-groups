@@ -48,11 +48,11 @@ The first unchecked milestone is the active milestone.
 
 ## M5 — Three one-reflection classes
 
-- [ ] Shift-class API complete.
-- [ ] Centered/primitive dichotomy complete.
-- [ ] Reflection quotient computed.
-- [ ] `cm pm pg` classification complete.
-- [ ] Clean `lake build`.
+- [x] Shift-class API complete.
+- [x] Centered/primitive dichotomy complete.
+- [x] Reflection quotient computed.
+- [x] `cm pm pg` classification complete.
+- [x] Clean `lake build`.
 
 ## M6 — Nine multiple-reflection classes
 
