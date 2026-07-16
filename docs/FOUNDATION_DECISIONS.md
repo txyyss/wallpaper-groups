@@ -307,3 +307,29 @@ equivalence relation, shift-class strategy, or milestone boundaries.
   normal form, not from treating either reflection in isolation.
 - **M7 boundary:** the nine-way theorem is exported independently.  The global 17-constructor
   enumeration, quotient equivalence, and final cardinality theorem remain M7 work.
+
+## FD-015: the final classifier is the disjoint `5 + 3 + 9` signature
+
+- **Status:** accepted.
+- **Decision:** `WallpaperType` is a finite type with exactly the modern short labels
+  `p1 p2 p3 p4 p6`, `cm pm pg`, and
+  `cmm pmm pmg pgg p3m1 p31m p4m p4g p6m`.  It is canonically identified with the disjoint
+  signature formed from `CrystallographicOrder`, `OneReflectionType`, and
+  `MultipleReflectionType`; this makes the three proved component classifiers the sole inputs to
+  the global theorem.
+- **Model policy:** M7 does not construct a second set of geometric groups.  Its model dispatch
+  reuses the transparent normal-form models proved in M4--M6 and aggregates their exact full
+  translation lattices, finite point-group orders, and reflection-family proofs.  Thus all 17
+  models follow the same finite-coset normal-form strategy at the exported interface.
+- **Existence and uniqueness:** reflection-family trichotomy supplies existence through one of
+  the three component theorems.  Within a family, the corresponding component-model
+  inequivalence theorem gives label equality; across families, orientation preservation and the
+  no/one/multiple reflection predicates are invariant under `TranslationPreservingIso` and are
+  pairwise disjoint.
+- **Quotient policy:** the primary result remains unique classification by `WallpaperType`.
+  Only after that theorem is proved is `Quotient PlaneGroup.equivalentSetoid` identified with
+  `WallpaperType`, from which cardinality 17 is derived.  No quotient representative is chosen
+  as part of the definition of a plane group.
+- **Review boundary:** the final theorem still classifies the strong algebraic `PlaneGroup`
+  definition up to translation-preserving abstract group isomorphism.  It does not claim
+  Euclidean conjugacy or the post-v1 discrete/cocompact bridge.

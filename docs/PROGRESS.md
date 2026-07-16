@@ -66,13 +66,14 @@ The first unchecked milestone is the active milestone.
 
 ## M7 — Models and main theorem
 
-- [ ] All 17 standard models constructed.
-- [ ] Every model proved to be a plane group.
-- [ ] Global existence theorem complete.
-- [ ] Pairwise inequivalence complete.
-- [ ] Unique classification theorem complete.
-- [ ] Cardinality corollary complete.
-- [ ] Clean build from a clean checkout.
+- [x] All 17 standard models constructed.
+- [x] Every model proved to be a plane group.
+- [x] Global existence theorem complete.
+- [x] Pairwise inequivalence complete.
+- [x] Unique classification theorem complete.
+- [x] Cardinality corollary complete.
+- [x] Clean build from a clean checkout.
+- [x] Human specification review approved: final 17-class theorem and standard models.
 
 ## Post-v1
 

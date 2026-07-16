@@ -16,6 +16,7 @@ import WallpaperGroups.Models.Common
 import WallpaperGroups.Models.DihedralModels
 import WallpaperGroups.Models.ReflectionModels
 import WallpaperGroups.Models.RotationModels
+import WallpaperGroups.Models.WallpaperModels
 import WallpaperGroups.Presentations.CyclicExtension
 import WallpaperGroups.Presentations.DihedralExtension
 import WallpaperGroups.Presentations.ReflectionExtension
@@ -29,3 +30,5 @@ import WallpaperGroups.Classification.ManyReflections
 import WallpaperGroups.Classification.MultipleReflectionInequivalence
 import WallpaperGroups.Classification.NoReflections
 import WallpaperGroups.Classification.OneReflection
+import WallpaperGroups.Classification.Wallpaper
+import WallpaperGroups.Classification.PlaneGroupClasses
