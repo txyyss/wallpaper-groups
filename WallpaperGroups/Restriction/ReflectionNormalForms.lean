@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Shengyi Wang. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Shengyi Wang
+-/
 import WallpaperGroups.Restriction.LatticeNormalForms
 import Mathlib.Data.Int.GCD
 import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv

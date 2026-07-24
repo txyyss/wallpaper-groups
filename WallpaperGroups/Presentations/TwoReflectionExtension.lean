@@ -563,7 +563,6 @@ theorem normalizedLift_reflection (c : TwoReflectionExtensionData G d) :
   have hcoord : (pointDihedralEquiv d).symm d.reflection = DihedralGroup.sr 0 := by
     apply (pointDihedralEquiv d).injective
     rw [(pointDihedralEquiv d).apply_symm_apply]
-    change d.reflection = pointDihedralEquiv d (DihedralGroup.sr 0)
     change d.reflection = d.reflection * pointRotationHom d (Multiplicative.ofAdd 0)
     change d.reflection = d.reflection * pointRotationHom d 1
     rw [map_one, mul_one]
@@ -858,9 +857,6 @@ theorem wordLift_mul (c : TwoReflectionExtensionData G d)
       | r j =>
           simp only [wordLift, wordFactor, DihedralGroup.r_mul_r,
             translationElement_zero_twoReflection, one_mul]
-          change c.rotationLiftHom (Multiplicative.ofAdd i) *
-              c.rotationLiftHom (Multiplicative.ofAdd j) =
-            c.rotationLiftHom (Multiplicative.ofAdd (i + j))
           rw [← map_mul]
           rfl
       | sr j =>
@@ -899,9 +895,6 @@ theorem wordLift_mul (c : TwoReflectionExtensionData G d)
       | r j =>
           simp only [wordLift, wordFactor, DihedralGroup.sr_mul_r,
             translationElement_zero_twoReflection, one_mul]
-          change (c.firstLift * c.rotationLiftHom (Multiplicative.ofAdd i)) *
-              c.rotationLiftHom (Multiplicative.ofAdd j) =
-            c.firstLift * c.rotationLiftHom (Multiplicative.ofAdd (i + j))
           rw [mul_assoc, ← map_mul]
           rfl
       | sr j =>

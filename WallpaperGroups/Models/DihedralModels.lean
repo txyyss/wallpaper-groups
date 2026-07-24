@@ -487,12 +487,11 @@ theorem dihedralLinearRepresentation_mem_stabilizer
     (hs : axisReflection ∈ latticeStabilizer L)
     (p : DihedralGroup q) :
     dihedralLinearRepresentation a q horder p ∈ latticeStabilizer L := by
-  let hq : a ^ q = 1 := by rw [← horder]; exact pow_orderOf_eq_one a
   cases p with
   | r i =>
       obtain ⟨k, rfl⟩ := ZMod.intCast_surjective i
       rw [show dihedralLinearRepresentation a q horder (.r (k : ZMod q)) =
-        planeRotation (a ^ k) by simp [dihedralLinearRepresentation, hq]]
+        planeRotation (a ^ k) by simp [dihedralLinearRepresentation]]
       change planeRotationHom (a ^ k) ∈ latticeStabilizer L
       rw [map_zpow]
       exact (latticeStabilizer L).zpow_mem ha k
@@ -500,7 +499,7 @@ theorem dihedralLinearRepresentation_mem_stabilizer
       obtain ⟨k, rfl⟩ := ZMod.intCast_surjective i
       rw [show dihedralLinearRepresentation a q horder (.sr (k : ZMod q)) =
         axisReflection * planeRotation (a ^ k) by
-          simp [dihedralLinearRepresentation, hq]]
+          simp [dihedralLinearRepresentation]]
       apply (latticeStabilizer L).mul_mem hs
       change planeRotationHom (a ^ k) ∈ latticeStabilizer L
       rw [map_zpow]
@@ -569,7 +568,9 @@ theorem axisReflection_mem_hexStabilizer :
     rw [coordinateIsometry_axisReflection, coordinateIsometry_hexLattice_basis_one,
       map_sub, coordinateIsometry_hexLattice_basis_zero,
       coordinateIsometry_hexLattice_basis_one]
-    apply Complex.ext <;> simp [hexRoot] <;> ring
+    apply Complex.ext
+    all_goals simp [hexRoot]
+    all_goals ring
   apply mem_latticeStabilizer_of_basis
   · intro i
     fin_cases i
@@ -1162,15 +1163,11 @@ private theorem pmgShift_cocycle_mem (p q : DihedralGroup 2) :
     axisReflection_squareBasisZero, axisReflection_squareBasisOne,
     zero_add, add_zero, sub_zero, zero_sub]
   all_goals solve
-    | (convert squareBasis_integer_combination_mem 0 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 0 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 0 (-1) using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 (-1) using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) (-1) using 1 <;> module)
+    | (convert squareBasis_integer_combination_mem 0 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem (-1) 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem 0 1 using 1; module)
+    | (convert squareBasis_integer_combination_mem 0 (-1) using 1; module)
 
 private theorem pggShift_cocycle_mem (p q : DihedralGroup 2) :
     pggShift p + pmmCosetData.linearRep p (pggShift q) - pggShift (p * q) ∈
@@ -1191,15 +1188,14 @@ private theorem pggShift_cocycle_mem (p q : DihedralGroup 2) :
     halfTurn_apply, axisReflection_squareBasisZero,
     axisReflection_squareBasisOne, zero_add, add_zero, sub_zero, zero_sub]
   all_goals solve
-    | (convert squareBasis_integer_combination_mem 0 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 0 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 0 (-1) using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 (-1) using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) (-1) using 1 <;> module)
+    | (convert squareBasis_integer_combination_mem 0 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem (-1) 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem 0 1 using 1; module)
+    | (convert squareBasis_integer_combination_mem 0 (-1) using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 1 using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 (-1) using 1; module)
+    | (convert squareBasis_integer_combination_mem (-1) 1 using 1; module)
 
 def pmgCosetData : FiniteCosetData (DihedralGroup 2) where
   lattice := RankTwoLattice.standardLattice
@@ -1491,15 +1487,15 @@ private theorem p4g_rotation_glide_sub_mem (i : ZMod 4) :
     p4mLinear_r_three_p4gGlideShift]
   all_goals simp only [p4gGlideShift]
   all_goals solve
-    | (convert squareBasis_integer_combination_mem 0 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 0 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 0 (-1) using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 (-1) using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) (-1) using 1 <;> module)
+    | (convert squareBasis_integer_combination_mem 0 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem (-1) 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem 0 1 using 1; module)
+    | (convert squareBasis_integer_combination_mem 0 (-1) using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 1 using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 (-1) using 1; module)
+    | (convert squareBasis_integer_combination_mem (-1) 1 using 1; module)
+    | (convert squareBasis_integer_combination_mem (-1) (-1) using 1; module)
 
 private theorem p4g_reflection_glide_add_mem (i : ZMod 4) :
     p4gGlideShift + p4mCosetData.linearRep (.sr i) p4gGlideShift ∈
@@ -1511,15 +1507,12 @@ private theorem p4g_reflection_glide_add_mem (i : ZMod 4) :
     p4mLinear_sr_three_p4gGlideShift]
   all_goals simp only [p4gGlideShift]
   all_goals solve
-    | (convert squareBasis_integer_combination_mem 0 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) 0 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 0 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 0 (-1) using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem 1 (-1) using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) 1 using 1 <;> module)
-    | (convert squareBasis_integer_combination_mem (-1) (-1) using 1 <;> module)
+    | (convert squareBasis_integer_combination_mem 0 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem (-1) 0 using 1; module)
+    | (convert squareBasis_integer_combination_mem 0 1 using 1; module)
+    | (convert squareBasis_integer_combination_mem 0 (-1) using 1; module)
+    | (convert squareBasis_integer_combination_mem 1 1 using 1; module)
 
 private theorem p4gShift_cocycle_mem (p q : DihedralGroup 4) :
     p4gShift p + p4mCosetData.linearRep p (p4gShift q) - p4gShift (p * q) ∈
@@ -1646,8 +1639,7 @@ theorem halfTurnTwistedDihedralRepresentation_det_r
     LinearMap.det
         (((halfTurnTwistedDihedralRepresentation a q horder) (.r i)).toLinearEquiv :
           Plane →ₗ[ℝ] Plane) = 1 := by
-  simpa [halfTurnTwistedDihedralRepresentation] using
-    dihedralLinearRepresentation_det_r a q horder i
+  simp [halfTurnTwistedDihedralRepresentation]
 
 @[simp]
 theorem halfTurnTwistedDihedralRepresentation_det_sr

@@ -236,9 +236,13 @@ theorem exists_dihedralGenerators (G : PlaneGroup)
     (α := orientationPreservingPointGroup G)
   have rhone : rho ≠ 1 := by
     intro h1
-    have hm := hrho r
-    simp [h1] at hm
-    exact hrne (by simpa using hm)
+    have hr_mem :
+        r ∈ Subgroup.zpowers (1 : orientationPreservingPointGroup G) :=
+      h1 ▸ hrho r
+    have hr_eq_one : r = 1 := by
+      rw [Subgroup.zpowers_one_eq_bot] at hr_mem
+      exact Subgroup.mem_bot.mp hr_mem
+    exact hrne hr_eq_one
   have hcases := G.orientationPreserving_point_order_cases rho
   rcases hcases with h1 | h2 | h3 | h4 | h6
   · exact (rhone (Subtype.ext (orderOf_eq_one_iff.mp h1))).elim
@@ -300,7 +304,9 @@ lemma matrix_eq_of_mul_rotationMatrix_eq_inverse_mul
   simp [rotationMatrix, dihedralRotationInverseMatrix, Matrix.mul_apply,
     Fin.sum_univ_two] at h00 h01
   ext i j
-  fin_cases i <;> fin_cases j <;> simp_all <;> ring_nf at * <;> omega
+  fin_cases i <;> fin_cases j <;> simp_all
+  all_goals ring_nf at *
+  all_goals omega
 
 /-- Determinant `-1` reduces the shaped reflection matrix to a positive-definite norm equation. -/
 lemma reflection_norm_equation
@@ -477,8 +483,8 @@ lemma matrixReflectionIsCentered_orderTwoCentered_first :
   funext i
   fin_cases i <;>
     simp [DihedralLatticeForm.reflectionMatrix,
-      IntegralReflection.reflectionLatticeMatrix, Matrix.mulVec, dotProduct,
-      Fin.sum_univ_two] <;> omega
+      IntegralReflection.reflectionLatticeMatrix]
+  omega
 
 lemma matrixReflectionIsCentered_orderTwoCentered_second :
     MatrixReflectionIsCentered
@@ -495,8 +501,8 @@ lemma matrixReflectionIsCentered_orderTwoCentered_second :
   fin_cases i <;>
     simp [DihedralLatticeForm.secondReflectionMatrix,
       DihedralLatticeForm.reflectionMatrix, DihedralLatticeForm.rotationMatrix,
-      IntegralReflection.reflectionLatticeMatrix, dihedralRotationMatrix2,
-      Matrix.mulVec, Matrix.mul_apply, dotProduct, Fin.sum_univ_two] <;> omega
+      IntegralReflection.reflectionLatticeMatrix, dihedralRotationMatrix2]
+  omega
 
 lemma matrixReflectionIsCentered_p3m1_first :
     MatrixReflectionIsCentered DihedralLatticeForm.p3m1.reflectionMatrix := by
@@ -508,8 +514,8 @@ lemma matrixReflectionIsCentered_p3m1_first :
   refine ⟨![0, -z 0], ?_⟩
   funext i
   fin_cases i <;>
-    simp [DihedralLatticeForm.reflectionMatrix, dihedralReflectionMatrix3Full,
-      Matrix.mulVec, dotProduct, Fin.sum_univ_two] <;> omega
+    simp [DihedralLatticeForm.reflectionMatrix, dihedralReflectionMatrix3Full]
+  omega
 
 lemma matrixReflectionIsCentered_p3m1_second :
     MatrixReflectionIsCentered DihedralLatticeForm.p3m1.secondReflectionMatrix := by
@@ -525,8 +531,8 @@ lemma matrixReflectionIsCentered_p3m1_second :
   fin_cases i <;>
     simp [DihedralLatticeForm.secondReflectionMatrix,
       DihedralLatticeForm.reflectionMatrix, DihedralLatticeForm.rotationMatrix,
-      dihedralReflectionMatrix3Full, rotationMatrix3, rotationMatrix,
-      Matrix.mulVec, Matrix.mul_apply, dotProduct, Fin.sum_univ_two] <;> omega
+      dihedralReflectionMatrix3Full, rotationMatrix3, rotationMatrix]
+  omega
 
 lemma matrixReflectionIsCentered_p31m_first :
     MatrixReflectionIsCentered DihedralLatticeForm.p31m.reflectionMatrix := by
@@ -540,8 +546,8 @@ lemma matrixReflectionIsCentered_p31m_first :
   funext i
   fin_cases i <;>
     simp [DihedralLatticeForm.reflectionMatrix,
-      dihedralReflectionMatrix3IndexThree, dihedralReflectionMatrix3Full,
-      Matrix.mulVec, dotProduct, Fin.sum_univ_two] <;> omega
+      dihedralReflectionMatrix3IndexThree, dihedralReflectionMatrix3Full]
+  omega
 
 lemma matrixReflectionIsCentered_p31m_second :
     MatrixReflectionIsCentered DihedralLatticeForm.p31m.secondReflectionMatrix := by
@@ -559,8 +565,8 @@ lemma matrixReflectionIsCentered_p31m_second :
     simp [DihedralLatticeForm.secondReflectionMatrix,
       DihedralLatticeForm.reflectionMatrix, DihedralLatticeForm.rotationMatrix,
       dihedralReflectionMatrix3IndexThree, dihedralReflectionMatrix3Full,
-      rotationMatrix3, rotationMatrix, Matrix.mulVec, Matrix.mul_apply,
-      dotProduct, Fin.sum_univ_two] <;> omega
+      rotationMatrix3, rotationMatrix]
+  omega
 
 lemma matrixReflectionIsCentered_orderFour_second :
     MatrixReflectionIsCentered DihedralLatticeForm.orderFour.secondReflectionMatrix := by
@@ -576,8 +582,8 @@ lemma matrixReflectionIsCentered_orderFour_second :
   fin_cases i <;>
     simp [DihedralLatticeForm.secondReflectionMatrix,
       DihedralLatticeForm.reflectionMatrix, DihedralLatticeForm.rotationMatrix,
-      dihedralReflectionMatrix4, rotationMatrix4, rotationMatrix,
-      Matrix.mulVec, Matrix.mul_apply, dotProduct, Fin.sum_univ_two] <;> omega
+      dihedralReflectionMatrix4, rotationMatrix4, rotationMatrix]
+  omega
 
 lemma matrixReflectionIsCentered_orderSix_first :
     MatrixReflectionIsCentered DihedralLatticeForm.orderSix.reflectionMatrix := by
@@ -589,8 +595,8 @@ lemma matrixReflectionIsCentered_orderSix_first :
   refine ⟨![0, z 0], ?_⟩
   funext i
   fin_cases i <;>
-    simp [DihedralLatticeForm.reflectionMatrix, dihedralReflectionMatrix6,
-      Matrix.mulVec, dotProduct, Fin.sum_univ_two] <;> omega
+    simp [DihedralLatticeForm.reflectionMatrix, dihedralReflectionMatrix6]
+  omega
 
 lemma matrixReflectionIsCentered_orderSix_second :
     MatrixReflectionIsCentered DihedralLatticeForm.orderSix.secondReflectionMatrix := by
@@ -606,8 +612,8 @@ lemma matrixReflectionIsCentered_orderSix_second :
   fin_cases i <;>
     simp [DihedralLatticeForm.secondReflectionMatrix,
       DihedralLatticeForm.reflectionMatrix, DihedralLatticeForm.rotationMatrix,
-      dihedralReflectionMatrix6, rotationMatrix6, rotationMatrix,
-      Matrix.mulVec, Matrix.mul_apply, dotProduct, Fin.sum_univ_two] <;> omega
+      dihedralReflectionMatrix6, rotationMatrix6, rotationMatrix]
+  omega
 
 lemma not_matrixReflectionIsCentered_orderTwoPrimitive_first :
     ¬ MatrixReflectionIsCentered
@@ -618,7 +624,7 @@ lemma not_matrixReflectionIsCentered_orderTwoPrimitive_first :
   obtain ⟨w, hw⟩ := h ![1, 0] hz
   have h0 := congrFun hw 0
   simp [DihedralLatticeForm.reflectionMatrix,
-    IntegralReflection.reflectionLatticeMatrix, Matrix.mulVec, dotProduct,
+    IntegralReflection.reflectionLatticeMatrix, dotProduct,
     Fin.sum_univ_two] at h0
   omega
 
@@ -633,7 +639,7 @@ lemma not_matrixReflectionIsCentered_orderTwoPrimitive_second :
   simp [DihedralLatticeForm.secondReflectionMatrix,
     DihedralLatticeForm.reflectionMatrix, DihedralLatticeForm.rotationMatrix,
     IntegralReflection.reflectionLatticeMatrix, dihedralRotationMatrix2,
-    Matrix.mulVec, Matrix.mul_apply, dotProduct, Fin.sum_univ_two] at h1
+    dotProduct, Fin.sum_univ_two] at h1
   omega
 
 lemma not_matrixReflectionIsCentered_orderFour_first :
@@ -661,7 +667,7 @@ def coordinateSumModThree (G : PlaneGroup)
     G.translationLattice.carrier →ₗ[ℤ] ZMod 3 where
   toFun t := (b.repr t 0 : ZMod 3) + (b.repr t 1 : ZMod 3)
   map_add' x y := by simp; ring
-  map_smul' a x := by simp [smul_add, mul_add, add_mul, mul_comm]
+  map_smul' a x := by simp [smul_add]
 
 lemma reflectionFixedSubmodule_le_reflectionAxisSpan
     (G : PlaneGroup) (s : pointGroup G.carrier)
@@ -918,7 +924,7 @@ lemma latticeAction_toMatrix_pow (G : PlaneGroup)
     LinearMap.toMatrix b b (G.latticeAction (h ^ n)).toLinearMap =
       (LinearMap.toMatrix b b (G.latticeAction h).toLinearMap) ^ n := by
   induction n with
-  | zero => simp [G.latticeAction_toMatrix_one]
+  | zero => simp
   | succ n ih =>
       rw [pow_succ, G.latticeAction_toMatrix_mul, ih, pow_succ]
 
@@ -937,10 +943,11 @@ lemma latticeAction_inverse_toMatrix
             LinearMap.toMatrix b b (G.latticeAction r).toLinearMap := by rw [hrot]
       _ = LinearMap.toMatrix b b (G.latticeAction (r⁻¹ * r)).toLinearMap :=
         (G.latticeAction_toMatrix_mul b r⁻¹ r).symm
-      _ = 1 := by simpa using G.latticeAction_toMatrix_one b
+      _ = 1 := by simp
   calc
     Rinv = Rinv * 1 := (mul_one Rinv).symm
-    _ = Rinv * (rotationMatrix c * dihedralRotationInverseMatrix c) := by rw [rotationMatrix_mul_dihedralRotationInverseMatrix]
+    _ = Rinv * (rotationMatrix c * dihedralRotationInverseMatrix c) := by
+      rw [rotationMatrix_mul_dihedralRotationInverseMatrix]
     _ = (Rinv * rotationMatrix c) * dihedralRotationInverseMatrix c := by rw [mul_assoc]
     _ = dihedralRotationInverseMatrix c := by rw [hprod, one_mul]
 
@@ -1293,7 +1300,7 @@ lemma coordinateSumModThree_surjective
     b.equivFun.apply_symm_apply _
   change (b.repr t 0 : ZMod 3) + (b.repr t 1 : ZMod 3) = z
   rw [congrFun ht 0, congrFun ht 1]
-  simp [ZMod.intCast_zmod_cast]
+  simp
 
 /-- The quotient by the `p31m` reflection-axis span is canonically a three-element module. -/
 noncomputable def p31m_reflectionAxisQuotientEquivZMod
