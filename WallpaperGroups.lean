@@ -33,5 +33,6 @@ import WallpaperGroups.Classification.OneReflection
 import WallpaperGroups.Classification.Wallpaper
 import WallpaperGroups.Classification.PlaneGroupClasses
 import WallpaperGroups.Geometry.GeometricWallpaperGroup
+import WallpaperGroups.Geometry.GeometricToStrong
 import WallpaperGroups.Geometry.MotionType
 import WallpaperGroups.Geometry.StrongToGeometric
