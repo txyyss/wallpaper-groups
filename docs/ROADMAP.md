@@ -4,7 +4,10 @@
 
 **Primary target:** a machine-checked classification of the 17 wallpaper groups in Lean 4 + mathlib.
 
-**Primary mathematical reference:** R. L. E. Schwarzenberger, *The 17 plane symmetry groups*.
+**Primary mathematical reference:** R. L. E. Schwarzenberger, *The 17 plane symmetry groups*,
+[*The Mathematical Gazette* **58** (404), 123–131 (1974)](https://doi.org/10.2307/3617798).
+A machine-readable citation is stored in
+[`docs/references/schwarzenberger_17_plane_symmetry_groups.bib`](references/schwarzenberger_17_plane_symmetry_groups.bib).
 
 **Status of this document:** normative project plan. The paper is a mathematical guide, not the formal specification. When this roadmap, the current Lean definitions, and the paper differ, the Lean definitions and explicitly recorded design decisions take precedence.
 
@@ -845,7 +848,8 @@ Fallback: use the page images, modern standard names, and explicit standard mode
 
 ## 11. Paper crosswalk
 
-Use `docs/references/Schwarzenberger_17_Plane_Symmetry_Groups.pdf` as follows:
+The official bibliographic span of the article is pp. 123–131.  The mathematical argument and
+classification table used by this project occupy printed pp. 123–130:
 
 - paper pp. 123–124: Euclidean motions and the four invariants `T`, `H`, the action, and shift vectors;
 - pp. 125–126: strong definition of plane group, shortest-vector argument, crystallographic restriction, and reflection shift situations;
@@ -853,10 +857,16 @@ Use `docs/references/Schwarzenberger_17_Plane_Symmetry_Groups.pdf` as follows:
 - pp. 127–128: five no-reflection classes and three one-reflection classes;
 - pp. 129–130: nine multiple-reflection classes and the summary table.
 
+The public source is available through
+[doi:10.2307/3617798](https://doi.org/10.2307/3617798), with repository citation metadata in
+[`docs/references/schwarzenberger_17_plane_symmetry_groups.bib`](references/schwarzenberger_17_plane_symmetry_groups.bib).
+For private study, an optional local scan may be placed at
+`docs/references/Schwarzenberger_17_Plane_Symmetry_Groups.pdf`.  That path is intentionally
+ignored by Git, and neither the build nor the formalization depends on the file.
+
 Important cautions:
 
-- the first page begins with the end of an unrelated preceding article;
-- the last page begins the next article after the relevant references;
+- a local journal scan may include material from adjacent articles;
 - OCR may corrupt Greek letters, fractions, and the table on p. 130;
 - the paper uses `p4mm`, `p4mg`, and `p6mm`, while this project exports `p4m`, `p4g`, and `p6m`;
 - the paper intentionally omits pictures and compresses several isomorphism arguments;

@@ -41,6 +41,20 @@ theorems in `Classification/NoReflections.lean`, `Classification/OneReflection.l
 `Classification/MultipleReflectionInequivalence.lean`; the global theorem is in
 `Classification/Wallpaper.lean`.
 
+## Documentation
+
+The generated Lean API documentation is published at
+[txyyss.github.io/wallpaper-groups/docs](https://txyyss.github.io/wallpaper-groups/docs/).
+
+## Reference and citation
+
+The main mathematical guide is R. L. E. Schwarzenberger, “The 17 plane symmetry groups,”
+*The Mathematical Gazette* **58** (404), June 1974, pp. 123–131,
+[doi:10.2307/3617798](https://doi.org/10.2307/3617798).  A machine-readable citation is
+available in
+[`docs/references/schwarzenberger_17_plane_symmetry_groups.bib`](docs/references/schwarzenberger_17_plane_symmetry_groups.bib).
+The repository does not redistribute a copy of the article.
+
 ## Building
 
 With the pinned Lean toolchain and mathlib dependency available, run:
@@ -51,3 +65,7 @@ lake build
 
 Milestone status, proof architecture decisions, and the final human-review checklist are in
 `docs/PROGRESS.md`, `docs/FOUNDATION_DECISIONS.md`, and `docs/M7_REVIEW.md`.
+
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE).
