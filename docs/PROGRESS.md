@@ -93,7 +93,7 @@ completed Version 1 work; M8a onward follows the active
 - [x] Every `PlaneGroup` proved discrete and cocompact without new hypotheses.
 - [x] Strong-to-geometric conversion applies uniformly to all 17 models.
 - [x] Clean `lake build`.
-- [ ] Human specification review approved: geometric definitions and strong-to-geometric theorem.
+- [x] Human specification review approved: geometric definitions and strong-to-geometric theorem.
 
 ## M8c — Discrete cocompact groups yield strong plane groups
 

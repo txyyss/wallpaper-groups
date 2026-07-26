@@ -1,4 +1,4 @@
-Review status: awaiting human approval
+Review status: approved
 
 # M8b proof review
 
@@ -6,6 +6,14 @@ M8b proves that every strong algebraic `PlaneGroup` is a geometric wallpaper gro
 approved sense.  It does not change the definitions in
 `WallpaperGroups/Geometry/GeometricWallpaperGroup.lean`, add hypotheses to `PlaneGroup`, or begin
 the converse construction of M8c.
+
+## Completed direction
+
+```text
+strong PlaneGroup
+  ⇒
+discrete cocompact geometric wallpaper group
+```
 
 ## Main theorem and exact assumptions
 
