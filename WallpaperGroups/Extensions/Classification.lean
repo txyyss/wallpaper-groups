@@ -87,6 +87,14 @@ theorem toCocycle_equivComp
   ext g h
   exact factor_equivComp s e g h
 
+/-- The cocycles extracted from any two normalized sections of a fixed-action extension are
+cohomologous.  The witnessing cochain is their pointwise kernel difference. -/
+theorem toCocycle_cocycleCohomologous
+    (X : ExtensionOverAction (E := E) ρ)
+    (s t : NormalizedSection X.toGroupExtension) :
+    CocycleCohomologous (s.toCocycle X) (t.toCocycle X) :=
+  ⟨differenceCochain t s, toCocycle_change X t s⟩
+
 end FactorNaturality
 
 section Reconstruction
@@ -206,5 +214,38 @@ theorem extensionEquiv_iff_cocycleCohomologous
     exact ⟨changeByExtensionEquiv c b⟩
 
 end TwistedProduct
+
+namespace ExtensionOverAction
+
+variable {E E' : Type*} [Group E] [Group E']
+
+/-- Two extensions over the same explicit action are endpoint-preservingly equivalent exactly
+when the cocycles extracted from any chosen normalized sections are cohomologous.
+
+The statement is independent of the section choices by
+`NormalizedSection.toCocycle_cocycleCohomologous`; its reverse implication reconstructs both
+extensions from their section cocycles and composes the canonical twisted-product equivalence. -/
+theorem extensionEquiv_iff_cocycleCohomologous
+    (X : ExtensionOverAction (E := E) ρ)
+    (Y : ExtensionOverAction (E := E') ρ)
+    (s : NormalizedSection X.toGroupExtension)
+    (t : NormalizedSection Y.toGroupExtension) :
+    Nonempty (X.toGroupExtension.Equiv Y.toGroupExtension) ↔
+      CocycleCohomologous (s.toCocycle X) (t.toCocycle Y) := by
+  constructor
+  · rintro ⟨e⟩
+    have h :=
+      NormalizedSection.toCocycle_cocycleCohomologous
+        Y (s.equivComp e) t
+    rwa [NormalizedSection.toCocycle_equivComp X Y s e] at h
+  · intro h
+    obtain ⟨e⟩ :=
+      (TwistedProduct.extensionEquiv_iff_cocycleCohomologous
+        (s.toCocycle X) (t.toCocycle Y)).2 h
+    exact ⟨
+      ((NormalizedSection.twistedProductExtensionEquiv X s).symm.trans e).trans
+        (NormalizedSection.twistedProductExtensionEquiv Y t)⟩
+
+end ExtensionOverAction
 
 end WallpaperGroups
