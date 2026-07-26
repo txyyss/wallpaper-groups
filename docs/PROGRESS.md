@@ -87,7 +87,8 @@ completed Version 1 work; M8a onward follows the active
 
 ## M8b — Strong plane groups are discrete and cocompact
 
-- [ ] Exact discreteness and cocompactness notions selected and documented.
+- [ ] Human definition review approved: discreteness and cocompactness notions.
+- [x] Exact discreteness and cocompactness notions selected and documented.
 - [ ] Lattice discreteness and a compact covering set established.
 - [ ] Every `PlaneGroup` proved discrete and cocompact without new hypotheses.
 - [ ] Strong-to-geometric conversion applies uniformly to all 17 models.
