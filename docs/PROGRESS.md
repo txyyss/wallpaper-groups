@@ -5,10 +5,9 @@ completed Version 1 work; M8a onward follows the active
 [`docs/ROADMAP_V2.md`](ROADMAP_V2.md).
 
 **Version 2 M8 status:** complete.  The geometric bridge is finished and
-reviewed.  M9a's explicit cocycle core and M9b-a's fixed-action
-extension-equivalence core are complete and reviewed.  M9b-b1's arbitrary
-fixed-action classifier is implemented and awaiting human specification
-review; later M9b stages have not started.
+reviewed.  M9a's explicit cocycle core, M9b-a's fixed-action
+extension-equivalence core, and M9b-b1's arbitrary fixed-action classifier are
+complete and reviewed.  Later M9b stages have not started.
 
 ## M0 — API audit and foundation decision
 
@@ -140,7 +139,7 @@ M8c checklist complete.
 - [x] Normalized-section independence and the arbitrary fixed-action pairwise classifier complete.
 - [x] Dimension-independent fixed-action extension-classification theorem completed.
 - [x] M9b-b1 clean `lake build`.
-- [ ] Human specification review approved: M9b-b1 arbitrary fixed-action extension classifier.
+- [x] Human specification review approved: M9b-b1 arbitrary fixed-action extension classifier.
 - [ ] Naturality and heterogeneous kernel/quotient/action transport established.
 - [ ] Finite-coset and cyclic `shiftClass` interpretation adapters completed.
 - [ ] Core remains independent of plane geometry and supports a thin `T ≅ ℤ^n` specialization.
