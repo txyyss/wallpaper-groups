@@ -1,7 +1,8 @@
 # Instructions for Codex
 
-Read `docs/ROADMAP.md`, `docs/PROGRESS.md`, and
-`docs/references/PAPER_GUIDE.md` before editing code.
+Read `docs/ROADMAP.md`, `docs/ROADMAP_V2.md`, `docs/PROGRESS.md`, and
+`docs/references/PAPER_GUIDE.md` before editing code.  `docs/ROADMAP.md` is the
+completed Version 1 record; `docs/ROADMAP_V2.md` is the active normative plan.
 
 The active task is the first unchecked milestone in `docs/PROGRESS.md`. Work
 only on that milestone unless the user explicitly changes the scope.

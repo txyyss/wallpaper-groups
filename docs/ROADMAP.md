@@ -2,6 +2,8 @@
 
 ## Codex Roadmap
 
+**Version 1 status:** complete.
+
 **Primary target:** a machine-checked classification of the 17 wallpaper groups in Lean 4 + mathlib.
 
 **Primary mathematical reference:** R. L. E. Schwarzenberger, *The 17 plane symmetry groups*,
@@ -9,7 +11,12 @@
 A machine-readable citation is stored in
 [`docs/references/schwarzenberger_17_plane_symmetry_groups.bib`](references/schwarzenberger_17_plane_symmetry_groups.bib).
 
-**Status of this document:** normative project plan. The paper is a mathematical guide, not the formal specification. When this roadmap, the current Lean definitions, and the paper differ, the Lean definitions and explicitly recorded design decisions take precedence.
+**Status of this document:** completed Version 1 roadmap and normative record for M0–M7.
+Active follow-on work is governed by
+[`docs/ROADMAP_V2.md`](ROADMAP_V2.md).  The paper is a mathematical guide, not
+the formal specification. When this roadmap, the current Lean definitions, and
+the paper differ, the Lean definitions and explicitly recorded design decisions
+take precedence.
 
 ---
 
@@ -672,37 +679,12 @@ The paper uses the longer notations `p4mm`, `p4mg`, and `p6mm`. Mention these as
 
 ---
 
-## M8 — Geometric bridge: discrete and cocompact actions (post-v1)
+## Post-Version 1 work
 
-**Goal:** connect the strong definition used above with the more geometric definition of a wallpaper group.
-
-Define a geometric wallpaper group as a discrete cocompact subgroup of the affine isometry group of the plane, with the exact notion of discreteness/cocompactness chosen from current mathlib topology.
-
-Prove, in two directions where appropriate:
-
-```text
-discrete + cocompact
-    ⇒ rank-two translation lattice + finite point group,
-```
-
-and that every strong plane group acts discretely and cocompactly.
-
-This milestone may require substantial topology, proper discontinuity, compact quotients, or a specialized two-dimensional Bieberbach theorem. It is deliberately excluded from the critical path to the 17-class result.
-
----
-
-## M9 — Cohomological interpretation and higher-dimensional reuse (post-v1)
-
-**Goal:** explain the classification in the language of extensions without rewriting the completed proof.
-
-Possible outputs:
-
-- identify the shift/factor-set invariant with a class in `H²(H, T)`;
-- state a general extension-classification theorem for finite point groups acting on lattices;
-- reuse the Euclidean-motion and lattice APIs in higher dimensions;
-- separate dimension-independent extension theory from dimension-two case analysis.
-
-Do not start this milestone before M7.
+Version 1 concludes with M7.  The former coarse M8 and M9 placeholders are
+superseded by the active
+[`docs/ROADMAP_V2.md`](ROADMAP_V2.md), which specifies all follow-on
+milestones.  This document remains the completed Version 1 record.
 
 ---
 

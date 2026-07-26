@@ -41,6 +41,14 @@ theorems in `Classification/NoReflections.lean`, `Classification/OneReflection.l
 `Classification/MultipleReflectionInequivalence.lean`; the global theorem is in
 `Classification/Wallpaper.lean`.
 
+## Version 2 / Further work
+
+The active [Version 2 roadmap](docs/ROADMAP_V2.md) plans to connect the strong
+algebraic definition above with the geometric discrete-and-cocompact
+formulation and to develop dimension-independent explicit extension theory.
+These are future goals and are not claims about results already proved in this
+repository.
+
 ## Reference and citation
 
 The main mathematical guide is R. L. E. Schwarzenberger, “The 17 plane symmetry groups,”

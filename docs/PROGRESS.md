@@ -1,6 +1,8 @@
 # Progress
 
-The first unchecked milestone is the active milestone.
+The first unchecked milestone is the active milestone.  M0–M7 record the
+completed Version 1 work; M8a onward follows the active
+[`docs/ROADMAP_V2.md`](ROADMAP_V2.md).
 
 ## M0 — API audit and foundation decision
 
@@ -75,7 +77,52 @@ The first unchecked milestone is the active milestone.
 - [x] Clean build from a clean checkout.
 - [x] Human specification review approved: final 17-class theorem and standard models.
 
-## Post-v1
+## M8a — Motion-type equivalence bridge
 
-- [ ] M8 discrete/cocompact bridge.
-- [ ] M9 cohomological interpretation.
+- [ ] Translation, rotation, reflection, and glide-reflection predicates and decomposition validated.
+- [ ] Textbook-style equivalence proved logically equivalent to `PlaneGroup.Equivalent`.
+- [ ] Textbook-equivalence 17-class corollary derived without stronger metric or conjugacy assumptions.
+- [ ] Clean `lake build`.
+- [ ] Human specification review approved: exact motion-type definitions.
+
+## M8b — Strong plane groups are discrete and cocompact
+
+- [ ] Exact discreteness and cocompactness notions selected and documented.
+- [ ] Lattice discreteness and a compact covering set established.
+- [ ] Every `PlaneGroup` proved discrete and cocompact without new hypotheses.
+- [ ] Strong-to-geometric conversion applies uniformly to all 17 models.
+- [ ] Clean `lake build`.
+- [ ] Human specification review approved: geometric definitions and strong-to-geometric theorem.
+
+## M8c — Discrete cocompact groups yield strong plane groups
+
+- [ ] Rank-two full translation lattice and finite point group derived from the geometric hypotheses.
+- [ ] Exact `PlaneGroup` construction, choice independence, and round-trip compatibility proved.
+- [ ] Unique geometric classification by `WallpaperType` proved with an explicit equivalence relation.
+- [ ] No hidden lattice or finite-point-group hypothesis and no axiomatized Bieberbach theorem.
+- [ ] Clean `lake build`.
+- [ ] Human specification review approved: construction and geometric classification theorem.
+
+If the project owner explicitly defers M8c as a separate Bieberbach-scale
+project, record that decision before starting M9a; do not weaken or mark the
+M8c checklist complete.
+
+## M9a — Factor sets, cocycles, and existing shift invariants
+
+- [ ] Factor sets from normalized sections proved to satisfy the cocycle identity.
+- [ ] Section changes, naturality, and the explicit coboundary formula proved.
+- [ ] `FiniteCosetData.shift` and `shiftClass` connected by interpretation theorems.
+- [ ] Version 1 classification definitions and proofs remain unchanged.
+- [ ] Clean `lake build`.
+- [ ] Human specification review approved: cocycle conventions and shift interpretation.
+
+## M9b — Dimension-independent explicit extension theory
+
+- [ ] Normalized cocycles, coboundaries, and their explicit equivalence defined for a fixed action.
+- [ ] Twisted products, their short exact sequence, and induced action constructed.
+- [ ] Section extraction and twisted-product reconstruction proved compatible.
+- [ ] Cocycle equivalence and endpoint-preserving extension equivalence proved equivalent.
+- [ ] Dimension-independent classification theorem and Version 1 comparison adapters completed.
+- [ ] Core remains independent of plane geometry and supports a thin `T ≅ ℤ^n` specialization.
+- [ ] Clean `lake build`.
+- [ ] Human specification review approved: final generic extension-classification theorem.
