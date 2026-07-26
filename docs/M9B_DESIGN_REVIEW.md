@@ -1,4 +1,4 @@
-Review status: awaiting human approval
+Review status: approved
 
 # M9b extension-equivalence design review
 
@@ -693,4 +693,5 @@ Please confirm:
 8. that the thin rank-`n` input interface is sufficient preparation for a
    future enumerator.
 
-Until these points are approved, M9b implementation has not started.
+The project owner approved these points before M9b-a implementation began.
+The later M9b stages remain governed by the boundaries above.

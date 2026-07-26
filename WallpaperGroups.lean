@@ -7,6 +7,7 @@ import WallpaperGroups.Extensions.Action
 import WallpaperGroups.Extensions.NormalizedCocycle
 import WallpaperGroups.Extensions.TwistedProduct
 import WallpaperGroups.Extensions.Section
+import WallpaperGroups.Extensions.Classification
 import WallpaperGroups.Extensions.PointGroup
 import WallpaperGroups.Extensions.DihedralFactor
 import WallpaperGroups.Invariants.EquivalenceAction
