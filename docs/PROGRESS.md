@@ -4,6 +4,9 @@ The first unchecked milestone is the active milestone.  M0–M7 record the
 completed Version 1 work; M8a onward follows the active
 [`docs/ROADMAP_V2.md`](ROADMAP_V2.md).
 
+**Version 2 M8 status:** complete.  The geometric bridge is finished and
+reviewed; M9 has not started.
+
 ## M0 — API audit and foundation decision
 
 - [x] Euclidean-motion API audit completed.
