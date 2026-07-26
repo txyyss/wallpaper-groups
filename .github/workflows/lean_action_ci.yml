@@ -33,9 +33,9 @@ jobs:
         shell: bash
         run: |
           set +e
-          rg --line-number --glob '*.lean' \
-            '\b(sorry|sorryAx|admit|axiom|unsafe)\b' \
-            WallpaperGroups WallpaperGroups.lean
+          git grep --line-number --word-regexp --extended-regexp \
+            '(sorry|sorryAx|admit|axiom|unsafe)' \
+            -- WallpaperGroups WallpaperGroups.lean
           scan_rc=$?
           set -e
           case "$scan_rc" in
