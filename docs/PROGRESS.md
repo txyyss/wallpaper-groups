@@ -103,7 +103,8 @@ completed Version 1 work; M8a onward follows the active
 - [x] Unique geometric classification by `WallpaperType` proved with an explicit equivalence relation.
 - [x] No hidden lattice or finite-point-group hypothesis and no axiomatized Bieberbach theorem.
 - [x] Clean `lake build`.
-- [ ] Human specification review approved: construction and geometric classification theorem.
+- [x] Human specification review approved: M8c-c construction and final M8c geometric classification.
+- [x] Version 2 M8 geometric bridge complete.
 
 If the project owner explicitly defers M8c as a separate Bieberbach-scale
 project, record that decision before starting M9a; do not weaken or mark the
