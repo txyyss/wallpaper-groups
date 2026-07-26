@@ -1,4 +1,4 @@
-Review status: awaiting human approval
+Review status: approved
 
 # M8c-b translation-lattice recovery review
 
