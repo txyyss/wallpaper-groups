@@ -36,3 +36,4 @@ import WallpaperGroups.Geometry.GeometricWallpaperGroup
 import WallpaperGroups.Geometry.GeometricToStrong
 import WallpaperGroups.Geometry.MotionType
 import WallpaperGroups.Geometry.StrongToGeometric
+import WallpaperGroups.Geometry.TranslationLatticeRecovery

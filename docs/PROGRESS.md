@@ -97,7 +97,7 @@ completed Version 1 work; M8a onward follows the active
 
 ## M8c — Discrete cocompact groups yield strong plane groups
 
-- [ ] Rank-two full translation lattice and finite point group derived from the geometric hypotheses.
+- [x] Rank-two full translation lattice and finite point group derived from the geometric hypotheses.
 - [ ] Exact `PlaneGroup` construction, choice independence, and round-trip compatibility proved.
 - [ ] Unique geometric classification by `WallpaperType` proved with an explicit equivalence relation.
 - [ ] No hidden lattice or finite-point-group hypothesis and no axiomatized Bieberbach theorem.
