@@ -1,4 +1,4 @@
-Review status: awaiting human approval
+Review status: approved
 
 # M9 extension-theory design review
 
@@ -20,6 +20,13 @@ mathlib.  The principal recommendation is:
 
 This follows the existing Version 2 roadmap and does not propose a second
 classification of wallpaper groups.
+
+**Implementation-order amendment after approval.**  The project owner subsequently directed M9a
+to implement the explicit cocycle, section, and twisted-product core first.  Full
+endpoint-preserving extension classification and the finite-coset/`shiftClass` interpretation
+adapters now remain M9b work.  This changes the staging in Section 6, not the mathematical
+conventions or architecture approved in this review; the active split is recorded in
+[`ROADMAP_V2.md`](ROADMAP_V2.md) and [`PROGRESS.md`](PROGRESS.md).
 
 ## 2. Existing project infrastructure
 
@@ -692,4 +699,4 @@ Under this design:
   form, crystallographic order, or wallpaper label; and
 - no claim of a higher-dimensional space-group classification is made.
 
-M9a and M9b remain unstarted until this design receives human approval.
+The project owner approved this design before M9a implementation began.  M9b remains unstarted.

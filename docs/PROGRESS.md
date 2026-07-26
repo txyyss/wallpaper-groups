@@ -5,7 +5,8 @@ completed Version 1 work; M8a onward follows the active
 [`docs/ROADMAP_V2.md`](ROADMAP_V2.md).
 
 **Version 2 M8 status:** complete.  The geometric bridge is finished and
-reviewed; M9 has not started.
+reviewed.  M9a's explicit cocycle core is implemented and awaiting human
+specification review; M9b has not started.
 
 ## M0 — API audit and foundation decision
 
@@ -113,22 +114,27 @@ If the project owner explicitly defers M8c as a separate Bieberbach-scale
 project, record that decision before starting M9a; do not weaken or mark the
 M8c checklist complete.
 
-## M9a — Factor sets, cocycles, and existing shift invariants
+## M9a — Explicit cocycle extension core
 
-- [ ] Factor sets from normalized sections proved to satisfy the cocycle identity.
-- [ ] Section changes, naturality, and the explicit coboundary formula proved.
-- [ ] `FiniteCosetData.shift` and `shiftClass` connected by interpretation theorems.
-- [ ] Version 1 classification definitions and proofs remain unchanged.
-- [ ] Clean `lake build`.
-- [ ] Human specification review approved: cocycle conventions and shift interpretation.
+- [x] Explicit actions, normalized cocycles, normalized cochains, coboundaries, and their
+      equivalence relation defined without homological group cohomology.
+- [x] Normalized-section factors proved normalized and proved to satisfy the cocycle identity.
+- [x] Section change proved to be the explicit coboundary formula.
+- [x] Twisted-product group, canonical `GroupExtension`, prescribed action, and canonical-section
+      recovery constructed.
+- [x] Existing point-group extension and dihedral factor connected through thin adapters.
+- [x] Version 1 and M8 classification definitions and proofs remain unchanged.
+- [x] Clean `lake build`.
+- [ ] Human specification review approved: explicit cocycle and twisted-extension core.
 
 ## M9b — Dimension-independent explicit extension theory
 
-- [ ] Normalized cocycles, coboundaries, and their explicit equivalence defined for a fixed action.
-- [ ] Twisted products, their short exact sequence, and induced action constructed.
-- [ ] Section extraction and twisted-product reconstruction proved compatible.
+- [ ] Coboundary coordinate changes bundled as endpoint-preserving extension equivalences.
+- [ ] Arbitrary normalized-section extensions reconstructed as equivalent twisted products.
 - [ ] Cocycle equivalence and endpoint-preserving extension equivalence proved equivalent.
-- [ ] Dimension-independent classification theorem and Version 1 comparison adapters completed.
+- [ ] Naturality and heterogeneous kernel/quotient/action transport established.
+- [ ] Finite-coset and cyclic `shiftClass` interpretation adapters completed.
+- [ ] Dimension-independent fixed-action extension-classification theorem completed.
 - [ ] Core remains independent of plane geometry and supports a thin `T ≅ ℤ^n` specialization.
 - [ ] Clean `lake build`.
 - [ ] Human specification review approved: final generic extension-classification theorem.
