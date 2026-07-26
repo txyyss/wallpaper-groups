@@ -97,12 +97,14 @@ completed Version 1 work; M8a onward follows the active
 
 ## M8c — Discrete cocompact groups yield strong plane groups
 
-- [ ] Rank-two full translation lattice and finite point group derived from the geometric hypotheses.
-- [ ] Exact `PlaneGroup` construction, choice independence, and round-trip compatibility proved.
-- [ ] Unique geometric classification by `WallpaperType` proved with an explicit equivalence relation.
-- [ ] No hidden lattice or finite-point-group hypothesis and no axiomatized Bieberbach theorem.
-- [ ] Clean `lake build`.
-- [ ] Human specification review approved: construction and geometric classification theorem.
+- [x] Rank-two full translation lattice and finite point group derived from the geometric hypotheses.
+- [x] Human specification review approved: rank-two translation lattice recovery.
+- [x] Exact `PlaneGroup` construction, choice independence, and round-trip compatibility proved.
+- [x] Unique geometric classification by `WallpaperType` proved with an explicit equivalence relation.
+- [x] No hidden lattice or finite-point-group hypothesis and no axiomatized Bieberbach theorem.
+- [x] Clean `lake build`.
+- [x] Human specification review approved: M8c-c construction and final M8c geometric classification.
+- [x] Version 2 M8 geometric bridge complete.
 
 If the project owner explicitly defers M8c as a separate Bieberbach-scale
 project, record that decision before starting M9a; do not weaken or mark the
