@@ -5,9 +5,8 @@ completed Version 1 work; M8a onward follows the active
 [`docs/ROADMAP_V2.md`](ROADMAP_V2.md).
 
 **Version 2 M8 status:** complete.  The geometric bridge is finished and
-reviewed.  M9a's explicit cocycle core is complete and reviewed.  M9b-a's
-fixed-action extension-equivalence core is implemented and awaiting human
-specification review; M9b-b has not started.
+reviewed.  M9a's explicit cocycle core and M9b-a's fixed-action
+extension-equivalence core are complete and reviewed; M9b-b1 has not started.
 
 ## M0 — API audit and foundation decision
 
@@ -135,7 +134,7 @@ M8c checklist complete.
 - [x] Cocycle equivalence and endpoint-preserving extension equivalence proved equivalent for
       canonical twisted products.
 - [x] M9b-a clean `lake build`.
-- [ ] Human specification review approved: M9b-a fixed-action extension-equivalence core.
+- [x] Human specification review approved: M9b-a fixed-action extension-equivalence core.
 - [ ] Naturality and heterogeneous kernel/quotient/action transport established.
 - [ ] Finite-coset and cyclic `shiftClass` interpretation adapters completed.
 - [ ] Dimension-independent fixed-action extension-classification theorem completed.
