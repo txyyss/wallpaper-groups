@@ -24,7 +24,7 @@ classification table relevant to this formalization occupy printed pp. 123–130
 
 The public repository does not redistribute the article.  For private study, a local scan may
 be placed at `docs/references/Schwarzenberger_17_Plane_Symmetry_Groups.pdf`.  This exact path is
-ignored by Git, and neither the Lean build nor the documentation requires it.  Local journal
+ignored by Git, and neither the Lean build nor the formalization requires it.  Local journal
 scans may include material from the adjacent articles; use the printed page numbers above.
 
 ## Formalization translation

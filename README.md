@@ -41,11 +41,6 @@ theorems in `Classification/NoReflections.lean`, `Classification/OneReflection.l
 `Classification/MultipleReflectionInequivalence.lean`; the global theorem is in
 `Classification/Wallpaper.lean`.
 
-## Documentation
-
-The generated Lean API documentation is published at
-[txyyss.github.io/wallpaper-groups/docs](https://txyyss.github.io/wallpaper-groups/docs/).
-
 ## Reference and citation
 
 The main mathematical guide is R. L. E. Schwarzenberger, “The 17 plane symmetry groups,”
