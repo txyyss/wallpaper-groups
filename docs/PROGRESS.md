@@ -5,8 +5,8 @@ completed Version 1 work; M8a onward follows the active
 [`docs/ROADMAP_V2.md`](ROADMAP_V2.md).
 
 **Version 2 M8 status:** complete.  The geometric bridge is finished and
-reviewed.  M9a's explicit cocycle core is implemented and awaiting human
-specification review; M9b has not started.
+reviewed.  M9a's explicit cocycle core is complete and reviewed; M9b has not
+started.
 
 ## M0 — API audit and foundation decision
 
@@ -125,7 +125,7 @@ M8c checklist complete.
 - [x] Existing point-group extension and dihedral factor connected through thin adapters.
 - [x] Version 1 and M8 classification definitions and proofs remain unchanged.
 - [x] Clean `lake build`.
-- [ ] Human specification review approved: explicit cocycle and twisted-extension core.
+- [x] Human specification review approved: explicit cocycle and twisted-extension core.
 
 ## M9b — Dimension-independent explicit extension theory
 

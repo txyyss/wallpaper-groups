@@ -1,4 +1,4 @@
-Review status: awaiting human approval
+Review status: approved
 
 # M9a explicit cocycle-extension core review
 
