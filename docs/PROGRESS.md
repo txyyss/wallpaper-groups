@@ -79,10 +79,10 @@ completed Version 1 work; M8a onward follows the active
 
 ## M8a — Motion-type equivalence bridge
 
-- [ ] Translation, rotation, reflection, and glide-reflection predicates and decomposition validated.
-- [ ] Textbook-style equivalence proved logically equivalent to `PlaneGroup.Equivalent`.
-- [ ] Textbook-equivalence 17-class corollary derived without stronger metric or conjugacy assumptions.
-- [ ] Clean `lake build`.
+- [x] Translation, rotation, reflection, and glide-reflection predicates and decomposition validated.
+- [x] Textbook-style equivalence proved logically equivalent to `PlaneGroup.Equivalent`.
+- [x] Textbook-equivalence 17-class corollary derived without stronger metric or conjugacy assumptions.
+- [x] Clean `lake build`.
 - [ ] Human specification review approved: exact motion-type definitions.
 
 ## M8b — Strong plane groups are discrete and cocompact

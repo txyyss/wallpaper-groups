@@ -32,3 +32,4 @@ import WallpaperGroups.Classification.NoReflections
 import WallpaperGroups.Classification.OneReflection
 import WallpaperGroups.Classification.Wallpaper
 import WallpaperGroups.Classification.PlaneGroupClasses
+import WallpaperGroups.Geometry.MotionType
