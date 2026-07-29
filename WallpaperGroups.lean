@@ -10,6 +10,7 @@ import WallpaperGroups.Extensions.EndpointTransport
 import WallpaperGroups.Extensions.TwistedProduct
 import WallpaperGroups.Extensions.Section
 import WallpaperGroups.Extensions.Classification
+import WallpaperGroups.Extensions.HeterogeneousClassification
 import WallpaperGroups.Extensions.PointGroup
 import WallpaperGroups.Extensions.DihedralFactor
 import WallpaperGroups.Invariants.EquivalenceAction
