@@ -5,7 +5,13 @@ completed Version 1 work; M8a onward follows the active
 [`docs/ROADMAP_V2.md`](ROADMAP_V2.md).
 
 **Version 2 M8 status:** complete.  The geometric bridge is finished and
-reviewed; M9 has not started.
+reviewed.
+
+**Version 2 M9 core status:** complete.  The explicit cocycle core, fixed- and
+heterogeneous-action extension classifiers, and action/endpoint transport
+layers are finished and reviewed.  Project-specific adapters and the rank-`n`
+and `H²` specializations are deferred future extensions; they are not part of
+`m9-complete`.
 
 ## M0 — API audit and foundation decision
 
@@ -113,22 +119,55 @@ If the project owner explicitly defers M8c as a separate Bieberbach-scale
 project, record that decision before starting M9a; do not weaken or mark the
 M8c checklist complete.
 
-## M9a — Factor sets, cocycles, and existing shift invariants
+## M9a — Explicit cocycle extension core
 
-- [ ] Factor sets from normalized sections proved to satisfy the cocycle identity.
-- [ ] Section changes, naturality, and the explicit coboundary formula proved.
-- [ ] `FiniteCosetData.shift` and `shiftClass` connected by interpretation theorems.
-- [ ] Version 1 classification definitions and proofs remain unchanged.
-- [ ] Clean `lake build`.
-- [ ] Human specification review approved: cocycle conventions and shift interpretation.
+- [x] Explicit actions, normalized cocycles, normalized cochains, coboundaries, and their
+      equivalence relation defined without homological group cohomology.
+- [x] Normalized-section factors proved normalized and proved to satisfy the cocycle identity.
+- [x] Section change proved to be the explicit coboundary formula.
+- [x] Twisted-product group, canonical `GroupExtension`, prescribed action, and canonical-section
+      recovery constructed.
+- [x] Existing point-group extension and dihedral factor connected through thin adapters.
+- [x] Version 1 and M8 classification definitions and proofs remain unchanged.
+- [x] Clean `lake build`.
+- [x] Human specification review approved: explicit cocycle and twisted-extension core.
 
 ## M9b — Dimension-independent explicit extension theory
 
-- [ ] Normalized cocycles, coboundaries, and their explicit equivalence defined for a fixed action.
-- [ ] Twisted products, their short exact sequence, and induced action constructed.
-- [ ] Section extraction and twisted-product reconstruction proved compatible.
-- [ ] Cocycle equivalence and endpoint-preserving extension equivalence proved equivalent.
-- [ ] Dimension-independent classification theorem and Version 1 comparison adapters completed.
-- [ ] Core remains independent of plane geometry and supports a thin `T ≅ ℤ^n` specialization.
-- [ ] Clean `lake build`.
-- [ ] Human specification review approved: final generic extension-classification theorem.
+- [x] Coboundary coordinate changes bundled as endpoint-preserving extension equivalences.
+- [x] Arbitrary normalized-section extensions reconstructed as equivalent twisted products.
+- [x] Cocycle equivalence and endpoint-preserving extension equivalence proved equivalent for
+      canonical twisted products.
+- [x] M9b-a clean `lake build`.
+- [x] Human specification review approved: M9b-a fixed-action extension-equivalence core.
+- [x] Normalized-section independence and the arbitrary fixed-action pairwise classifier complete.
+- [x] Dimension-independent fixed-action extension-classification theorem completed.
+- [x] M9b-b1 clean `lake build`.
+- [x] Human specification review approved: M9b-b1 arbitrary fixed-action extension classifier.
+- [x] Human design review approved: M9b-b2 heterogeneous extension transport architecture.
+- [x] Compatible action equivalences and normalized cochain/cocycle transport implemented.
+- [x] Coboundary, `changeBy`, and cohomology naturality plus transport coherence proved.
+- [x] M9b-b2a clean `lake build`.
+- [x] Human specification review approved: M9b-b2a action and cocycle transport.
+- [x] M9b-b2b quotient relabeling, combined endpoint transport, and action transport established.
+- [x] M9b-b2b identity, composition, and inverse transport coherence proved.
+- [x] M9b-b2b clean `lake build`.
+- [x] Human specification review approved: M9b-b2b endpoint transport.
+- [x] M9b-b2c thin heterogeneous equivalence, normalized-section/twisted-product
+      transport, and arbitrary-extension classifier established.
+- [x] M9b-b2c clean `lake build`.
+- [x] Human specification review approved: M9b-b2c heterogeneous extension classifier.
+- [x] Core remains independent of plane geometry.
+- [x] Clean `lake build`.
+- [x] Human specification review approved: final generic extension-classification theorem.
+- [x] Version 2 M9 core complete.
+
+### Deferred future extensions
+
+These are not part of `m9-complete`:
+
+- `TranslationPreservingIso` action/extension transport adapter;
+- M5 `ShiftClass` interpretation adapter;
+- `FiniteCosetData` adapter;
+- free-abelian rank-`n` specialization; and
+- optional `H²` adapter.
