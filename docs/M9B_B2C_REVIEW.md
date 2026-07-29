@@ -1,4 +1,4 @@
-Review status: awaiting human approval
+Review status: approved
 
 # M9b-b2c heterogeneous extension classifier review
 
@@ -331,8 +331,9 @@ This snapshot does not implement:
 - any new space-group enumeration direction.
 
 No large quotient over middle-group types, endpoint actions, or endpoint
-automorphisms is introduced.  These remaining adapters and the final M9b
-review are later milestones.
+automorphisms is introduced.  At final M9 core approval, the project owner
+designated these adapters as future extensions rather than requirements for
+`m9-complete`.
 
 ## Human review checklist
 

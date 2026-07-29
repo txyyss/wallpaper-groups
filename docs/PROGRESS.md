@@ -5,15 +5,13 @@ completed Version 1 work; M8a onward follows the active
 [`docs/ROADMAP_V2.md`](ROADMAP_V2.md).
 
 **Version 2 M8 status:** complete.  The geometric bridge is finished and
-reviewed.  M9a's explicit cocycle core, M9b-a's fixed-action
-extension-equivalence core, and M9b-b1's arbitrary fixed-action classifier are
-complete and reviewed.  The M9b-b2 heterogeneous-transport design is approved,
-and M9b-b2a's action, cochain, and cocycle transport is complete and reviewed.
-M9b-b2b endpoint transport is complete and reviewed.  M9b-b2c's thin
-heterogeneous equivalence, section/twisted-product transport, and arbitrary
-extension classifier are implemented and awaiting human review.  The
-`TranslationPreservingIso`, finite-coset/shift, and rank-`n` adapters have not
-started.
+reviewed.
+
+**Version 2 M9 core status:** complete.  The explicit cocycle core, fixed- and
+heterogeneous-action extension classifiers, and action/endpoint transport
+layers are finished and reviewed.  Project-specific adapters and the rank-`n`
+and `H²` specializations are deferred future extensions; they are not part of
+`m9-complete`.
 
 ## M0 — API audit and foundation decision
 
@@ -158,9 +156,18 @@ M8c checklist complete.
 - [x] M9b-b2c thin heterogeneous equivalence, normalized-section/twisted-product
       transport, and arbitrary-extension classifier established.
 - [x] M9b-b2c clean `lake build`.
-- [ ] Human specification review approved: M9b-b2c heterogeneous extension classifier.
-- [ ] `TranslationPreservingIso` action/extension transport adapter completed.
-- [ ] Finite-coset and cyclic `shiftClass` interpretation adapters completed.
-- [ ] Core remains independent of plane geometry and supports a thin `T ≅ ℤ^n` specialization.
-- [ ] Clean `lake build`.
-- [ ] Human specification review approved: final generic extension-classification theorem.
+- [x] Human specification review approved: M9b-b2c heterogeneous extension classifier.
+- [x] Core remains independent of plane geometry.
+- [x] Clean `lake build`.
+- [x] Human specification review approved: final generic extension-classification theorem.
+- [x] Version 2 M9 core complete.
+
+### Deferred future extensions
+
+These are not part of `m9-complete`:
+
+- `TranslationPreservingIso` action/extension transport adapter;
+- M5 `ShiftClass` interpretation adapter;
+- `FiniteCosetData` adapter;
+- free-abelian rank-`n` specialization; and
+- optional `H²` adapter.
