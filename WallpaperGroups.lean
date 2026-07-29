@@ -5,6 +5,7 @@ import WallpaperGroups.Basic.PlaneGroup
 import WallpaperGroups.Basic.RankTwoLattice
 import WallpaperGroups.Extensions.Action
 import WallpaperGroups.Extensions.NormalizedCocycle
+import WallpaperGroups.Extensions.Transport
 import WallpaperGroups.Extensions.TwistedProduct
 import WallpaperGroups.Extensions.Section
 import WallpaperGroups.Extensions.Classification

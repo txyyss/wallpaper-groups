@@ -7,7 +7,10 @@ completed Version 1 work; M8a onward follows the active
 **Version 2 M8 status:** complete.  The geometric bridge is finished and
 reviewed.  M9a's explicit cocycle core, M9b-a's fixed-action
 extension-equivalence core, and M9b-b1's arbitrary fixed-action classifier are
-complete and reviewed.  Later M9b stages have not started.
+complete and reviewed.  The M9b-b2 heterogeneous-transport design is approved;
+M9b-b2a's action, cochain, and cocycle transport is implemented and awaiting
+human specification review.  Endpoint transport and later M9b stages have not
+started.
 
 ## M0 — API audit and foundation decision
 
@@ -140,7 +143,13 @@ M8c checklist complete.
 - [x] Dimension-independent fixed-action extension-classification theorem completed.
 - [x] M9b-b1 clean `lake build`.
 - [x] Human specification review approved: M9b-b1 arbitrary fixed-action extension classifier.
-- [ ] Naturality and heterogeneous kernel/quotient/action transport established.
+- [x] Human design review approved: M9b-b2 heterogeneous extension transport architecture.
+- [x] Compatible action equivalences and normalized cochain/cocycle transport implemented.
+- [x] Coboundary, `changeBy`, and cohomology naturality plus transport coherence proved.
+- [x] M9b-b2a clean `lake build`.
+- [ ] Human specification review approved: M9b-b2a action and cocycle transport.
+- [ ] M9b-b2b extension endpoint transport and heterogeneous equivalence established.
+- [ ] M9b-b2c heterogeneous classifier and `TranslationPreservingIso` adapter established.
 - [ ] Finite-coset and cyclic `shiftClass` interpretation adapters completed.
 - [ ] Core remains independent of plane geometry and supports a thin `T ≅ ℤ^n` specialization.
 - [ ] Clean `lake build`.

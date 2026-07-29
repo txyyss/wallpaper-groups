@@ -1,4 +1,4 @@
-Review status: awaiting human approval
+Review status: approved
 
 # M9b-b2 heterogeneous extension transport design review
 
@@ -689,3 +689,7 @@ Please confirm:
    equality; and
 8. that endpoint-automorphism orbit quotients and abstract `H²` remain outside
    this stage.
+
+The project owner approved this design before M9b-b2a implementation began.
+The endpoint-transport and heterogeneous-classifier work in M9b-b2b and
+M9b-b2c remains governed by the boundaries above.
