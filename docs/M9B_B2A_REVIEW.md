@@ -1,4 +1,4 @@
-Review status: awaiting human approval
+Review status: approved
 
 # M9b-b2a action and cocycle transport review
 
