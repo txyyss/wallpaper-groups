@@ -9,7 +9,8 @@ reviewed.  M9a's explicit cocycle core, M9b-a's fixed-action
 extension-equivalence core, and M9b-b1's arbitrary fixed-action classifier are
 complete and reviewed.  The M9b-b2 heterogeneous-transport design is approved,
 and M9b-b2a's action, cochain, and cocycle transport is complete and reviewed.
-Endpoint transport and later M9b stages have not started.
+M9b-b2b endpoint transport is implemented and awaits human specification
+review.  The heterogeneous classifier and later adapters have not started.
 
 ## M0 — API audit and foundation decision
 
@@ -147,7 +148,10 @@ M8c checklist complete.
 - [x] Coboundary, `changeBy`, and cohomology naturality plus transport coherence proved.
 - [x] M9b-b2a clean `lake build`.
 - [x] Human specification review approved: M9b-b2a action and cocycle transport.
-- [ ] M9b-b2b extension endpoint transport and heterogeneous equivalence established.
+- [x] M9b-b2b quotient relabeling, combined endpoint transport, and action transport established.
+- [x] M9b-b2b identity, composition, and inverse transport coherence proved.
+- [x] M9b-b2b clean `lake build`.
+- [ ] Human specification review approved: M9b-b2b endpoint transport.
 - [ ] M9b-b2c heterogeneous classifier and `TranslationPreservingIso` adapter established.
 - [ ] Finite-coset and cyclic `shiftClass` interpretation adapters completed.
 - [ ] Core remains independent of plane geometry and supports a thin `T ≅ ℤ^n` specialization.
