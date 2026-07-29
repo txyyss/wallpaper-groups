@@ -110,31 +110,14 @@ The chosen definition must be approved before it becomes the basis of M8c.
 
 This is the highest-risk Version 2 milestone. If current topology and group-action infrastructure makes the proof a substantially larger Bieberbach project, stop with a precise design report. M9a and M9b may then proceed independently, but M8c must be recorded as deferred rather than weakened or silently declared complete.
 
-## M9a — Factor sets, cocycles, and the existing shift invariants
+## M9a — Explicit cocycle extension core
 
-**Goal:** give the completed two-dimensional extension machinery its standard cocycle interpretation without rewriting the classification.
+**Goal:** construct the dimension-independent explicit cocycle and twisted-extension foundation
+without rewriting the completed classification.
 
-### Tasks
-
-- For a group extension with a normalized section, define the associated factor set in the translation group.
-- Prove normalization and the 2-cocycle identity.
-- Prove that changing the section changes the factor set by a coboundary.
-- Prove naturality under endpoint-preserving extension equivalences.
-- Relate `FiniteCosetData.shift` to a cocycle in the ambient vector space modulo the lattice, and relate its lattice-valued defect to the factor set.
-- Explain formally how the existing quotient-valued `shiftClass` for a finite cyclic subgroup is obtained from the restricted extension data and why lift independence is a coboundary phenomenon.
-- Add adapters and interpretation theorems; do not replace the M4–M7 proofs with cohomological arguments.
-
-### Acceptance criteria
-
-- Cocycle sign and multiplication conventions are explicit and tested against existing finite-coset models.
-- Section change is proved by an explicit coboundary formula.
-- The relationship to `shiftClass` is a theorem, not only prose.
-- The existing Version 1 classification API remains unchanged.
-- The cocycle conventions and interpretation receive human review.
-
-## M9b — Dimension-independent explicit extension theory
-
-**Goal:** extract a reusable algebraic core suitable for a future verified space-group enumeration project.
+After approval of the M9 design review, the project owner selected this implementation order:
+the explicit algebraic core is completed first in M9a; the full extension-equivalence theorem and
+the finite-coset/`shiftClass` interpretation adapters remain M9b work.
 
 ### Core setting
 
@@ -158,19 +141,50 @@ Finiteness of `H` and freeness or finite rank of `T` belong in later computation
 
 - Prove its canonical short exact sequence and induced action.
 - Extract a cocycle from an extension equipped with a normalized section.
+- Prove the cocycle identity directly from extension multiplication.
+- Prove that changing the normalized section changes the factor by the explicit coboundary.
+- Show that changing a cocycle by a coboundary gives the expected twisted-product coordinate
+  equivalence.
+- Connect the existing translation–point-group extension and normalized dihedral factor through
+  thin adapters.
+- Keep the core independent of plane geometry and do not import `groupCohomology.H2`,
+  `ModuleCat`, or homological complexes.
+
+### Acceptance criteria
+
+- Cocycle, coboundary, section, and twisted-product sign conventions are explicit.
+- Twisted multiplication is proved associative from the cocycle identity.
+- Section change is proved by the explicit coboundary formula.
+- The canonical twisted-product section recovers the input cocycle.
+- The existing `pointGroupExtension` and `dihedralFactor` instantiate the generic interfaces
+  without changing Version 1.
+- The core definitions receive human specification review.
+
+## M9b — Extension equivalence, classification, and existing shift adapters
+
+**Goal:** complete the reusable extension-classification theorem and connect the remaining
+two-dimensional shift invariants.
+
+### Tasks
+
+- Bundle coboundary coordinate changes as endpoint-preserving `GroupExtension.Equiv` values.
 - Construct an explicit equivalence between the original extension and the twisted product obtained from its section.
 - Prove that cohomologous cocycles yield endpoint-preserving equivalent extensions.
 - Prove the converse at the appropriate level: an endpoint-preserving extension equivalence induces the corresponding coboundary relation.
 - State a dimension-independent extension-classification theorem for a fixed action.
-- Provide adapters showing that the current translation–point-group extensions and finite-coset models instantiate the generic theory.
+- Prove naturality under endpoint-preserving extension equivalences and add heterogeneous
+  kernel/quotient/action transport.
+- Relate `FiniteCosetData.shift` to its quotient-valued `1`-cocycle and lattice-valued factor.
+- Prove formally how the finite-cyclic restriction gives the existing quotient-valued
+  `shiftClass` and why lift independence is a coboundary phenomenon.
 - Add a thin specialization for free abelian lattices of rank `n` sufficient to state the input type of a future space-group catalog, without implementing that catalog.
 
 ### Acceptance criteria
 
-- The core imports no plane geometry, rank-two matrix classification, or wallpaper models.
 - Section extraction and twisted-product reconstruction are proved mutually compatible up to the stated extension equivalence.
 - Cocycle equivalence and extension equivalence agree in both directions for the fixed action.
-- Existing two-dimensional extension constructions are connected by proved adapters or comparison theorems.
+- Existing finite-coset and cyclic shift constructions are connected by proved adapters or
+  comparison theorems.
 - The exported API is usable with `T ≅ ℤ^n` and a finite integral point-group action.
 - The final generic theorem receives human specification review.
 

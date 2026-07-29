@@ -41,13 +41,31 @@ theorems in `Classification/NoReflections.lean`, `Classification/OneReflection.l
 `Classification/MultipleReflectionInequivalence.lean`; the global theorem is in
 `Classification/Wallpaper.lean`.
 
-## Version 2 / Further work
+## Version 2 geometric bridge
 
-The active [Version 2 roadmap](docs/ROADMAP_V2.md) plans to connect the strong
-algebraic definition above with the geometric discrete-and-cocompact
-formulation and to develop dimension-independent explicit extension theory.
-These are future goals and are not claims about results already proved in this
-repository.
+Version 2 milestone M8 is complete.  The project now relates the strong
+algebraic `PlaneGroup` definition to the standard geometric formulation: a
+subgroup of plane Euclidean motions acting properly discontinuously and
+cocompactly.
+
+The formal bridge works in both directions without changing the underlying
+motion subgroup:
+
+- every `PlaneGroup` gives a geometric wallpaper group;
+- every geometric wallpaper group yields a `PlaneGroup` whose full translation
+  subgroup is the recovered rank-two lattice and whose point group is finite;
+- auxiliary lattice-basis choices disappear up to `PlaneGroup.Equivalent`;
+- the geometric objects have a direct textbook equivalence preserving
+  translations, rotations, reflections, and glide reflections; and
+- every geometric wallpaper group has a unique label among the same 17
+  `WallpaperType` constructors.
+
+See the [Version 2 M8 completion summary](docs/V2_COMPLETION.md) and the active
+[Version 2 roadmap](docs/ROADMAP_V2.md).
+
+This result is still two-dimensional.  It does not classify higher-dimensional
+space groups, prove general Bieberbach theorems, or implement a space-group
+enumerator.  The M9 extension-theory program remains future work.
 
 ## Reference and citation
 
