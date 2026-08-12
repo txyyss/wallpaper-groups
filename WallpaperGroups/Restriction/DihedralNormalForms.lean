@@ -27,7 +27,11 @@ inductive DihedralRotationOrder where
   | three
   | four
   | six
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype DihedralRotationOrder where
+  elems := {.two, .three, .four, .six}
+  complete q := by cases q <;> simp
 
 namespace DihedralRotationOrder
 
@@ -230,7 +234,7 @@ theorem exists_dihedralGenerators (G : PlaneGroup)
     Nonempty (DihedralGenerators G) := by
   classical
   obtain ⟨⟨s, hs⟩, ⟨r, hrne⟩⟩ := hG
-  letI : IsCyclic (orientationPreservingPointGroup G) :=
+  let : IsCyclic (orientationPreservingPointGroup G) :=
     orientationPreserving_isCyclic G
   obtain ⟨rho, hrho⟩ := IsCyclic.exists_generator
     (α := orientationPreservingPointGroup G)

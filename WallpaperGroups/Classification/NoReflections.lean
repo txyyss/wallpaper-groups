@@ -36,7 +36,7 @@ theorem exists_pointGenerator_of_noReflections
     (G : PlaneGroup) (hG : PointGroupHasNoReflections G) :
     ∃ ρ : pointGroup G.carrier,
       ∀ q : pointGroup G.carrier, q ∈ Subgroup.zpowers ρ := by
-  letI : IsCyclic (pointGroup G.carrier) :=
+  let _ : IsCyclic (pointGroup G.carrier) :=
     pointGroup_isCyclic_of_noReflections G hG
   exact IsCyclic.exists_generator
 

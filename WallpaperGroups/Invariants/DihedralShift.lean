@@ -189,7 +189,11 @@ theorem primitive_reflectionShiftClass_eq_of_eq_zero_iff
 inductive ReflectionShiftBit
   | zero
   | nonzero
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype ReflectionShiftBit where
+  elems := {.zero, .nonzero}
+  complete b := by cases b <;> simp
 
 /-- Encode a primitive quotient class by whether it vanishes. -/
 noncomputable def primitiveReflectionShiftBit
@@ -273,7 +277,11 @@ inductive NormalizedReflectionShiftPair
   | zeroZero
   | mixed
   | nonzeroNonzero
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype NormalizedReflectionShiftPair where
+  elems := {.zeroZero, .mixed, .nonzeroNonzero}
+  complete p := by cases p <;> simp
 
 /-- Normalize an ordered pair modulo exchanging the two reflections. -/
 def normalizeReflectionShiftBitPair :

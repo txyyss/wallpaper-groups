@@ -189,7 +189,10 @@ def trans (e : X.EquivAlong a Y) (e' : Y.EquivAlong a' Z) :
           ((a.trans a').kernelEquiv.symm t)))) =
         Z.inl (Multiplicative.ofAdd t)
     rw [map_inl e, map_inl e']
-    simp [AdditiveAction.Equiv.trans]
+    apply congrArg Z.inl
+    apply congrArg Multiplicative.ofAdd
+    exact
+      (a.kernelEquiv.trans a'.kernelEquiv).apply_symm_apply t.toAdd
   rightHom_comm := by
     funext x
     simp only [Function.comp_apply, MulEquiv.trans_apply]
@@ -339,7 +342,9 @@ def transportExtensionEquivAlong
             (Multiplicative.ofAdd (a.kernelEquiv.symm t))) =
         TwistedProduct.inl (c.transport a)
           (Multiplicative.ofAdd t)
-    ext <;> simp
+    ext
+    · exact a.kernelEquiv.apply_symm_apply t.toAdd
+    · simp
   rightHom_comm := by
     funext x
     simp only [Function.comp_apply]

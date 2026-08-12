@@ -39,7 +39,11 @@ inductive CrystallographicOrder where
   | four
   /-- Sixth-turn order. -/
   | six
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype CrystallographicOrder where
+  elems := {.one, .two, .three, .four, .six}
+  complete q := by cases q <;> simp
 
 namespace CrystallographicOrder
 
@@ -512,7 +516,7 @@ theorem orientationPreserving_order_eq_toNat (G : PlaneGroup)
 /-- The order of the entire orientation-preserving point subgroup is crystallographic. -/
 theorem orientationPreserving_subgroup_order_isCrystallographic (G : PlaneGroup) :
     IsCrystallographicOrder (Nat.card (orientationPreservingPointGroup G)) := by
-  letI : IsCyclic (orientationPreservingPointGroup G) :=
+  let : IsCyclic (orientationPreservingPointGroup G) :=
     orientationPreserving_isCyclic G
   obtain ⟨h, hh⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard

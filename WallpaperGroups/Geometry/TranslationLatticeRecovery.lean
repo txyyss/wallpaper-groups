@@ -202,11 +202,11 @@ def recoveredTranslationLattice
     (Γ : Subgroup (EuclideanMotion Plane))
     (hdisc : IsDiscrete Γ) (hcoc : IsCocompact Γ) :
     RankTwoLattice Plane := by
-  letI : Finite (pointGroup Γ) :=
+  let _ : Finite (pointGroup Γ) :=
     pointGroup_finite Γ hdisc hcoc
-  letI : DiscreteTopology (translationVectors Γ).toIntSubmodule :=
+  let _ : DiscreteTopology (translationVectors Γ).toIntSubmodule :=
     translationModule_discreteTopology Γ hdisc
-  letI : IsZLattice ℝ (translationVectors Γ).toIntSubmodule :=
+  let _ : IsZLattice ℝ (translationVectors Γ).toIntSubmodule :=
     ⟨translationModule_span_eq_top Γ hcoc⟩
   exact RankTwoLattice.ofZLattice
     (translationVectors Γ).toIntSubmodule

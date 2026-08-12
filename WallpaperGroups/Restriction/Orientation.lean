@@ -49,22 +49,23 @@ lemma pointGroupDet_apply (G : PlaneGroup) (h : pointGroup G.carrier) :
     ((pointGroupDet G h : ℝˣ) : ℝ) = LinearMap.det
       ((h : Plane ≃ₗᵢ[ℝ] Plane).toLinearEquiv : Plane →ₗ[ℝ] Plane) := by
   simp [pointGroupDet, linearIsometryToLinearEquiv]
+  rfl
 
 /-- The positive-determinant subgroup of a plane point group. -/
 def orientationPreservingPointGroup (G : PlaneGroup) : Subgroup (pointGroup G.carrier) where
   carrier := {h | 0 < ((pointGroupDet G h : ℝˣ) : ℝ)}
   one_mem' := by
-    simp only [Set.mem_setOf_eq, map_one, Units.val_one]
+    simp only [Set.mem_ofPred_eq, map_one, Units.val_one]
     positivity
   mul_mem' := by
     intro h k hh hk
-    simp only [Set.mem_setOf_eq] at hh hk ⊢
+    simp only [Set.mem_ofPred_eq] at hh hk ⊢
     change 0 < ((pointGroupDet G (h * k) : ℝˣ) : ℝ)
     rw [map_mul]
     exact mul_pos hh hk
   inv_mem' := by
     intro h hh
-    simp only [Set.mem_setOf_eq] at hh ⊢
+    simp only [Set.mem_ofPred_eq] at hh ⊢
     change 0 < ((pointGroupDet G h⁻¹ : ℝˣ) : ℝ)
     rw [map_inv]
     simpa only [Units.val_inv_eq_inv_val] using inv_pos.mpr hh
@@ -355,7 +356,7 @@ theorem exists_orientationGenerator (G : PlaneGroup) :
       ∀ s : pointGroup G.carrier,
         s ∉ orientationPreservingPointGroup G →
           s * ρ.1 * s⁻¹ = (ρ.1)⁻¹ := by
-  letI : IsCyclic (orientationPreservingPointGroup G) :=
+  let _ : IsCyclic (orientationPreservingPointGroup G) :=
     orientationPreserving_isCyclic G
   obtain ⟨ρ, hρ⟩ := IsCyclic.exists_generator
     (α := orientationPreservingPointGroup G)
@@ -366,7 +367,7 @@ theorem pointGroup_isCyclic_of_all_orientationPreserving
     (G : PlaneGroup)
     (hG : ∀ s : pointGroup G.carrier, s ∈ orientationPreservingPointGroup G) :
     IsCyclic (pointGroup G.carrier) := by
-  letI : IsCyclic (orientationPreservingPointGroup G) :=
+  let _ : IsCyclic (orientationPreservingPointGroup G) :=
     orientationPreserving_isCyclic G
   exact isCyclic_of_surjective (orientationPreservingPointGroup G).subtype
     (fun s => ⟨⟨s, hG s⟩, rfl⟩)

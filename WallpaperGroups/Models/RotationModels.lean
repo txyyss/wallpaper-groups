@@ -149,9 +149,13 @@ lemma squareRoot_order : orderOf squareRoot = 4 := by
     have hc := congrArg (fun z : Circle => (z : ℂ)) h
     norm_num at hc
   · intro h
-    have hc := congrArg (fun z : Circle => (z : ℂ)) h
+    have hs : squareRoot = 1 := by
+      calc
+        squareRoot = squareRoot ^ 4 * (squareRoot ^ 3)⁻¹ := by group
+        _ = 1 := by rw [squareRoot_pow_four, h]; simp
+    have hc := congrArg (fun z : Circle => (z : ℂ)) hs
     have him := congrArg Complex.im hc
-    norm_num [squareRoot, pow_succ, Complex.I_mul_I] at him
+    norm_num [squareRoot] at him
 
 /-- Conjugate complex multiplication by `a` back to the coordinate plane. -/
 def planeRotation (a : Circle) : Plane ≃ₗᵢ[ℝ] Plane :=
@@ -451,7 +455,8 @@ lemma squareRotation_inv_basis (i : Fin 2) :
       rw [planeRotation_inv, coordinateIsometry_planeRotation,
         coordinateIsometry_squareLattice_basis_zero, map_neg,
         coordinateIsometry_squareLattice_basis_one]
-      simp [squareRoot]
+      rw [Circle.coe_inv]
+      simp [squareRoot, Complex.inv_I]
     change (planeRotation squareRoot)⁻¹
       (RankTwoLattice.standardLattice.basis (0 : Fin 2) : Plane) ∈
         RankTwoLattice.standardLattice.carrier
@@ -465,7 +470,8 @@ lemma squareRotation_inv_basis (i : Fin 2) :
       rw [planeRotation_inv, coordinateIsometry_planeRotation,
         coordinateIsometry_squareLattice_basis_one,
         coordinateIsometry_squareLattice_basis_zero]
-      simp [squareRoot, Complex.I_mul_I]
+      rw [Circle.coe_inv]
+      simp [squareRoot, Complex.inv_I]
     change (planeRotation squareRoot)⁻¹
       (RankTwoLattice.standardLattice.basis (1 : Fin 2) : Plane) ∈
         RankTwoLattice.standardLattice.carrier
