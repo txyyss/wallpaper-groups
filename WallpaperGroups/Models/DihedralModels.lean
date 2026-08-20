@@ -1288,26 +1288,30 @@ theorem squareHalfTurn_basis_one :
 @[simp]
 theorem squareThreeQuarterTurn_basis_zero :
     planeRotation (squareRoot ^ 3) squareBasisZero = -squareBasisOne := by
-  change planeRotation (squareRoot ^ 3)
-      (RankTwoLattice.standardLattice.basis 0 : Plane) =
-    -(RankTwoLattice.standardLattice.basis 1 : Plane)
-  apply coordinateIsometry.injective
-  rw [coordinateIsometry_planeRotation,
-    coordinateIsometry_squareLattice_basis_zero, map_neg,
-    coordinateIsometry_squareLattice_basis_one]
-  simp [squareRoot, pow_succ, Complex.I_mul_I]
+  calc
+    planeRotation (squareRoot ^ 3) squareBasisZero =
+        planeRotation (squareRoot ^ 2 * squareRoot) squareBasisZero := by group
+    _ = (planeRotation (squareRoot ^ 2) * planeRotation squareRoot)
+        squareBasisZero := by rw [planeRotation_mul]
+    _ = planeRotation (squareRoot ^ 2)
+        (planeRotation squareRoot squareBasisZero) := by
+      simp only [LinearIsometryEquiv.coe_mul, Function.comp_apply]
+    _ = -squareBasisOne := by
+      rw [squareQuarterTurn_basis_zero, squareHalfTurn_basis_one]
 
 @[simp]
 theorem squareThreeQuarterTurn_basis_one :
     planeRotation (squareRoot ^ 3) squareBasisOne = squareBasisZero := by
-  change planeRotation (squareRoot ^ 3)
-      (RankTwoLattice.standardLattice.basis 1 : Plane) =
-    (RankTwoLattice.standardLattice.basis 0 : Plane)
-  apply coordinateIsometry.injective
-  rw [coordinateIsometry_planeRotation,
-    coordinateIsometry_squareLattice_basis_one,
-    coordinateIsometry_squareLattice_basis_zero]
-  simp [squareRoot, pow_succ, Complex.I_mul_I]
+  calc
+    planeRotation (squareRoot ^ 3) squareBasisOne =
+        planeRotation (squareRoot ^ 2 * squareRoot) squareBasisOne := by group
+    _ = (planeRotation (squareRoot ^ 2) * planeRotation squareRoot)
+        squareBasisOne := by rw [planeRotation_mul]
+    _ = planeRotation (squareRoot ^ 2)
+        (planeRotation squareRoot squareBasisOne) := by
+      simp only [LinearIsometryEquiv.coe_mul, Function.comp_apply]
+    _ = squareBasisZero := by
+      rw [squareQuarterTurn_basis_one, map_neg, squareHalfTurn_basis_zero, neg_neg]
 
 @[simp]
 theorem p4mCosetData_linearRep_r_zero :
@@ -1573,7 +1577,11 @@ inductive MultipleReflectionType
   | p4m
   | p4g
   | p6m
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype MultipleReflectionType where
+  elems := {.cmm, .pmm, .pmg, .pgg, .p3m1, .p31m, .p4m, .p4g, .p6m}
+  complete w := by cases w <;> simp
 
 /-- The transparent standard model attached to a multiple-reflection label. -/
 def MultipleReflectionType.model : MultipleReflectionType → PlaneGroup
@@ -2870,10 +2878,9 @@ private theorem pmgSwappedTwoReflectionData_firstShiftClass_ne_zero :
         pmmCosetData.linearRep (.sr 1) (pmgShift (.sr 1)) = _
     rw [show (pmgSwappedDihedralNormalForm.basis 0 : Plane) = squareBasisOne by
       change
-        (((pmgDihedralNormalForm.swapOrderTwoPrimitive rfl).basis 0 :
+        ((pmgDihedralNormalForm.swappedBasis 0 :
           pmgModel.translationLattice.carrier) : Plane) = _
-      rw [DihedralLatticeNormalForm.swapOrderTwoPrimitive_basis,
-        DihedralLatticeNormalForm.swappedBasis, Module.Basis.reindex_apply]
+      rw [DihedralLatticeNormalForm.swappedBasis, Module.Basis.reindex_apply]
       change (pmgDihedralNormalForm.basis 1 : Plane) = _
       rfl,
       pmgShift_sr_one, map_smul, pmmLinear_sr_one_squareBasisOne]
@@ -2930,10 +2937,9 @@ private theorem pggSwappedTwoReflectionData_firstShiftClass_ne_zero :
         pmmCosetData.linearRep (.sr 1) (pggShift (.sr 1)) = _
     rw [show (pggSwappedDihedralNormalForm.basis 0 : Plane) = squareBasisOne by
       change
-        (((pggDihedralNormalForm.swapOrderTwoPrimitive rfl).basis 0 :
+        ((pggDihedralNormalForm.swappedBasis 0 :
           pggModel.translationLattice.carrier) : Plane) = _
-      rw [DihedralLatticeNormalForm.swapOrderTwoPrimitive_basis,
-        DihedralLatticeNormalForm.swappedBasis, Module.Basis.reindex_apply]
+      rw [DihedralLatticeNormalForm.swappedBasis, Module.Basis.reindex_apply]
       change (pggDihedralNormalForm.basis 1 : Plane) = _
       rfl,
       pggShift_sr_one, map_smul, pmmLinear_sr_one_squareBasisOne]

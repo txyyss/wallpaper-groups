@@ -99,8 +99,8 @@ theorem indexedReversingPoint_zero_coe (d : DihedralGenerators G) :
 @[simp]
 theorem indexedReversingPoint_one_coe (d : DihedralGenerators G) :
     (d.indexedReversingPoint 1).1 = d.secondReflection := by
-  letI : NeZero d.order.toNat := ⟨by cases d.order <;> decide⟩
-  letI : Fact (1 < d.order.toNat) := ⟨by cases d.order <;> decide⟩
+  let _ : NeZero d.order.toNat := ⟨by cases d.order <;> decide⟩
+  let _ : Fact (1 < d.order.toNat) := ⟨by cases d.order <;> decide⟩
   have hval : (1 : ZMod d.order.toNat).val = 1 := by
     rw [ZMod.val_one]
   simp [indexedReversingPoint,
@@ -145,8 +145,8 @@ theorem indexedReversingPoint_one_vanishes_iff_secondShiftClass
     (d : DihedralGenerators G) (c : TwoReflectionExtensionData G d) :
     reflectionShiftVanishes G (d.indexedReversingPoint 1) ↔
       c.secondShiftClass = 0 := by
-  letI : NeZero d.order.toNat := ⟨by cases d.order <;> decide⟩
-  letI : Fact (1 < d.order.toNat) := ⟨by cases d.order <;> decide⟩
+  let _ : NeZero d.order.toNat := ⟨by cases d.order <;> decide⟩
+  let _ : Fact (1 < d.order.toNat) := ⟨by cases d.order <;> decide⟩
   have hval : (1 : ZMod d.order.toNat).val = 1 := by
     rw [ZMod.val_one]
   let s : ReversingPoint G :=
@@ -167,8 +167,8 @@ theorem indexedReversingPoint_sub_two_vanishes_iff
     (i : ZMod d.order.toNat) :
     reflectionShiftVanishes G (d.indexedReversingPoint i) ↔
       reflectionShiftVanishes G (d.indexedReversingPoint (i - 2)) := by
-  letI : NeZero d.order.toNat := ⟨by cases d.order <;> decide⟩
-  letI : Fact (1 < d.order.toNat) := ⟨by cases d.order <;> decide⟩
+  let _ : NeZero d.order.toNat := ⟨by cases d.order <;> decide⟩
+  let _ : Fact (1 < d.order.toNat) := ⟨by cases d.order <;> decide⟩
   have hval : (1 : ZMod d.order.toNat).val = 1 := by
     rw [ZMod.val_one]
   have hrword : pointDihedralHom d (.r 1) = d.rotation.1 := by
@@ -200,7 +200,7 @@ theorem vanishingReversingPointCount_eq_natCard_subtype
 
 theorem zmod_eq_zero_or_one_of_modulus_eq_two
     {n : ℕ} (hn : n = 2) (i : ZMod n) : i = 0 ∨ i = 1 := by
-  letI : NeZero n := ⟨by omega⟩
+  let _ : NeZero n := ⟨by omega⟩
   have hlt := i.val_lt
   have hi : i.val = 0 ∨ i.val = 1 := by omega
   rcases hi with hi | hi
@@ -225,7 +225,7 @@ theorem vanishingReversingPointCount_eq_one_of_order_two_first_only
   have hn : d.order.toNat = 2 := by
     rw [horder]
     rfl
-  letI : Fact (1 < d.order.toNat) := ⟨by omega⟩
+  let _ : Fact (1 < d.order.toNat) := ⟨by omega⟩
   have hone : (1 : ZMod d.order.toNat) ≠ 0 := one_ne_zero
   have hP : ∀ i : ZMod d.order.toNat,
       reflectionShiftVanishes G (d.indexedReversingPoint i) ↔ i = 0 := by
@@ -257,7 +257,7 @@ theorem vanishingReversingPointCount_eq_zero_of_order_two
   have hn : d.order.toNat = 2 := by
     rw [horder]
     rfl
-  letI : NeZero d.order.toNat := ⟨by omega⟩
+  let _ : NeZero d.order.toNat := ⟨by omega⟩
   have hP : ∀ i : ZMod d.order.toNat,
       reflectionShiftVanishes G (d.indexedReversingPoint i) ↔ False := by
     intro i
@@ -275,7 +275,7 @@ theorem vanishingReversingPointCount_eq_zero_of_order_two
 private theorem zmod_four_cases
     {n : ℕ} (hn : n = 4) (i : ZMod n) :
     i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 := by
-  letI : NeZero n := ⟨by omega⟩
+  let _ : NeZero n := ⟨by omega⟩
   have hlt := i.val_lt
   have hi : i.val = 0 ∨ i.val = 1 ∨ i.val = 2 ∨ i.val = 3 := by omega
   rcases hi with hi | hi | hi | hi
@@ -326,7 +326,7 @@ theorem vanishingReversingPointCount_eq_two_of_order_four
   have hn : d.order.toNat = 4 := by
     rw [horder]
     rfl
-  letI : NeZero d.order.toNat := ⟨by omega⟩
+  let _ : NeZero d.order.toNat := ⟨by omega⟩
   have hP : ∀ i : ZMod d.order.toNat,
       reflectionShiftVanishes G (d.indexedReversingPoint i) ↔
         i = 1 ∨ i = 3 := by

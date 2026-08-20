@@ -127,11 +127,11 @@ The full motion subgroup of a plane group acts properly discontinuously on the p
 -/
 theorem motionGroup_isDiscrete (G : PlaneGroup) :
     MotionSubgroup.IsDiscrete G.carrier := by
-  letI : ProperlyDiscontinuousSMul (translationSubgroup G.carrier) Plane :=
+  let _ : ProperlyDiscontinuousSMul (translationSubgroup G.carrier) Plane :=
     G.translationSubgroup_isDiscrete
-  letI : (translationSubgroup G.carrier).FiniteIndex :=
+  let _ : (translationSubgroup G.carrier).FiniteIndex :=
     G.translationSubgroup_finiteIndex
-  letI : (translationSubgroup G.carrier).IsFiniteRelIndex
+  let _ : (translationSubgroup G.carrier).IsFiniteRelIndex
       (⊤ : Subgroup G.carrier) :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have htop : ProperlyDiscontinuousSMul (⊤ : Subgroup G.carrier) Plane :=

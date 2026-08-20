@@ -49,6 +49,7 @@ theorem pointGroupDet_apply (Γ : Subgroup (EuclideanMotion Plane))
       LinearMap.det
         ((A : Plane ≃ₗᵢ[ℝ] Plane).toLinearEquiv : Plane →ₗ[ℝ] Plane) := by
   simp [pointGroupDet, linearIsometryToLinearEquiv]
+  rfl
 
 /--
 The positive-determinant subgroup of the point group of an arbitrary plane-motion subgroup.
@@ -57,17 +58,17 @@ def orientationPreservingPointGroup
     (Γ : Subgroup (EuclideanMotion Plane)) : Subgroup (pointGroup Γ) where
   carrier := {A | 0 < ((pointGroupDet Γ A : ℝˣ) : ℝ)}
   one_mem' := by
-    simp only [Set.mem_setOf_eq, map_one, Units.val_one]
+    simp only [Set.mem_ofPred_eq, map_one, Units.val_one]
     positivity
   mul_mem' := by
     intro A B hA hB
-    simp only [Set.mem_setOf_eq] at hA hB ⊢
+    simp only [Set.mem_ofPred_eq] at hA hB ⊢
     change 0 < ((pointGroupDet Γ (A * B) : ℝˣ) : ℝ)
     rw [map_mul]
     exact mul_pos hA hB
   inv_mem' := by
     intro A hA
-    simp only [Set.mem_setOf_eq] at hA ⊢
+    simp only [Set.mem_ofPred_eq] at hA ⊢
     change 0 < ((pointGroupDet Γ A⁻¹ : ℝˣ) : ℝ)
     rw [map_inv]
     simpa only [Units.val_inv_eq_inv_val] using inv_pos.mpr hA
@@ -277,7 +278,7 @@ theorem pointGroup_finite
       LinearMap.det
         ((A : Plane ≃ₗᵢ[ℝ] Plane).toLinearEquiv : Plane →ₗ[ℝ] Plane) < 0}
   have hpositive : positive.Finite := by
-    letI : Finite (orientationPreservingPointGroup Γ) :=
+    let _ : Finite (orientationPreservingPointGroup Γ) :=
       orientationPreservingPointGroup_finite Γ hdisc hcoc
     exact Set.toFinite positive
   have hnegative : negative.Finite := by
@@ -326,7 +327,7 @@ theorem translationSubgroup_finiteIndex_of_geometric
     (Γ : Subgroup (EuclideanMotion Plane))
     (hdisc : IsDiscrete Γ) (hcoc : IsCocompact Γ) :
     (translationSubgroup Γ).FiniteIndex := by
-  letI : Finite (pointGroup Γ) :=
+  let _ : Finite (pointGroup Γ) :=
     pointGroup_finite Γ hdisc hcoc
   exact translationSubgroup_finiteIndex Γ
 

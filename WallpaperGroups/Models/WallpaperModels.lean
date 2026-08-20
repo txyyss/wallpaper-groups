@@ -27,7 +27,14 @@ inductive WallpaperType
   | p1 | p2 | p3 | p4 | p6
   | cm | pm | pg
   | cmm | pmm | pmg | pgg | p3m1 | p31m | p4m | p4g | p6m
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype WallpaperType where
+  elems := {
+    .p1, .p2, .p3, .p4, .p6, .cm, .pm, .pg, .cmm, .pmm, .pmg, .pgg,
+    .p3m1, .p31m, .p4m, .p4g, .p6m
+  }
+  complete w := by cases w <;> simp
 
 /-- The standard plane group attached to a wallpaper label. -/
 def WallpaperType.model : WallpaperType → PlaneGroup

@@ -767,7 +767,7 @@ theorem rotationLiftHom_eq_pow_val (c : TwoReflectionExtensionData G d)
     (i : ZMod d.order.toNat) :
     c.rotationLiftHom (Multiplicative.ofAdd i) = c.rotationLift ^ i.val := by
   have hn : d.order.toNat ≠ 0 := by cases d.order <;> decide
-  letI : NeZero d.order.toNat := ⟨hn⟩
+  let : NeZero d.order.toNat := ⟨hn⟩
   conv_lhs => rw [← ZMod.natCast_zmod_val i]
   have hcast : (i.val : ZMod d.order.toNat) =
       ((i.val : ℤ) : ZMod d.order.toNat) := by simp
@@ -995,7 +995,7 @@ theorem pointRotationHom_eq_pow_val (d : DihedralGenerators G)
     (i : ZMod d.order.toNat) :
     pointRotationHom d (Multiplicative.ofAdd i) = d.rotation.1 ^ i.val := by
   have hn : d.order.toNat ≠ 0 := by cases d.order <;> decide
-  letI : NeZero d.order.toNat := ⟨hn⟩
+  let : NeZero d.order.toNat := ⟨hn⟩
   conv_lhs => rw [← ZMod.natCast_zmod_val i]
   have hcast : (i.val : ZMod d.order.toNat) =
       ((i.val : ℤ) : ZMod d.order.toNat) := by simp

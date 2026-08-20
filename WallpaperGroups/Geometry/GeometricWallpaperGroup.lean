@@ -91,7 +91,7 @@ theorem IsCocompact.compact_orbitSpace {Γ : Subgroup (EuclideanMotion Plane)}
     (hΓ : IsCocompact Γ) :
     CompactSpace (OrbitSpace Γ) := by
   rcases hΓ with ⟨K, hK, hcover⟩
-  letI := MulAction.orbitRel Γ Plane
+  let _ := MulAction.orbitRel Γ Plane
   refine ⟨?_⟩
   have hpreimage :
       Quotient.mk' ⁻¹' (Quotient.mk' '' K) = Set.univ := by
@@ -112,9 +112,9 @@ theorem isCocompact_of_compact_orbitSpace {Γ : Subgroup (EuclideanMotion Plane)
     (hΓ : CompactSpace (OrbitSpace Γ)) :
     IsCocompact Γ := by
   rw [isCocompact_iff_exists_compact_orbit_representatives]
-  letI := MulAction.orbitRel Γ Plane
+  let _ := MulAction.orbitRel Γ Plane
   let Q := OrbitSpace Γ
-  letI : CompactSpace Q := hΓ
+  let _ : CompactSpace Q := hΓ
   let q : Plane → Q := Quotient.mk''
   let representative : Q → Plane := Quotient.out
   choose K hKcompact hKneighborhood using

@@ -97,7 +97,11 @@ inductive OneReflectionType
   | cm
   | pm
   | pg
-  deriving DecidableEq, Fintype
+  deriving DecidableEq
+
+instance : Fintype OneReflectionType where
+  elems := {.cm, .pm, .pg}
+  complete w := by cases w <;> simp
 
 /-- The corresponding transparent standard model. -/
 def OneReflectionType.model : OneReflectionType → PlaneGroup
