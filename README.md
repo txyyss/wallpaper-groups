@@ -1,16 +1,17 @@
 # wallpaper-groups
 
-A Lean 4 + mathlib formalization of the algebraic classification of plane wallpaper groups.
+A Lean 4 + mathlib formalization of the algebraic and geometric classification of plane wallpaper groups.
 
 ## Classification object
 
 The formal object `PlaneGroup` is a subgroup of Euclidean motions whose full translation
-subgroup is exactly a stored rank-two integer lattice and whose point group is finite.  This is
-the strong algebraic definition used on the critical path of the classification; the separate
-discrete-and-cocompact characterization is post-v1 work.
+subgroup is exactly a stored rank-two integer lattice and whose point group is finite. This is
+the strong algebraic definition used on the critical path of the classification. Version 2
+separately proves that this is equivalent to the standard discrete-and-cocompact geometric
+formulation.
 
 Two plane groups are equivalent when there is an abstract group isomorphism that maps the full
-translation subgroup onto the full translation subgroup (`TranslationPreservingIso`).  The
+translation subgroup onto the full translation subgroup (`TranslationPreservingIso`). The
 classification is therefore **not** classification up to Euclidean conjugacy, affine isometry,
 or preservation of the chosen lattice basis.
 
@@ -23,7 +24,7 @@ families in the point group:
 - one reflection: `cm`, `pm`, `pg`;
 - multiple reflections: `cmm`, `pmm`, `pmg`, `pgg`, `p3m1`, `p31m`, `p4m`, `p4g`, `p6m`.
 
-The exported models have transparent finite-coset normal forms.  Their full translation
+The exported models have transparent finite-coset normal forms. Their full translation
 lattices and finite point groups are proved from those normal forms rather than inferred from
 drawings or an unproved list of generators.
 
@@ -36,43 +37,56 @@ theorem classification (G : PlaneGroup) :
 ```
 
 The quotient of `PlaneGroup` by this equivalence is also proved equivalent to `WallpaperType`,
-and consequently has cardinality 17.  The three component classifications are the `5 + 3 + 9`
+and consequently has cardinality 17. The three component classifications are the `5 + 3 + 9`
 theorems in `Classification/NoReflections.lean`, `Classification/OneReflection.lean`, and
 `Classification/MultipleReflectionInequivalence.lean`; the global theorem is in
 `Classification/Wallpaper.lean`.
 
 ## Version 2 geometric bridge
 
-Version 2 milestone M8 is complete.  The project now relates the strong
-algebraic `PlaneGroup` definition to the standard geometric formulation: a
-subgroup of plane Euclidean motions acting properly discontinuously and
-cocompactly.
+Version 2 milestone M8 is complete. The project now relates the strong algebraic `PlaneGroup`
+definition to the standard geometric formulation: a subgroup of plane Euclidean motions acting
+properly discontinuously and cocompactly.
 
-The formal bridge works in both directions without changing the underlying
-motion subgroup:
+The formal bridge works in both directions without changing the underlying motion subgroup:
 
 - every `PlaneGroup` gives a geometric wallpaper group;
-- every geometric wallpaper group yields a `PlaneGroup` whose full translation
-  subgroup is the recovered rank-two lattice and whose point group is finite;
+- every geometric wallpaper group yields a `PlaneGroup` whose full translation subgroup is the
+  recovered rank-two lattice and whose point group is finite;
 - auxiliary lattice-basis choices disappear up to `PlaneGroup.Equivalent`;
-- the geometric objects have a direct textbook equivalence preserving
-  translations, rotations, reflections, and glide reflections; and
-- every geometric wallpaper group has a unique label among the same 17
-  `WallpaperType` constructors.
+- the geometric objects have a direct textbook equivalence preserving translations, rotations,
+  reflections, and glide reflections; and
+- every geometric wallpaper group has a unique label among the same 17 `WallpaperType`
+  constructors.
 
-See the [Version 2 M8 completion summary](docs/V2_COMPLETION.md) and the active
+See the [Version 2 M8 completion summary](docs/V2_COMPLETION.md) and
 [Version 2 roadmap](docs/ROADMAP_V2.md).
 
-This result is still two-dimensional.  It does not classify higher-dimensional
-space groups, prove general Bieberbach theorems, or implement a space-group
-enumerator.  The M9 extension-theory program remains future work.
+## Version 2 explicit extension theory
+
+Version 2 milestone M9 core is also complete. The repository now contains a dimension-independent,
+explicit theory of extensions of a group by an additive commutative group with prescribed action:
+
+- normalized 2-cocycles, normalized cochains, and explicit coboundaries;
+- twisted-product groups and their canonical short exact sequences;
+- normalized sections and factor extraction;
+- fixed-action classification of arbitrary extensions by cocycles modulo coboundaries; and
+- transport across compatible kernel, quotient, and action equivalences, culminating in a
+  heterogeneous extension classifier.
+
+The existing translation–point-group extension and the dihedral factor are connected through thin
+adapters. General adapters for `TranslationPreservingIso`, M5 `ShiftClass`, `FiniteCosetData`,
+free-abelian rank `n`, and abstract `H²` are explicitly deferred.
+
+The completed results are still two-dimensional at the wallpaper-group layer. They do not classify
+higher-dimensional space groups, prove the general Bieberbach theorems, or implement a verified
+space-group enumerator.
 
 ## Reference and citation
 
 The main mathematical guide is R. L. E. Schwarzenberger, “The 17 plane symmetry groups,”
 *The Mathematical Gazette* **58** (404), June 1974, pp. 123–131,
-[doi:10.2307/3617798](https://doi.org/10.2307/3617798).  A machine-readable citation is
-available in
+[doi:10.2307/3617798](https://doi.org/10.2307/3617798). A machine-readable citation is available in
 [`docs/references/schwarzenberger_17_plane_symmetry_groups.bib`](docs/references/schwarzenberger_17_plane_symmetry_groups.bib).
 The repository does not redistribute a copy of the article.
 
@@ -84,8 +98,9 @@ With the pinned Lean toolchain and mathlib dependency available, run:
 lake build
 ```
 
-Milestone status, proof architecture decisions, and the final human-review checklist are in
-`docs/PROGRESS.md`, `docs/FOUNDATION_DECISIONS.md`, and `docs/M7_REVIEW.md`.
+Milestone status, proof architecture decisions, and human-review records are in
+`docs/PROGRESS.md`, `docs/FOUNDATION_DECISIONS.md`, and the milestone review documents under
+`docs/`.
 
 ## License
 
