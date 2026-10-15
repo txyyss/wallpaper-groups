@@ -1,6 +1,8 @@
-import WallpaperGroups.Classification.MultipleReflectionInequivalence
-import WallpaperGroups.Classification.NoReflections
-import WallpaperGroups.Classification.OneReflection
+module
+
+public import WallpaperGroups.Classification.MultipleReflectionInequivalence
+public import WallpaperGroups.Classification.NoReflections
+public import WallpaperGroups.Classification.OneReflection
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ This file is the common model index for the final classification.  It does not c
 geometric subgroups: it packages the five rotation models, three one-reflection models, and nine
 multiple-reflection models already proved correct in M4--M6.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -37,7 +41,7 @@ instance : Fintype WallpaperType where
   complete w := by cases w <;> simp
 
 /-- The standard plane group attached to a wallpaper label. -/
-def WallpaperType.model : WallpaperType → PlaneGroup
+@[expose] def WallpaperType.model : WallpaperType → PlaneGroup
   | .p1 => p1Model
   | .p2 => p2Model
   | .p3 => p3Model
@@ -64,7 +68,7 @@ inductive WallpaperSignature
   deriving DecidableEq, Fintype
 
 /-- Forget the printed label while retaining its component-classification signature. -/
-def WallpaperType.signature : WallpaperType → WallpaperSignature
+@[expose] def WallpaperType.signature : WallpaperType → WallpaperSignature
   | .p1 => .noReflections .one
   | .p2 => .noReflections .two
   | .p3 => .noReflections .three
@@ -84,7 +88,7 @@ def WallpaperType.signature : WallpaperType → WallpaperSignature
   | .p6m => .multipleReflections .p6m
 
 /-- Recover the printed wallpaper label from its component signature. -/
-def WallpaperSignature.wallpaperType : WallpaperSignature → WallpaperType
+@[expose] def WallpaperSignature.wallpaperType : WallpaperSignature → WallpaperType
   | .noReflections .one => .p1
   | .noReflections .two => .p2
   | .noReflections .three => .p3
@@ -117,14 +121,14 @@ theorem WallpaperType.wallpaperType_signature (w : WallpaperType) :
   cases w <;> rfl
 
 /-- The label set is canonically the disjoint sum of the three component signatures. -/
-def wallpaperSignatureEquiv : WallpaperType ≃ WallpaperSignature where
+@[expose] def wallpaperSignatureEquiv : WallpaperType ≃ WallpaperSignature where
   toFun := WallpaperType.signature
   invFun := WallpaperSignature.wallpaperType
   left_inv := WallpaperType.wallpaperType_signature
   right_inv := WallpaperSignature.signature_wallpaperType
 
 /-- The standard model attached directly to a component signature. -/
-def WallpaperSignature.model : WallpaperSignature → PlaneGroup
+@[expose] def WallpaperSignature.model : WallpaperSignature → PlaneGroup
   | .noReflections q => rotationModel q
   | .oneReflection w => w.model
   | .multipleReflections w => w.model
@@ -135,7 +139,7 @@ theorem WallpaperType.signature_model (w : WallpaperType) :
   cases w <;> rfl
 
 /-- The full point-group order of a standard wallpaper model. -/
-def WallpaperType.pointGroupOrder : WallpaperType → ℕ
+@[expose] def WallpaperType.pointGroupOrder : WallpaperType → ℕ
   | .p1 => 1
   | .p2 | .cm | .pm | .pg => 2
   | .p3 => 3
@@ -152,7 +156,7 @@ theorem WallpaperType.model_pointGroup_card (w : WallpaperType) :
   cases w <;> simp [WallpaperType.model, WallpaperType.pointGroupOrder]
 
 /-- The explicit lattice used by a standard wallpaper model. -/
-def WallpaperType.lattice : WallpaperType → RankTwoLattice Plane
+@[expose] def WallpaperType.lattice : WallpaperType → RankTwoLattice Plane
   | .cm | .cmm => centeredLattice
   | .p3 | .p6 | .p3m1 | .p31m | .p6m => hexLattice
   | _ => RankTwoLattice.standardLattice
@@ -164,7 +168,7 @@ theorem WallpaperType.model_translationLattice (w : WallpaperType) :
   cases w <;> rfl
 
 /-- The predicate appropriate to the component containing a signature. -/
-def WallpaperSignature.FamilyPredicate (s : WallpaperSignature) : Prop :=
+@[expose] def WallpaperSignature.FamilyPredicate (s : WallpaperSignature) : Prop :=
   match s with
   | .noReflections _ => PointGroupHasNoReflections s.model
   | .oneReflection _ => PointGroupHasOneReflection s.model

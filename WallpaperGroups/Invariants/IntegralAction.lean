@@ -1,5 +1,7 @@
+module
+
 import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
-import WallpaperGroups.Basic.PlaneGroup
+public import WallpaperGroups.Basic.PlaneGroup
 
 set_option linter.style.header false
 
@@ -10,6 +12,8 @@ The point group of a plane group preserves its full translation lattice.  This m
 the M1 action on translation vectors to the stored lattice carrier, promotes it canonically to a
 `ℤ`-linear action, and records the resulting faithful matrix representation in `GL₂(ℤ)`.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -22,7 +26,7 @@ noncomputable section
 namespace PlaneGroup
 
 /-- The point action transported from translation vectors to the stored lattice carrier. -/
-def latticeActionAddEquiv (G : PlaneGroup) (h : pointGroup G.carrier) :
+@[expose] def latticeActionAddEquiv (G : PlaneGroup) (h : pointGroup G.carrier) :
     AddAut G.translationLattice.carrier :=
   G.latticeTranslationEquiv.trans
     ((pointAction G.carrier h).trans G.latticeTranslationEquiv.symm)
@@ -36,7 +40,7 @@ theorem latticeActionAddEquiv_coe (G : PlaneGroup) (h : pointGroup G.carrier)
   rfl
 
 /-- The point-group action on the translation lattice, promoted canonically to a `ℤ`-linear map. -/
-def latticeAction (G : PlaneGroup) (h : pointGroup G.carrier) :
+@[expose] def latticeAction (G : PlaneGroup) (h : pointGroup G.carrier) :
     G.translationLattice.carrier ≃ₗ[ℤ] G.translationLattice.carrier :=
   (G.latticeActionAddEquiv h).toIntLinearEquiv
 
@@ -75,7 +79,7 @@ theorem latticeAction_inv (G : PlaneGroup) (h : pointGroup G.carrier) :
   rfl
 
 /-- The integral lattice action bundled as a group homomorphism. -/
-def latticeActionHom (G : PlaneGroup) :
+@[expose] def latticeActionHom (G : PlaneGroup) :
     pointGroup G.carrier →*
       (G.translationLattice.carrier ≃ₗ[ℤ] G.translationLattice.carrier) where
   toFun := G.latticeAction
@@ -114,7 +118,7 @@ theorem latticeActionHom_injective (G : PlaneGroup) :
         (G.translationLattice.basis i : Plane) := rfl
 
 /-- The integer matrix of a point-group element in the chosen translation-lattice basis. -/
-def latticeActionMatrix (G : PlaneGroup) (h : pointGroup G.carrier) :
+@[expose] def latticeActionMatrix (G : PlaneGroup) (h : pointGroup G.carrier) :
     Matrix (Fin 2) (Fin 2) ℤ :=
   G.translationLattice.equivMatrix G.translationLattice (G.latticeAction h)
 
@@ -145,7 +149,7 @@ theorem latticeActionMatrix_injective (G : PlaneGroup) :
   exact hhk
 
 /-- The faithful integral point-group representation in `GL₂(ℤ)`. -/
-def integralRepresentation (G : PlaneGroup) :
+@[expose] def integralRepresentation (G : PlaneGroup) :
     pointGroup G.carrier →* Matrix.GeneralLinearGroup (Fin 2) ℤ where
   toFun h :=
     G.translationLattice.equivGL G.translationLattice (G.latticeAction h)

@@ -1,4 +1,7 @@
-import WallpaperGroups.Classification.OneReflection
+module
+
+public import WallpaperGroups.Classification.NoReflections
+public import WallpaperGroups.Classification.OneReflection
 
 set_option linter.style.header false
 
@@ -9,6 +12,8 @@ This file proves that translation-preserving equivalence preserves orientation i
 group.  It packages the induced equivalence of orientation-preserving subgroups and gives the
 mutually exclusive no-, one-, and multiple-reflection trichotomy used by the global classifier.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -104,7 +109,7 @@ end TranslationPreservingIso
 
 /-- A point group has multiple reflections precisely in the remaining dihedral case: a
 reversing element exists and the positive subgroup is nontrivial. -/
-def PointGroupHasMultipleReflections (G : PlaneGroup) : Prop :=
+@[expose] def PointGroupHasMultipleReflections (G : PlaneGroup) : Prop :=
   (∃ s : pointGroup G.carrier, s ∉ orientationPreservingPointGroup G) ∧
     ∃ r : orientationPreservingPointGroup G, r ≠ 1
 

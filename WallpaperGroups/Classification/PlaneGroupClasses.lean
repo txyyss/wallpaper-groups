@@ -1,4 +1,6 @@
-import WallpaperGroups.Classification.Wallpaper
+module
+
+public import WallpaperGroups.Classification.Wallpaper
 
 set_option linter.style.header false
 
@@ -9,6 +11,8 @@ The final classification theorem identifies the quotient of all `PlaneGroup`s by
 translation-preserving equivalence with the finite type of seventeen wallpaper labels.  This
 file packages that quotient-level statement and its cardinality consequence.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -26,7 +30,7 @@ end PlaneGroup
 namespace WallpaperType
 
 /-- The equivalence class represented by the standard model of a wallpaper label. -/
-def toEquivalenceClass (w : WallpaperType) : PlaneGroup.EquivalenceClass :=
+@[expose] def toEquivalenceClass (w : WallpaperType) : PlaneGroup.EquivalenceClass :=
   Quotient.mk'' w.model
 
 /-- Distinct wallpaper labels determine distinct plane-group equivalence classes. -/
@@ -58,7 +62,9 @@ def equivalenceClassEquiv : WallpaperType ≃ PlaneGroup.EquivalenceClass :=
 @[simp]
 theorem equivalenceClassEquiv_apply (w : WallpaperType) :
     equivalenceClassEquiv w = toEquivalenceClass w :=
-  rfl
+  by
+    exact congrFun
+      (Equiv.coe_ofBijective toEquivalenceClass toEquivalenceClass_bijective) w
 
 /-- The finite label type has exactly seventeen elements. -/
 @[simp]

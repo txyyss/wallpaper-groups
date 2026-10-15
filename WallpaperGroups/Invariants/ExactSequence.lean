@@ -1,5 +1,7 @@
-import Mathlib.GroupTheory.GroupExtension.Defs
-import WallpaperGroups.Invariants.PointGroup
+module
+
+public import Mathlib.GroupTheory.GroupExtension.Defs
+public import WallpaperGroups.Invariants.PointGroup
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ a mathlib `GroupExtension`.  The module also keeps a geometric conjugation theor
 abstract kernel/range interface.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -21,7 +25,8 @@ noncomputable section
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 /-- Inclusion of the translation subgroup into the original motion subgroup. -/
-def translationInclusion (G : Subgroup (EuclideanMotion E)) : translationSubgroup G →* G :=
+@[expose] def translationInclusion (G : Subgroup (EuclideanMotion E)) :
+    translationSubgroup G →* G :=
   (translationSubgroup G).subtype
 
 /-- The translation inclusion is the ordinary subtype coercion. -/
@@ -42,7 +47,7 @@ theorem translationInclusion_range_eq_pointProjection_ker
   rw [translationInclusion, Subgroup.range_subtype, pointProjection_ker]
 
 /-- The canonical short exact sequence `1 → T(G) → G → H(G) → 1`. -/
-def pointGroupExtension (G : Subgroup (EuclideanMotion E)) :
+@[expose] def pointGroupExtension (G : Subgroup (EuclideanMotion E)) :
     GroupExtension (translationSubgroup G) G (pointGroup G) where
   inl := translationInclusion G
   rightHom := pointProjection G

@@ -1,4 +1,6 @@
-import WallpaperGroups.Basic.EuclideanMotion
+module
+
+public import WallpaperGroups.Basic.EuclideanMotion
 
 set_option linter.style.header false
 
@@ -8,6 +10,8 @@ set_option linter.style.header false
 For a subgroup of Euclidean motions, this module provides both the additive subgroup of
 translation vectors and the corresponding kernel subgroup inside the given motion group.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -19,7 +23,7 @@ noncomputable section
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 /-- The linear-part homomorphism restricted to a subgroup of Euclidean motions. -/
-def restrictedLinearPart (G : Subgroup (EuclideanMotion E)) : G →* (E ≃ₗᵢ[ℝ] E) :=
+@[expose] def restrictedLinearPart (G : Subgroup (EuclideanMotion E)) : G →* (E ≃ₗᵢ[ℝ] E) :=
   linearPart.comp G.subtype
 
 /-- Evaluating the restricted linear part agrees with the ambient linear part. -/
@@ -29,7 +33,7 @@ theorem restrictedLinearPart_apply (G : Subgroup (EuclideanMotion E)) (g : G) :
   rfl
 
 /-- Vectors whose pure translations belong to `G`. -/
-def translationVectors (G : Subgroup (EuclideanMotion E)) : AddSubgroup E where
+@[expose] def translationVectors (G : Subgroup (EuclideanMotion E)) : AddSubgroup E where
   carrier := {t | translation t ∈ G}
   zero_mem' := by simp
   add_mem' := by
@@ -53,7 +57,8 @@ theorem mem_translationVectors {G : Subgroup (EuclideanMotion E)} {t : E} :
   Iff.rfl
 
 /-- A translation vector regarded as an element of the motion subgroup. -/
-def translationElement (G : Subgroup (EuclideanMotion E)) (t : translationVectors G) : G :=
+@[expose] def translationElement (G : Subgroup (EuclideanMotion E))
+    (t : translationVectors G) : G :=
   ⟨translation (t : E), t.property⟩
 
 /-- Coercing a translation element to an ambient motion recovers its pure translation. -/
@@ -63,7 +68,7 @@ theorem translationElement_coe (G : Subgroup (EuclideanMotion E)) (t : translati
   rfl
 
 /-- The translation subgroup inside `G`, defined as the kernel of its linear-part map. -/
-def translationSubgroup (G : Subgroup (EuclideanMotion E)) : Subgroup G :=
+@[expose] def translationSubgroup (G : Subgroup (EuclideanMotion E)) : Subgroup G :=
   (restrictedLinearPart G).ker
 
 /-- Membership in the translation subgroup means that the ambient linear part is trivial. -/
@@ -78,7 +83,7 @@ instance translationSubgroup_normal (G : Subgroup (EuclideanMotion E)) :
   (restrictedLinearPart G).normal_ker
 
 /-- A translation vector regarded as an element of the kernel translation subgroup. -/
-def translationSubgroupElement (G : Subgroup (EuclideanMotion E))
+@[expose] def translationSubgroupElement (G : Subgroup (EuclideanMotion E))
     (t : translationVectors G) : translationSubgroup G :=
   ⟨translationElement G t, by
     change linearPart (translation (t : E)) = 1
@@ -128,7 +133,7 @@ theorem translationElementHom_injective (G : Subgroup (EuclideanMotion E)) :
   exact congrArg (fun x : G => (x : EuclideanMotion E)) h
 
 /-- Pure translations give a homomorphism onto the kernel translation subgroup. -/
-def translationSubgroupHom (G : Subgroup (EuclideanMotion E)) :
+@[expose] def translationSubgroupHom (G : Subgroup (EuclideanMotion E)) :
     Multiplicative (translationVectors G) →* translationSubgroup G where
   toFun t := translationSubgroupElement G t.toAdd
   map_one' := by
@@ -174,7 +179,7 @@ theorem translationSubgroupHom_surjective (G : Subgroup (EuclideanMotion E)) :
   exact translation_of_mem_translationSubgroup G g
 
 /-- Translation vectors and the kernel translation subgroup are naturally isomorphic. -/
-def translationEquiv (G : Subgroup (EuclideanMotion E)) :
+@[expose] def translationEquiv (G : Subgroup (EuclideanMotion E)) :
     Multiplicative (translationVectors G) ≃* translationSubgroup G where
   toFun := translationSubgroupHom G
   invFun g :=

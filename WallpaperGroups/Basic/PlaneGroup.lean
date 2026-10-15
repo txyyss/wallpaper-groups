@@ -1,6 +1,8 @@
+module
+
 import Mathlib.Algebra.Group.Subgroup.Finite
-import WallpaperGroups.Basic.RankTwoLattice
-import WallpaperGroups.Invariants.ExactSequence
+public import WallpaperGroups.Basic.RankTwoLattice
+public import WallpaperGroups.Invariants.ExactSequence
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ This module packages the strong definition used in the classification: the pure 
 are exactly a rank-two lattice and the point group is finite.  No discreteness, cocompactness,
 orientation, metric normal form, or choice of classification label is stored here.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -57,7 +61,7 @@ theorem translationLattice_toAddSubgroup_eq (G : PlaneGroup) :
   exact AddSubgroup.toIntSubmodule_toAddSubgroup _
 
 /-- A stored lattice element, viewed as the corresponding translation vector. -/
-def latticeTranslationEquiv (G : PlaneGroup) :
+@[expose] def latticeTranslationEquiv (G : PlaneGroup) :
     G.translationLattice.carrier ≃+ translationVectors G.carrier :=
   AddEquiv.addSubgroupCongr G.translationLattice_toAddSubgroup_eq
 
@@ -107,7 +111,7 @@ theorem translation_real_span_eq_top (G : PlaneGroup) :
 Replace only the chosen computational lattice frame, leaving the motion subgroup, full
 translation carrier, and finite point group unchanged.
 -/
-def reframe (G : PlaneGroup)
+@[expose] def reframe (G : PlaneGroup)
     (basis : Module.Basis (Fin 2) ℤ G.translationLattice.carrier)
     (basis_real_linearIndependent :
       LinearIndependent ℝ (fun i => (basis i : Plane))) : PlaneGroup where

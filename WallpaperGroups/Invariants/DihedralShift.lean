@@ -1,7 +1,9 @@
-import WallpaperGroups.Invariants.ShiftClass
+module
+
+public import WallpaperGroups.Invariants.ShiftClass
 import WallpaperGroups.Invariants.ReflectionFamilies
-import WallpaperGroups.Presentations.DihedralExtension
-import WallpaperGroups.Restriction.ReflectionNormalForms
+public import WallpaperGroups.Presentations.DihedralExtension
+public import WallpaperGroups.Restriction.ReflectionNormalForms
 
 set_option linter.style.header false
 
@@ -18,6 +20,8 @@ The order-dependent compatibility is discharged by the simultaneous lattice norm
 the two-reflection extension comparison.  This file therefore exports only the complete
 quotient and generator-exchange invariants, not a second parameterized signature hierarchy.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -269,7 +273,7 @@ theorem primitiveReflectionShiftClass_eq_bitRepresentative
 abbrev ReflectionShiftBitPair := ReflectionShiftBit × ReflectionShiftBit
 
 /-- Exchange the two selected reflection generators. -/
-def swapReflectionShiftBitPair (p : ReflectionShiftBitPair) : ReflectionShiftBitPair :=
+@[expose] def swapReflectionShiftBitPair (p : ReflectionShiftBitPair) : ReflectionShiftBitPair :=
   (p.2, p.1)
 
 /-- The three orbits of ordered bit pairs under exchange of the two generators. -/
@@ -284,7 +288,7 @@ instance : Fintype NormalizedReflectionShiftPair where
   complete p := by cases p <;> simp
 
 /-- Normalize an ordered pair modulo exchanging the two reflections. -/
-def normalizeReflectionShiftBitPair :
+@[expose] def normalizeReflectionShiftBitPair :
     ReflectionShiftBitPair → NormalizedReflectionShiftPair
   | (.zero, .zero) => .zeroZero
   | (.zero, .nonzero) => .mixed
@@ -330,7 +334,7 @@ namespace DihedralExtensionData
 variable {G : PlaneGroup}
 
 /-- The second standard reflection is the first reflection followed by the rotation generator. -/
-def secondReflectionGenerator (c : DihedralExtensionData G) : pointGroup G.carrier :=
+@[expose] def secondReflectionGenerator (c : DihedralExtensionData G) : pointGroup G.carrier :=
   c.reflectionGenerator * c.rotationGenerator
 
 /-- The second standard reflection is an involution. -/

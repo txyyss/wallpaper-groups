@@ -1,6 +1,8 @@
+module
+
 import Mathlib.Algebra.Group.Equiv.TypeTags
 import Mathlib.GroupTheory.QuotientGroup.Basic
-import WallpaperGroups.Basic.PlaneGroup
+public import WallpaperGroups.Basic.PlaneGroup
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ The classification identifies plane groups by abstract group isomorphisms that c
 translation subgroup onto the full translation subgroup.  This file packages that relation and
 derives its canonical maps on translation vectors, stored lattices, and point groups.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -139,7 +143,7 @@ theorem symm_trans (e : TranslationPreservingIso G H) : e.symm.trans e = refl H 
   exact e.toMulEquiv.symm_trans_self
 
 /-- Restrict a translation-preserving isomorphism to the two kernel translation subgroups. -/
-def translationSubgroupEquiv (e : TranslationPreservingIso G H) :
+@[expose] def translationSubgroupEquiv (e : TranslationPreservingIso G H) :
     translationSubgroup G.carrier ≃* translationSubgroup H.carrier :=
   (e.toMulEquiv.subgroupMap (translationSubgroup G.carrier)).trans
     (MulEquiv.subgroupCongr e.map_translationSubgroup)
@@ -186,14 +190,14 @@ theorem translationSubgroupEquiv_trans
   rfl
 
 /-- The induced isomorphism between the multiplicatively tagged translation-vector groups. -/
-def translationVectorMulEquiv (e : TranslationPreservingIso G H) :
+@[expose] def translationVectorMulEquiv (e : TranslationPreservingIso G H) :
     Multiplicative (translationVectors G.carrier) ≃*
       Multiplicative (translationVectors H.carrier) :=
   (translationEquiv G.carrier).trans
     (e.translationSubgroupEquiv.trans (translationEquiv H.carrier).symm)
 
 /-- The induced additive equivalence between the full groups of translation vectors. -/
-def translationVectorEquiv (e : TranslationPreservingIso G H) :
+@[expose] def translationVectorEquiv (e : TranslationPreservingIso G H) :
     translationVectors G.carrier ≃+ translationVectors H.carrier :=
   AddEquiv.toMultiplicative.symm e.translationVectorMulEquiv
 
@@ -428,7 +432,7 @@ end TranslationPreservingIso
 namespace PlaneGroup
 
 /-- Two plane groups are equivalent when a translation-preserving abstract isomorphism exists. -/
-def Equivalent (G H : PlaneGroup) : Prop :=
+@[expose] def Equivalent (G H : PlaneGroup) : Prop :=
   Nonempty (TranslationPreservingIso G H)
 
 namespace Equivalent
@@ -468,7 +472,7 @@ instance equivalentSetoid : Setoid PlaneGroup where
   iseqv := equivalent_equivalence
 
 /-- The point group is canonically the motion group modulo its translation kernel. -/
-def pointQuotientEquiv (G : PlaneGroup) :
+@[expose] def pointQuotientEquiv (G : PlaneGroup) :
     G.carrier ⧸ translationSubgroup G.carrier ≃* pointGroup G.carrier :=
   QuotientGroup.quotientKerEquivRange (restrictedLinearPart G.carrier)
 
@@ -485,7 +489,7 @@ namespace TranslationPreservingIso
 variable {G H K : PlaneGroup}
 
 /-- The equivalence induced on quotients by the two translation subgroups. -/
-def quotientEquiv (e : TranslationPreservingIso G H) :
+@[expose] def quotientEquiv (e : TranslationPreservingIso G H) :
     G.carrier ⧸ translationSubgroup G.carrier ≃*
       H.carrier ⧸ translationSubgroup H.carrier :=
   QuotientGroup.congr (translationSubgroup G.carrier) (translationSubgroup H.carrier)

@@ -1,8 +1,10 @@
+module
+
 import WallpaperGroups.Classification.NoReflections
-import WallpaperGroups.Invariants.ShiftClass
-import WallpaperGroups.Models.ReflectionModels
-import WallpaperGroups.Presentations.ReflectionExtension
-import WallpaperGroups.Restriction.ReflectionNormalForms
+public import WallpaperGroups.Invariants.ShiftClass
+public import WallpaperGroups.Models.ReflectionModels
+public import WallpaperGroups.Presentations.ReflectionExtension
+public import WallpaperGroups.Restriction.ReflectionNormalForms
 
 set_option linter.style.header false
 
@@ -14,6 +16,8 @@ the quotient-valued shift invariant with the two integral reflection normal form
 two-coset extension comparison.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -24,7 +28,7 @@ noncomputable section
 
 /-- The point group has one nonidentity reflection when the positive subgroup is trivial and a
 reversing point element exists. -/
-def PointGroupHasOneReflection (G : PlaneGroup) : Prop :=
+@[expose] def PointGroupHasOneReflection (G : PlaneGroup) : Prop :=
   ∃ s : pointGroup G.carrier,
     s ∉ orientationPreservingPointGroup G ∧
       ∀ r : orientationPreservingPointGroup G, r = 1
@@ -104,7 +108,7 @@ instance : Fintype OneReflectionType where
   complete w := by cases w <;> simp
 
 /-- The corresponding transparent standard model. -/
-def OneReflectionType.model : OneReflectionType → PlaneGroup
+@[expose] def OneReflectionType.model : OneReflectionType → PlaneGroup
   | .cm => cmModel
   | .pm => pmModel
   | .pg => pgModel
@@ -127,17 +131,17 @@ lemma eq_one_or_eq_of_mem_zpowers_of_sq_eq_one
     rw [hk]
     simp
 
-def pmReflection : pointGroup pmModel.carrier :=
+@[expose] def pmReflection : pointGroup pmModel.carrier :=
   ⟨axisReflection, by
     rw [pmModel_pointGroup]
     exact Subgroup.mem_zpowers axisReflection⟩
 
-def cmReflection : pointGroup cmModel.carrier :=
+@[expose] def cmReflection : pointGroup cmModel.carrier :=
   ⟨axisReflection, by
     rw [cmModel_pointGroup]
     exact Subgroup.mem_zpowers axisReflection⟩
 
-def pgReflection : pointGroup pgModel.carrier :=
+@[expose] def pgReflection : pointGroup pgModel.carrier :=
   ⟨axisReflection, by
     rw [pgModel_pointGroup]
     exact Subgroup.mem_zpowers axisReflection⟩
@@ -215,19 +219,19 @@ theorem pgModel_hasOneReflection : PointGroupHasOneReflection pgModel := by
       simpa [pgReflection] using congrArg Subtype.val h
     exact modelReflection_reversing pgModel r.1 hr r.2
 
-def pmReflectionLift : pmModel.carrier :=
+@[expose] def pmReflectionLift : pmModel.carrier :=
   ⟨shiftedReflectionLift axisReflection 0, by
     unfold pmModel shiftedReflectionPlaneGroup
     exact shiftedReflectionLift_mem RankTwoLattice.standardLattice axisReflection 0
       axisReflection_mem_squareStabilizer axisReflection_sq (by simp)⟩
 
-def cmReflectionLift : cmModel.carrier :=
+@[expose] def cmReflectionLift : cmModel.carrier :=
   ⟨shiftedReflectionLift axisReflection 0, by
     unfold cmModel shiftedReflectionPlaneGroup
     exact shiftedReflectionLift_mem centeredLattice axisReflection 0
       axisReflection_mem_centeredStabilizer axisReflection_sq (by simp)⟩
 
-def pgReflectionLift : pgModel.carrier :=
+@[expose] def pgReflectionLift : pgModel.carrier :=
   ⟨shiftedReflectionLift axisReflection glideShift, by
     unfold pgModel shiftedReflectionPlaneGroup
     exact shiftedReflectionLift_mem RankTwoLattice.standardLattice axisReflection glideShift
@@ -248,7 +252,7 @@ def pgReflectionLift : pgModel.carrier :=
   apply Subtype.ext
   exact shiftedReflectionLift_linearPart axisReflection glideShift
 
-def pgReflectionShift : translationVectors pgModel.carrier :=
+@[expose] def pgReflectionShift : translationVectors pgModel.carrier :=
   pgModel.latticeTranslationEquiv (pgModel.translationLattice.basis 0)
 
 @[simp] theorem pgReflectionShift_coe :
@@ -414,7 +418,7 @@ theorem ReflectionExtensionData.shift_fixed
   rw [c.shift_eq_liftPowerTranslation hsq]
   exact (liftPowerFixedTranslation G c.generator 2 hsq c.lift c.lift_projection).property
 
-def reflectionStoredShift {G : PlaneGroup} (c : ReflectionExtensionData G) :
+@[expose] def reflectionStoredShift {G : PlaneGroup} (c : ReflectionExtensionData G) :
     G.translationLattice.carrier :=
   G.latticeTranslationEquiv.symm c.shift
 

@@ -1,4 +1,6 @@
-import WallpaperGroups.Presentations.TwoReflectionExtension
+module
+
+public import WallpaperGroups.Presentations.TwoReflectionExtension
 
 set_option linter.style.header false
 
@@ -10,6 +12,8 @@ order-two quotient-valued shift class.  This file records whether that class van
 that the answer is independent of the chosen lift, and counts the reversing points for which it
 vanishes.  The resulting count is intrinsic under translation-preserving isomorphism.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -75,7 +79,7 @@ variable {G H : PlaneGroup}
 
 /-- A translation-preserving isomorphism bijects the reversing elements of the two point
 groups. -/
-def reversingPointEquiv (e : TranslationPreservingIso G H) :
+@[expose] def reversingPointEquiv (e : TranslationPreservingIso G H) :
     ReversingPoint G ≃ ReversingPoint H :=
   e.pointGroupEquiv.toEquiv.subtypeEquiv fun s =>
     (not_congr (e.pointGroupEquiv_mem_orientationPreserving_iff s)).symm
@@ -139,7 +143,7 @@ theorem pointDihedralHom_sr_reversing (d : DihedralGenerators G)
   simpa [pointDihedralHom_sr, mul_assoc] using hfirst
 
 /-- The reversing point represented by a finite dihedral reflection coordinate. -/
-def indexedReversingPoint (d : DihedralGenerators G) (i : ZMod d.order.toNat) :
+@[expose] def indexedReversingPoint (d : DihedralGenerators G) (i : ZMod d.order.toNat) :
     ReversingPoint G :=
   ⟨pointDihedralHom d (.sr i), d.pointDihedralHom_sr_reversing i⟩
 
@@ -166,7 +170,7 @@ theorem indexedReversingPoint_surjective (d : DihedralGenerators G) :
       exact ⟨i, Subtype.ext hq⟩
 
 /-- Canonical finite coordinates for all orientation-reversing point elements. -/
-def reversingPointEquiv (d : DihedralGenerators G) :
+@[expose] def reversingPointEquiv (d : DihedralGenerators G) :
     ZMod d.order.toNat ≃ ReversingPoint G :=
   Equiv.ofBijective d.indexedReversingPoint
     ⟨d.indexedReversingPoint_injective, d.indexedReversingPoint_surjective⟩

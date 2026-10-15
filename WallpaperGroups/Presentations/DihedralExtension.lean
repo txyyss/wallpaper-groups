@@ -1,4 +1,6 @@
-import WallpaperGroups.Presentations.ReflectionExtension
+module
+
+public import WallpaperGroups.Presentations.ReflectionExtension
 
 set_option linter.style.header false
 
@@ -18,6 +20,8 @@ the section.  For a dihedral point group it is enough to prove action compatibil
 rotation and reflection generator; the point-group normal form propagates it to every element.
 Matching the normalized factor tables then produces a translation-preserving group isomorphism.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -59,7 +63,7 @@ structure DihedralExtensionData (G : PlaneGroup) where
   lift_one : lift 1 = 1
 
 /-- The defect motion measuring the failure of the selected section to preserve a product. -/
-def dihedralLiftDefect {G : PlaneGroup} (c : DihedralExtensionData G)
+@[expose] def dihedralLiftDefect {G : PlaneGroup} (c : DihedralExtensionData G)
     (q r : pointGroup G.carrier) : G.carrier :=
   c.lift q * c.lift r * (c.lift (q * r))⁻¹
 
@@ -71,7 +75,7 @@ theorem dihedralLiftDefect_projection {G : PlaneGroup}
   simp [dihedralLiftDefect, c.lift_projection]
 
 /-- The translation-valued normalized factor of a dihedral section. -/
-def dihedralFactor {G : PlaneGroup} (c : DihedralExtensionData G)
+@[expose] def dihedralFactor {G : PlaneGroup} (c : DihedralExtensionData G)
     (q r : pointGroup G.carrier) : translationVectors G.carrier := by
   let d : G.carrier := dihedralLiftDefect c q r
   refine ⟨translationPart (d : EuclideanMotion Plane), ?_⟩
@@ -134,7 +138,7 @@ theorem dihedralFactor_one_right {G : PlaneGroup}
   simp
 
 /-- Decode translation and point coordinates using the normalized section. -/
-def dihedralDecode {G : PlaneGroup} (c : DihedralExtensionData G) :
+@[expose] def dihedralDecode {G : PlaneGroup} (c : DihedralExtensionData G) :
     translationVectors G.carrier × pointGroup G.carrier → G.carrier
   | (t, q) => translationElement G.carrier t * c.lift q
 

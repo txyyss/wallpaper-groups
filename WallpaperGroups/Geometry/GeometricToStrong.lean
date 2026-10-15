@@ -1,8 +1,10 @@
-import Mathlib.Algebra.Module.ZLattice.Basic
+module
+
+public import Mathlib.Algebra.Module.ZLattice.Basic
+public import WallpaperGroups.Geometry.GeometricWallpaperGroup
+public import WallpaperGroups.Restriction.Orientation
 import Mathlib.Topology.Algebra.Group.DiscontinuousSubgroup
-import WallpaperGroups.Geometry.GeometricWallpaperGroup
 import WallpaperGroups.Geometry.MotionType
-import WallpaperGroups.Restriction.Orientation
 
 set_option linter.style.header false
 
@@ -20,6 +22,8 @@ carrier is exposed as a stable fact.  Recovering the full-rank translation latti
 constructing a `PlaneGroup` are deferred to later M8c stages.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -36,7 +40,7 @@ namespace MotionSubgroup
 /-! ## Subgroup-level orientation -/
 
 /-- The determinant homomorphism on the point group of an arbitrary plane-motion subgroup. -/
-def pointGroupDet (Γ : Subgroup (EuclideanMotion Plane)) :
+@[expose] def pointGroupDet (Γ : Subgroup (EuclideanMotion Plane)) :
     pointGroup Γ →* ℝˣ :=
   LinearEquiv.det.comp
     (linearIsometryToLinearEquiv.comp (pointGroup Γ).subtype)
@@ -54,7 +58,7 @@ theorem pointGroupDet_apply (Γ : Subgroup (EuclideanMotion Plane))
 /--
 The positive-determinant subgroup of the point group of an arbitrary plane-motion subgroup.
 -/
-def orientationPreservingPointGroup
+@[expose] def orientationPreservingPointGroup
     (Γ : Subgroup (EuclideanMotion Plane)) : Subgroup (pointGroup Γ) where
   carrier := {A | 0 < ((pointGroupDet Γ A : ℝˣ) : ℝ)}
   one_mem' := by
@@ -390,7 +394,7 @@ def ofZLattice
 theorem ofZLattice_carrier
     (L : Submodule ℤ Plane) [DiscreteTopology L] [IsZLattice ℝ L] :
     (ofZLattice L).carrier = L :=
-  rfl
+  by rfl
 
 end RankTwoLattice
 

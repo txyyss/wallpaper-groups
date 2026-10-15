@@ -1,4 +1,6 @@
-import WallpaperGroups.Invariants.Translation
+module
+
+public import WallpaperGroups.Invariants.Translation
 
 set_option linter.style.header false
 
@@ -10,6 +12,8 @@ Its action on translation vectors is the underlying linear-isometry action; well
 proved geometrically by conjugating pure translations by a lift in the motion subgroup.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -20,11 +24,11 @@ noncomputable section
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 /-- The point group of `G`, defined as the range of its restricted linear-part homomorphism. -/
-def pointGroup (G : Subgroup (EuclideanMotion E)) : Subgroup (E ≃ₗᵢ[ℝ] E) :=
+@[expose] def pointGroup (G : Subgroup (EuclideanMotion E)) : Subgroup (E ≃ₗᵢ[ℝ] E) :=
   (restrictedLinearPart G).range
 
 /-- The canonical projection from a motion subgroup onto its point group. -/
-def pointProjection (G : Subgroup (EuclideanMotion E)) : G →* pointGroup G :=
+@[expose] def pointProjection (G : Subgroup (EuclideanMotion E)) : G →* pointGroup G :=
   (restrictedLinearPart G).rangeRestrict
 
 /-- Coercing a projected point-group element gives the original motion's linear part. -/
@@ -69,7 +73,7 @@ theorem pointGroup_apply_mem_translationVectors (G : Subgroup (EuclideanMotion E
   exact G.mul_mem (G.mul_mem g.property t.property) (G.inv_mem g.property)
 
 /-- A point-group element as an additive automorphism of the translation vectors. -/
-def pointAction (G : Subgroup (EuclideanMotion E)) (h : pointGroup G) :
+@[expose] def pointAction (G : Subgroup (EuclideanMotion E)) (h : pointGroup G) :
     AddAut (translationVectors G) where
   toFun t := ⟨(h : E ≃ₗᵢ[ℝ] E) (t : E), pointGroup_apply_mem_translationVectors G h t⟩
   invFun t :=
@@ -121,7 +125,7 @@ theorem pointAction_neg (G : Subgroup (EuclideanMotion E)) (h : pointGroup G)
   (pointAction G h).map_neg t
 
 /-- The point action, bundled as a homomorphism into additive automorphisms under composition. -/
-def pointActionHom (G : Subgroup (EuclideanMotion E)) :
+@[expose] def pointActionHom (G : Subgroup (EuclideanMotion E)) :
     pointGroup G →* Multiplicative (AddAut (translationVectors G)) where
   toFun h := Multiplicative.ofAdd (pointAction G h)
   map_one' := by

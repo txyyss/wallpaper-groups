@@ -1,5 +1,7 @@
-import WallpaperGroups.Invariants.ReflectionFamilies
-import WallpaperGroups.Restriction.ReflectionNormalForms
+module
+
+public import WallpaperGroups.Invariants.ReflectionFamilies
+public import WallpaperGroups.Restriction.ReflectionNormalForms
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ reflection and classifies their simultaneous action on the translation lattice. 
 reflection normal form is not sufficient in order three: both order-three forms have centered
 individual reflections, but their reflection axes generate sublattices of indices one and three.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -36,7 +40,7 @@ instance : Fintype DihedralRotationOrder where
 namespace DihedralRotationOrder
 
 /-- Natural-number value of a nontrivial crystallographic rotation order. -/
-def toNat : DihedralRotationOrder → ℕ
+@[expose] def toNat : DihedralRotationOrder → ℕ
   | .two => 2
   | .three => 3
   | .four => 4
@@ -73,7 +77,7 @@ theorem pointGroupHasMultipleReflections (d : DihedralGenerators G) :
   ⟨⟨d.reflection, d.reflection_reversing⟩, ⟨d.rotation, d.rotation_ne_one⟩⟩
 
 /-- The adjacent second reflection, chosen so that `reflection * secondReflection = rotation`. -/
-def secondReflection (d : DihedralGenerators G) : pointGroup G.carrier :=
+@[expose] def secondReflection (d : DihedralGenerators G) : pointGroup G.carrier :=
   d.reflection * d.rotation.1
 
 /-- The first selected reflection is an involution. -/
@@ -120,7 +124,8 @@ theorem reflection_mul_rotation (d : DihedralGenerators G) :
       rw [d.reflection_conjugates_rotation]
 
 /-- Replace the selected reflection by another reflection in the same reversing coset. -/
-def rotateReflection (d : DihedralGenerators G) (n : ℕ) : DihedralGenerators G where
+@[expose] def rotateReflection (d : DihedralGenerators G) (n : ℕ) :
+    DihedralGenerators G where
   rotation := d.rotation
   reflection := d.reflection * d.rotation.1 ^ n
   reflection_reversing := by
@@ -262,24 +267,25 @@ theorem exists_dihedralGenerators (G : PlaneGroup)
 /-! ## Explicit simultaneous matrices -/
 
 /-- The standard half-turn matrix. -/
-def dihedralRotationMatrix2 : Matrix (Fin 2) (Fin 2) ℤ := !![-1, 0; 0, -1]
+@[expose] def dihedralRotationMatrix2 : Matrix (Fin 2) (Fin 2) ℤ := !![-1, 0; 0, -1]
 
 /-- The order-three reflection whose primitive fixed axes span the entire lattice. -/
-def dihedralReflectionMatrix3Full : Matrix (Fin 2) (Fin 2) ℤ := !![1, -1; 0, -1]
+@[expose] def dihedralReflectionMatrix3Full : Matrix (Fin 2) (Fin 2) ℤ :=
+  !![1, -1; 0, -1]
 
 /-- The other order-three reflection embedding; its primitive fixed axes span an index-three
 sublattice. -/
-def dihedralReflectionMatrix3IndexThree : Matrix (Fin 2) (Fin 2) ℤ :=
+@[expose] def dihedralReflectionMatrix3IndexThree : Matrix (Fin 2) (Fin 2) ℤ :=
   -dihedralReflectionMatrix3Full
 
 /-- The normalized order-four first reflection. -/
-def dihedralReflectionMatrix4 : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 0, -1]
+@[expose] def dihedralReflectionMatrix4 : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 0, -1]
 
 /-- The normalized order-six first reflection. -/
-def dihedralReflectionMatrix6 : Matrix (Fin 2) (Fin 2) ℤ := !![1, 1; 0, -1]
+@[expose] def dihedralReflectionMatrix6 : Matrix (Fin 2) (Fin 2) ℤ := !![1, 1; 0, -1]
 
 /-- The inverse of the companion rotation matrix `!![0,-1;1,c]`. -/
-def dihedralRotationInverseMatrix (c : ℤ) : Matrix (Fin 2) (Fin 2) ℤ :=
+@[expose] def dihedralRotationInverseMatrix (c : ℤ) : Matrix (Fin 2) (Fin 2) ℤ :=
   !![c, 1; -1, 0]
 
 @[simp]
@@ -410,21 +416,21 @@ inductive DihedralLatticeForm where
 namespace DihedralLatticeForm
 
 /-- Rotation order associated to a simultaneous lattice form. -/
-def order : DihedralLatticeForm → DihedralRotationOrder
+@[expose] def order : DihedralLatticeForm → DihedralRotationOrder
   | .orderTwoPrimitive | .orderTwoCentered => .two
   | .p3m1 | .p31m => .three
   | .orderFour => .four
   | .orderSix => .six
 
 /-- Rotation matrix associated to a simultaneous lattice form. -/
-def rotationMatrix : DihedralLatticeForm → Matrix (Fin 2) (Fin 2) ℤ
+@[expose] def rotationMatrix : DihedralLatticeForm → Matrix (Fin 2) (Fin 2) ℤ
   | .orderTwoPrimitive | .orderTwoCentered => dihedralRotationMatrix2
   | .p3m1 | .p31m => WallpaperGroups.rotationMatrix3
   | .orderFour => WallpaperGroups.rotationMatrix4
   | .orderSix => WallpaperGroups.rotationMatrix6
 
 /-- First-reflection matrix associated to a simultaneous lattice form. -/
-def reflectionMatrix : DihedralLatticeForm → Matrix (Fin 2) (Fin 2) ℤ
+@[expose] def reflectionMatrix : DihedralLatticeForm → Matrix (Fin 2) (Fin 2) ℤ
   | .orderTwoPrimitive => IntegralReflection.reflectionLatticeMatrix .primitive
   | .orderTwoCentered => IntegralReflection.reflectionLatticeMatrix .centered
   | .p3m1 => dihedralReflectionMatrix3Full
@@ -433,16 +439,19 @@ def reflectionMatrix : DihedralLatticeForm → Matrix (Fin 2) (Fin 2) ℤ
   | .orderSix => dihedralReflectionMatrix6
 
 /-- The adjacent second reflection has matrix `S A`. -/
-def secondReflectionMatrix (f : DihedralLatticeForm) : Matrix (Fin 2) (Fin 2) ℤ :=
+@[expose] def secondReflectionMatrix (f : DihedralLatticeForm) :
+    Matrix (Fin 2) (Fin 2) ℤ :=
   f.reflectionMatrix * f.rotationMatrix
 
 /-- Integral reflection kind of the first selected reflection. -/
-def firstReflectionKind : DihedralLatticeForm → IntegralReflection.ReflectionLatticeKind
+@[expose] def firstReflectionKind :
+    DihedralLatticeForm → IntegralReflection.ReflectionLatticeKind
   | .orderTwoPrimitive | .orderFour => .primitive
   | .orderTwoCentered | .p3m1 | .p31m | .orderSix => .centered
 
 /-- Integral reflection kind of the adjacent second reflection. -/
-def secondReflectionKind : DihedralLatticeForm → IntegralReflection.ReflectionLatticeKind
+@[expose] def secondReflectionKind :
+    DihedralLatticeForm → IntegralReflection.ReflectionLatticeKind
   | .orderTwoPrimitive => .primitive
   | .orderTwoCentered | .p3m1 | .p31m | .orderFour | .orderSix => .centered
 
@@ -471,7 +480,7 @@ end DihedralLatticeForm
 
 /-- The fixed lattice of an integral reflection is exhausted by its norm map.  In rank two this
 is the intrinsic centered-reflection condition. -/
-def MatrixReflectionIsCentered (M : Matrix (Fin 2) (Fin 2) ℤ) : Prop :=
+@[expose] def MatrixReflectionIsCentered (M : Matrix (Fin 2) (Fin 2) ℤ) : Prop :=
   ∀ z : Fin 2 → ℤ, M *ᵥ z = z → ∃ w : Fin 2 → ℤ, w + M *ᵥ w = z
 
 lemma matrixReflectionIsCentered_orderTwoCentered_first :
@@ -655,18 +664,19 @@ lemma not_matrixReflectionIsCentered_orderFour_first :
 namespace PlaneGroup
 
 /-- The lattice generated by the axes of a selected adjacent pair of reflections. -/
-def adjacentReflectionAxisSpan (G : PlaneGroup)
+@[expose] def adjacentReflectionAxisSpan (G : PlaneGroup)
     (s t : pointGroup G.carrier) : Submodule ℤ G.translationLattice.carrier :=
   G.reflectionFixedSubmodule s ⊔ G.reflectionFixedSubmodule t
 
 /-- The intrinsic span of the fixed lattices of all orientation-reversing point elements. -/
-def reflectionAxisSpan (G : PlaneGroup) : Submodule ℤ G.translationLattice.carrier :=
+@[expose] def reflectionAxisSpan (G : PlaneGroup) :
+    Submodule ℤ G.translationLattice.carrier :=
   ⨆ (s : pointGroup G.carrier) (_ : s ∉ orientationPreservingPointGroup G),
     G.reflectionFixedSubmodule s
 
 /-- Coordinate-sum character modulo three.  For the `p31m` normal form its kernel is exactly
 the global reflection-axis span. -/
-def coordinateSumModThree (G : PlaneGroup)
+@[expose] def coordinateSumModThree (G : PlaneGroup)
     (b : Module.Basis (Fin 2) ℤ G.translationLattice.carrier) :
     G.translationLattice.carrier →ₗ[ℤ] ZMod 3 where
   toFun t := (b.repr t 0 : ZMod 3) + (b.repr t 1 : ZMod 3)
@@ -751,7 +761,7 @@ theorem reflectionAxisSpan_map
         Submodule.map_mono (G.reflectionFixedSubmodule_le_reflectionAxisSpan s hs)
 
 /-- Every lattice vector fixed by `s` is in the image of its reflection norm. -/
-def ReflectionActionIsCentered (G : PlaneGroup)
+@[expose] def ReflectionActionIsCentered (G : PlaneGroup)
     (s : pointGroup G.carrier) : Prop :=
   ∀ t : G.translationLattice.carrier, G.latticeAction s t = t →
     ∃ u : G.translationLattice.carrier, u + G.latticeAction s u = t
@@ -1437,7 +1447,7 @@ theorem exists_secondReflectionNormalForm
 end DihedralLatticeNormalForm
 
 /-- Assemble the simultaneous normal form once the two generator matrices are known. -/
-def DihedralLatticeNormalForm.ofMatrices
+@[expose] def DihedralLatticeNormalForm.ofMatrices
     (G : PlaneGroup) (d : DihedralGenerators G) (form : DihedralLatticeForm)
     (horder : form.order = d.order)
     (b : Module.Basis (Fin 2) ℤ G.translationLattice.carrier)
@@ -1510,7 +1520,7 @@ namespace DihedralLatticeNormalForm
 variable {G : PlaneGroup} {d : DihedralGenerators G}
 
 /-- Reindex a rank-two lattice basis by exchanging its two vectors. -/
-def swappedBasis (N : DihedralLatticeNormalForm G d) :
+@[expose] def swappedBasis (N : DihedralLatticeNormalForm G d) :
     Module.Basis (Fin 2) ℤ G.translationLattice.carrier :=
   N.basis.reindex (Equiv.swap 0 1)
 
@@ -1554,7 +1564,7 @@ theorem rotateReflection_one_point_equalities
 
 /-- Swap the two primitive reflection generators and the two lattice-basis vectors.  The joint
 normal form remains `orderTwoPrimitive`. -/
-def swapOrderTwoPrimitive
+@[expose] def swapOrderTwoPrimitive
     (N : DihedralLatticeNormalForm G d)
     (hform : N.form = .orderTwoPrimitive) :
     DihedralLatticeNormalForm G (d.rotateReflection 1) := by

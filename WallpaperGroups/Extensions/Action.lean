@@ -1,4 +1,6 @@
-import Mathlib.GroupTheory.GroupExtension.Defs
+module
+
+public import Mathlib.GroupTheory.GroupExtension.Defs
 
 set_option linter.style.header false
 
@@ -17,6 +19,8 @@ so different actions can be compared without installing competing typeclass inst
 foundation and records only the compatibility of conjugation with the prescribed action.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -30,7 +34,7 @@ namespace AdditiveAction
 variable {H T : Type*} [Group H] [AddCommGroup T]
 
 /-- Evaluate an explicit additive action. -/
-def apply (ρ : AdditiveAction H T) (h : H) (t : T) : T :=
+@[expose] def apply (ρ : AdditiveAction H T) (h : H) (t : T) : T :=
   (ρ h).toAdd t
 
 @[simp]
@@ -92,15 +96,25 @@ def relabelKernel (S : GroupExtension N E H) (e : N' ≃* N) :
       exact ⟨e.symm n, by simp⟩
   rightHom_surjective := S.rightHom_surjective
 
+private theorem relabelKernel_inl_impl
+    (S : GroupExtension N E H) (e : N' ≃* N) (n : N') :
+    (relabelKernel S e).inl n = S.inl (e n) :=
+  rfl
+
 @[simp]
 theorem relabelKernel_inl (S : GroupExtension N E H) (e : N' ≃* N) (n : N') :
     (relabelKernel S e).inl n = S.inl (e n) :=
+  relabelKernel_inl_impl S e n
+
+private theorem relabelKernel_rightHom_impl
+    (S : GroupExtension N E H) (e : N' ≃* N) (x : E) :
+    (relabelKernel S e).rightHom x = S.rightHom x :=
   rfl
 
 @[simp]
 theorem relabelKernel_rightHom (S : GroupExtension N E H) (e : N' ≃* N) (x : E) :
     (relabelKernel S e).rightHom x = S.rightHom x :=
-  rfl
+  relabelKernel_rightHom_impl S e x
 
 end GroupExtension
 

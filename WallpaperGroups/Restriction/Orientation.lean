@@ -1,7 +1,9 @@
-import Mathlib.Analysis.Complex.Isometry
-import Mathlib.Geometry.Euclidean.Angle.Oriented.Rotation
+module
+
+public import Mathlib.Analysis.Complex.Isometry
+public import Mathlib.Geometry.Euclidean.Angle.Oriented.Rotation
 import Mathlib.RingTheory.IntegralDomain
-import WallpaperGroups.Basic.PlaneGroup
+public import WallpaperGroups.Basic.PlaneGroup
 
 set_option linter.style.header false
 
@@ -13,6 +15,8 @@ is cyclic.  It also proves that every orientation-reversing element is an involu
 each orientation-preserving element to its inverse.  These results give a cyclic-or-dihedral
 normal form without imposing any crystallographic order restriction.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -26,11 +30,11 @@ noncomputable section
 local instance : Fact (Module.finrank ℝ Plane = 2) := ⟨Plane.finrank⟩
 
 /-- The canonical orientation associated to the canonical coordinate basis of the plane. -/
-def planeOrientation : Orientation ℝ Plane (Fin 2) :=
+@[expose] def planeOrientation : Orientation ℝ Plane (Fin 2) :=
   Plane.canonicalRealBasis.orientation
 
 /-- Forget that a plane linear equivalence is isometric, as a multiplicative map. -/
-def linearIsometryToLinearEquiv :
+@[expose] def linearIsometryToLinearEquiv :
     (Plane ≃ₗᵢ[ℝ] Plane) →* (Plane ≃ₗ[ℝ] Plane) where
   toFun h := h.toLinearEquiv
   map_one' := rfl
@@ -39,7 +43,7 @@ def linearIsometryToLinearEquiv :
     rfl
 
 /-- The determinant homomorphism on the point group of a plane group. -/
-def pointGroupDet (G : PlaneGroup) : pointGroup G.carrier →* ℝˣ :=
+@[expose] def pointGroupDet (G : PlaneGroup) : pointGroup G.carrier →* ℝˣ :=
   LinearEquiv.det.comp
     (linearIsometryToLinearEquiv.comp (pointGroup G.carrier).subtype)
 
@@ -52,7 +56,8 @@ lemma pointGroupDet_apply (G : PlaneGroup) (h : pointGroup G.carrier) :
   rfl
 
 /-- The positive-determinant subgroup of a plane point group. -/
-def orientationPreservingPointGroup (G : PlaneGroup) : Subgroup (pointGroup G.carrier) where
+@[expose] def orientationPreservingPointGroup (G : PlaneGroup) :
+    Subgroup (pointGroup G.carrier) where
   carrier := {h | 0 < ((pointGroupDet G h : ℝˣ) : ℝ)}
   one_mem' := by
     simp only [Set.mem_ofPred_eq, map_one, Units.val_one]

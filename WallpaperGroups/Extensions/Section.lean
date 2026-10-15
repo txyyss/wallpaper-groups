@@ -1,6 +1,9 @@
-import Mathlib.GroupTheory.GroupExtension.Basic
+module
+
+public import Mathlib.GroupTheory.GroupExtension.Basic
+public import WallpaperGroups.Extensions.TwistedProduct
 import Mathlib.Tactic.Abel
-import WallpaperGroups.Extensions.TwistedProduct
+import Mathlib.Tactic.Group
 
 set_option linter.style.header false
 
@@ -15,6 +18,8 @@ it uniquely through the injective kernel map.
 If a section is changed by a kernel-valued normalized cochain, the extracted factor changes by the
 explicit coboundary convention fixed in `NormalizedCocycle.lean`.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -50,7 +55,7 @@ theorem apply_one (s : NormalizedSection S) :
   s.map_one
 
 /-- Normalize a supplied section by left-multiplying by the inverse of its value at `1`. -/
-def normalize (σ : S.Section) : NormalizedSection S where
+@[expose] def normalize (σ : S.Section) : NormalizedSection S where
   toSection :=
     { toFun := fun h ↦ (σ 1)⁻¹ * σ h
       rightInverse_rightHom := by
@@ -161,7 +166,7 @@ theorem toCocycle_apply
     (s : NormalizedSection X.toGroupExtension)
     (g h : H) :
     s.toCocycle X g h = factor s g h :=
-  rfl
+  by rfl
 
 /-- The additive kernel coordinate comparing two normalized sections pointwise. -/
 noncomputable def difference
@@ -194,7 +199,7 @@ noncomputable def differenceCochain
 theorem differenceCochain_apply
     (s' s : NormalizedSection S) (g : H) :
     differenceCochain s' s g = difference s' s g :=
-  rfl
+  by rfl
 
 /-- Reconstruct one section from another and their pointwise kernel difference. -/
 theorem apply_eq_inl_difference_mul
@@ -243,7 +248,7 @@ namespace TwistedProduct
 variable {ρ : AdditiveAction H T}
 
 /-- The canonical normalized section of a twisted-product extension. -/
-def canonicalSection (c : NormalizedCocycle ρ) :
+@[expose] def canonicalSection (c : NormalizedCocycle ρ) :
     NormalizedSection (toExtensionOverAction c).toGroupExtension where
   toSection :=
     { toFun := fun h ↦ ⟨0, h⟩

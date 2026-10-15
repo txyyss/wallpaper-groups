@@ -1,7 +1,9 @@
-import Mathlib.GroupTheory.GroupExtension.Basic
-import Mathlib.GroupTheory.SpecificGroups.Cyclic
-import WallpaperGroups.Invariants.EquivalenceAction
-import WallpaperGroups.Restriction.Orientation
+module
+
+public import Mathlib.GroupTheory.GroupExtension.Basic
+public import Mathlib.GroupTheory.SpecificGroups.Cyclic
+public import WallpaperGroups.Invariants.EquivalenceAction
+public import WallpaperGroups.Restriction.Orientation
 
 set_option linter.style.header false
 
@@ -14,6 +16,8 @@ rotation has trivial power at the rotation order.  Algebraically this supplies a
 translation--point-group extension; the later comparison theorem packages compatible split
 extensions through semidirect products rather than repeating coset calculations.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -431,7 +435,7 @@ structure SplitCyclicPointExtension (G : PlaneGroup) where
   lift_pow_card : lift ^ Nat.card (pointGroup G.carrier) = 1
 
 /-- Transport a stored-lattice equivalence to the actual translation-vector groups. -/
-def translationVectorEquivOfLatticeEquiv
+@[expose] def translationVectorEquivOfLatticeEquiv
     (G H : PlaneGroup)
     (eL : G.translationLattice.carrier ≃ₗ[ℤ] H.translationLattice.carrier) :
     translationVectors G.carrier ≃+ translationVectors H.carrier :=

@@ -1,4 +1,6 @@
-import WallpaperGroups.Extensions.Transport
+module
+
+public import WallpaperGroups.Extensions.Transport
 
 set_option linter.style.header false
 
@@ -14,6 +16,8 @@ The construction is deliberately separate from heterogeneous extension
 classification.  It does not introduce a second notion of extension
 equivalence.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -44,10 +48,20 @@ def relabelQuotient (S : GroupExtension N E H) (e : H ≃* H') :
         simp [MonoidHom.mem_ker]
   rightHom_surjective := e.surjective.comp S.rightHom_surjective
 
+private theorem relabelQuotient_inl_impl
+    (S : GroupExtension N E H) (e : H ≃* H') (n : N) :
+    (relabelQuotient S e).inl n = S.inl n :=
+  rfl
+
 /-- Relabelling the quotient leaves the kernel inclusion unchanged. -/
 @[simp]
 theorem relabelQuotient_inl (S : GroupExtension N E H) (e : H ≃* H') (n : N) :
     (relabelQuotient S e).inl n = S.inl n :=
+  relabelQuotient_inl_impl S e n
+
+private theorem relabelQuotient_rightHom_impl
+    (S : GroupExtension N E H) (e : H ≃* H') (x : E) :
+    (relabelQuotient S e).rightHom x = e (S.rightHom x) :=
   rfl
 
 /-- The relabelled quotient projection is the old projection followed by the equivalence. -/
@@ -55,7 +69,7 @@ theorem relabelQuotient_inl (S : GroupExtension N E H) (e : H ≃* H') (n : N) :
 theorem relabelQuotient_rightHom
     (S : GroupExtension N E H) (e : H ≃* H') (x : E) :
     (relabelQuotient S e).rightHom x = e (S.rightHom x) :=
-  rfl
+  relabelQuotient_rightHom_impl S e x
 
 /-- Transport both endpoints of a group extension while preserving its middle group.
 
@@ -73,14 +87,16 @@ def transportEndpoints (S : GroupExtension N E H)
 theorem transportEndpoints_inl
     (S : GroupExtension N E H) (eN : N ≃* N') (eH : H ≃* H') (n : N') :
     (transportEndpoints S eN eH).inl n = S.inl (eN.symm n) :=
-  rfl
+  by
+    rw [transportEndpoints, relabelQuotient_inl, relabelKernel_inl]
 
 /-- Endpoint transport sends the old quotient coordinate through the quotient equivalence. -/
 @[simp]
 theorem transportEndpoints_rightHom
     (S : GroupExtension N E H) (eN : N ≃* N') (eH : H ≃* H') (x : E) :
     (transportEndpoints S eN eH).rightHom x = eH (S.rightHom x) :=
-  rfl
+  by
+    rw [transportEndpoints, relabelQuotient_rightHom, relabelKernel_rightHom]
 
 private theorem ext_of_maps
     {S S' : GroupExtension N E H}
@@ -98,9 +114,9 @@ theorem transportEndpoints_refl (S : GroupExtension N E H) :
     transportEndpoints S (MulEquiv.refl N) (MulEquiv.refl H) = S := by
   apply ext_of_maps
   · ext n
-    rfl
+    simp only [transportEndpoints_inl, MulEquiv.refl_symm, MulEquiv.refl_apply]
   · ext x
-    rfl
+    simp only [transportEndpoints_rightHom, MulEquiv.refl_apply]
 
 /-- Endpoint transport respects composition of kernel and quotient equivalences. -/
 theorem transportEndpoints_trans
@@ -111,9 +127,10 @@ theorem transportEndpoints_trans
       transportEndpoints S (eN.trans eN') (eH.trans eH') := by
   apply ext_of_maps
   · ext n
+    simp only [transportEndpoints_inl]
     rfl
   · ext x
-    rfl
+    simp only [transportEndpoints_rightHom, MulEquiv.trans_apply]
 
 /-- Transporting extension endpoints forward and then backward recovers the extension. -/
 @[simp]
@@ -165,6 +182,9 @@ def transport (X : ExtensionOverAction (E := E) ρ)
       (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv
   conjugation_inl := by
     intro e t
+    rw [GroupExtension.transportEndpoints_inl,
+      GroupExtension.transportEndpoints_rightHom,
+      GroupExtension.transportEndpoints_inl]
     change
       X.inl
           (Multiplicative.ofAdd
@@ -180,20 +200,53 @@ def transport (X : ExtensionOverAction (E := E) ρ)
           simpa [AdditiveAction.Equiv.symm] using hintertwines]
     exact X.conjugation_inl e (a.kernelEquiv.symm t)
 
+private theorem transport_toGroupExtension_impl
+    (X : ExtensionOverAction (E := E) ρ)
+    (a : AdditiveAction.Equiv ρ ρ') :
+    (X.transport a).toGroupExtension =
+      GroupExtension.transportEndpoints X.toGroupExtension
+        (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv :=
+  rfl
+
+/-- Transport relabels the endpoints of the underlying group extension and leaves its middle
+group unchanged. -/
+@[simp]
+theorem transport_toGroupExtension
+    (X : ExtensionOverAction (E := E) ρ)
+    (a : AdditiveAction.Equiv ρ ρ') :
+    (X.transport a).toGroupExtension =
+      GroupExtension.transportEndpoints X.toGroupExtension
+        (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv :=
+  transport_toGroupExtension_impl X a
+
+private theorem transport_inl_impl (X : ExtensionOverAction (E := E) ρ)
+    (a : AdditiveAction.Equiv ρ ρ') (t : T') :
+    (X.transport a).inl (Multiplicative.ofAdd t) =
+      X.inl (Multiplicative.ofAdd (a.kernelEquiv.symm t)) := by
+  rw [ExtensionOverAction.inl, transport_toGroupExtension,
+    GroupExtension.transportEndpoints_inl]
+  rfl
+
 /-- The transported kernel inclusion uses the inverse additive-kernel equivalence. -/
 @[simp]
 theorem transport_inl (X : ExtensionOverAction (E := E) ρ)
     (a : AdditiveAction.Equiv ρ ρ') (t : T') :
     (X.transport a).inl (Multiplicative.ofAdd t) =
       X.inl (Multiplicative.ofAdd (a.kernelEquiv.symm t)) :=
-  rfl
+  transport_inl_impl X a t
+
+private theorem transport_rightHom_impl (X : ExtensionOverAction (E := E) ρ)
+    (a : AdditiveAction.Equiv ρ ρ') (e : E) :
+    (X.transport a).rightHom e = a.quotientEquiv (X.rightHom e) := by
+  rw [ExtensionOverAction.rightHom, transport_toGroupExtension,
+    GroupExtension.transportEndpoints_rightHom]
 
 /-- The transported quotient projection uses the forward quotient equivalence. -/
 @[simp]
 theorem transport_rightHom (X : ExtensionOverAction (E := E) ρ)
     (a : AdditiveAction.Equiv ρ ρ') (e : E) :
     (X.transport a).rightHom e = a.quotientEquiv (X.rightHom e) :=
-  rfl
+  transport_rightHom_impl X a e
 
 private theorem ext_of_groupExtension
     {X X' : ExtensionOverAction (E := E) ρ}
@@ -210,6 +263,7 @@ identity. -/
 theorem transport_refl (X : ExtensionOverAction (E := E) ρ) :
     X.transport (AdditiveAction.Equiv.refl ρ) = X := by
   apply ext_of_groupExtension
+  rw [transport_toGroupExtension]
   exact GroupExtension.transportEndpoints_refl X.toGroupExtension
 
 /-- Transport of extensions over actions respects composition of action equivalences. -/
@@ -217,9 +271,11 @@ theorem transport_trans (X : ExtensionOverAction (E := E) ρ)
     (a : AdditiveAction.Equiv ρ ρ') (a' : AdditiveAction.Equiv ρ' ρ'') :
     (X.transport a).transport a' = X.transport (a.trans a') := by
   apply ext_of_groupExtension
+  rw [transport_toGroupExtension, transport_toGroupExtension,
+    transport_toGroupExtension]
   exact GroupExtension.transportEndpoints_trans X.toGroupExtension
-    (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv
-    (AddEquiv.toMultiplicative a'.kernelEquiv) a'.quotientEquiv
+      (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv
+      (AddEquiv.toMultiplicative a'.kernelEquiv) a'.quotientEquiv
 
 /-- Transporting an extension over an action forward and then backward recovers it. -/
 @[simp]
@@ -227,8 +283,9 @@ theorem transport_symm (X : ExtensionOverAction (E := E) ρ)
     (a : AdditiveAction.Equiv ρ ρ') :
     (X.transport a).transport a.symm = X := by
   apply ext_of_groupExtension
+  rw [transport_toGroupExtension, transport_toGroupExtension]
   exact GroupExtension.transportEndpoints_symm X.toGroupExtension
-    (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv
+      (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv
 
 /-- Transporting an extension over an action backward and then forward recovers it. -/
 @[simp]
@@ -236,8 +293,9 @@ theorem symm_transport (X : ExtensionOverAction (E := E) ρ')
     (a : AdditiveAction.Equiv ρ ρ') :
     (X.transport a.symm).transport a = X := by
   apply ext_of_groupExtension
+  rw [transport_toGroupExtension, transport_toGroupExtension]
   exact GroupExtension.symm_transportEndpoints X.toGroupExtension
-    (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv
+      (AddEquiv.toMultiplicative a.kernelEquiv) a.quotientEquiv
 
 end ExtensionOverAction
 

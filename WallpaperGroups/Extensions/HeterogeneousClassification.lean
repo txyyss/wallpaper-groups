@@ -1,5 +1,7 @@
-import WallpaperGroups.Extensions.Classification
-import WallpaperGroups.Extensions.EndpointTransport
+module
+
+public import WallpaperGroups.Extensions.Classification
+public import WallpaperGroups.Extensions.EndpointTransport
 
 set_option linter.style.header false
 
@@ -14,6 +16,8 @@ mathlib's existing endpoint-preserving `GroupExtension.Equiv`.
 No quotient of all middle-group types and no second fixed-endpoint equivalence
 are introduced.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -73,7 +77,8 @@ theorem rightHom_map (e : X.EquivAlong a Y) (x : E) :
   calc
     Y.rightHom (e x) = (X.transport a).rightHom x :=
       GroupExtension.Equiv.rightHom_map e x
-    _ = a.quotientEquiv (X.rightHom x) := rfl
+    _ = a.quotientEquiv (X.rightHom x) :=
+      ExtensionOverAction.transport_rightHom X a x
 
 /-- Regard a fixed-endpoint extension equivalence as an equivalence along the
 identity action equivalence. -/
@@ -183,16 +188,29 @@ def trans (e : X.EquivAlong a Y) (e' : Y.EquivAlong a' Z) :
   inl_comm := by
     funext t
     simp only [Function.comp_apply, MulEquiv.trans_apply]
-    change
-      e' (e (X.inl
-        (Multiplicative.ofAdd
-          ((a.trans a').kernelEquiv.symm t)))) =
-        Z.inl (Multiplicative.ofAdd t)
-    rw [map_inl e, map_inl e']
-    apply congrArg Z.inl
-    apply congrArg Multiplicative.ofAdd
-    exact
-      (a.kernelEquiv.trans a'.kernelEquiv).apply_symm_apply t.toAdd
+    have hinl :
+        (X.transport (a.trans a')).toGroupExtension.inl t =
+          X.inl
+            (Multiplicative.ofAdd
+              ((a.trans a').kernelEquiv.symm t.toAdd)) := by
+      exact ExtensionOverAction.transport_inl X (a.trans a') t.toAdd
+    rw [hinl]
+    let u := (a.trans a').kernelEquiv.symm t.toAdd
+    calc
+      e'.toMulEquiv (e.toMulEquiv
+          (X.inl (Multiplicative.ofAdd u))) =
+          e'.toMulEquiv
+            (Y.inl (Multiplicative.ofAdd (a.kernelEquiv u))) :=
+        congrArg e'.toMulEquiv (map_inl e u)
+      _ = Z.inl
+          (Multiplicative.ofAdd
+            (a'.kernelEquiv (a.kernelEquiv u))) :=
+        map_inl e' (a.kernelEquiv u)
+      _ = Z.toGroupExtension.inl t := by
+        apply congrArg Z.inl
+        apply congrArg Multiplicative.ofAdd
+        exact
+          (a.kernelEquiv.trans a'.kernelEquiv).apply_symm_apply t.toAdd
   rightHom_comm := by
     funext x
     simp only [Function.comp_apply, MulEquiv.trans_apply]
@@ -204,7 +222,8 @@ def trans (e : X.EquivAlong a Y) (e' : Y.EquivAlong a' Z) :
           (a.quotientEquiv (X.rightHom x)) := by
         rw [rightHom_map e x]
       _ = ((a.trans a').quotientEquiv) (X.rightHom x) := rfl
-      _ = (X.transport (a.trans a')).rightHom x := rfl
+      _ = (X.transport (a.trans a')).rightHom x :=
+        (ExtensionOverAction.transport_rightHom X (a.trans a') x).symm
 
 end EquivAlong
 
@@ -233,6 +252,13 @@ def transport
   map_one := by
     simp
 
+private theorem transport_apply_impl
+    (X : ExtensionOverAction (E := E) ρ)
+    (s : NormalizedSection X.toGroupExtension)
+    (a : AdditiveAction.Equiv ρ ρ') (h : H') :
+    s.transport X a h = s (a.quotientEquiv.symm h) :=
+  rfl
+
 /-- Evaluation of a normalized section after action transport. -/
 @[simp]
 theorem transport_apply
@@ -240,7 +266,7 @@ theorem transport_apply
     (s : NormalizedSection X.toGroupExtension)
     (a : AdditiveAction.Equiv ρ ρ') (h : H') :
     s.transport X a h = s (a.quotientEquiv.symm h) :=
-  rfl
+  transport_apply_impl X s a h
 
 /-- Section factors are natural under simultaneous kernel and quotient
 transport. -/
@@ -267,7 +293,8 @@ theorem toCocycle_transport
     (s.transport X a).toCocycle (X.transport a) =
       (s.toCocycle X).transport a := by
   ext g h
-  exact factor_transport X s a g h
+  simpa only [toCocycle_apply, NormalizedCocycle.transport_apply] using
+    factor_transport X s a g h
 
 /-- Transport a section along the action endpoints and then through an
 `EquivAlong`; its extracted cocycle is the transported source cocycle. -/
@@ -287,7 +314,7 @@ namespace TwistedProduct
 
 /-- Relabel both coordinates of a twisted product along an equivalence of
 prescribed actions. -/
-def transportMulEquiv
+@[expose] def transportMulEquiv
     (c : NormalizedCocycle ρ)
     (a : AdditiveAction.Equiv ρ ρ') :
     TwistedProduct c ≃* TwistedProduct (c.transport a) where
@@ -336,19 +363,25 @@ def transportExtensionEquivAlong
   inl_comm := by
     funext t
     simp only [Function.comp_apply]
-    change
-      transportMulEquiv c a
-          (TwistedProduct.inl c
-            (Multiplicative.ofAdd (a.kernelEquiv.symm t))) =
-        TwistedProduct.inl (c.transport a)
-          (Multiplicative.ofAdd t)
+    have hinl :
+        ((toExtensionOverAction c).transport a).toGroupExtension.inl t =
+          (toExtensionOverAction c).inl
+            (Multiplicative.ofAdd (a.kernelEquiv.symm t.toAdd)) := by
+      exact ExtensionOverAction.transport_inl
+        (toExtensionOverAction c) a t.toAdd
+    rw [hinl,
+      TwistedProduct.toExtensionOverAction_inl,
+      TwistedProduct.toExtensionOverAction_inl]
     ext
     · exact a.kernelEquiv.apply_symm_apply t.toAdd
     · simp
   rightHom_comm := by
     funext x
     simp only [Function.comp_apply]
-    rfl
+    rw [ExtensionOverAction.transport_rightHom,
+      TwistedProduct.toExtensionOverAction_rightHom,
+      TwistedProduct.toExtensionOverAction_rightHom]
+    exact transportMulEquiv_right c a x
 
 end TwistedProduct
 
@@ -373,7 +406,12 @@ theorem equivAlong_iff_cocycleCohomologous
       CocycleCohomologous
         ((s.toCocycle X).transport a)
         (t.toCocycle Y) := by
-  simpa [NormalizedSection.toCocycle_transport] using
+  change
+    Nonempty ((X.transport a).toGroupExtension.Equiv Y.toGroupExtension) ↔
+      CocycleCohomologous
+        ((s.toCocycle X).transport a)
+        (t.toCocycle Y)
+  simpa only [NormalizedSection.toCocycle_transport] using
     ExtensionOverAction.extensionEquiv_iff_cocycleCohomologous
       (X.transport a) Y (s.transport X a) t
 

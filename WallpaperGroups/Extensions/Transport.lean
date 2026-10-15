@@ -1,4 +1,6 @@
-import WallpaperGroups.Extensions.NormalizedCocycle
+module
+
+public import WallpaperGroups.Extensions.NormalizedCocycle
 
 set_option linter.style.header false
 
@@ -13,6 +15,8 @@ kernel equivalence.
 Only action and cocycle data are transported here.  Transport of group-extension endpoints is a
 separate layer.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -51,7 +55,7 @@ variable
     {ρ'' : AdditiveAction H'' T''}
 
 /-- The identity equivalence of an explicit additive action. -/
-protected def refl (ρ : AdditiveAction H T) : Equiv ρ ρ where
+@[expose] protected def refl (ρ : AdditiveAction H T) : Equiv ρ ρ where
   kernelEquiv := AddEquiv.refl T
   quotientEquiv := MulEquiv.refl H
   intertwines := by
@@ -59,7 +63,7 @@ protected def refl (ρ : AdditiveAction H T) : Equiv ρ ρ where
     rfl
 
 /-- Reverse an equivalence of explicit additive actions. -/
-protected def symm (a : Equiv ρ ρ') : Equiv ρ' ρ where
+@[expose] protected def symm (a : Equiv ρ ρ') : Equiv ρ' ρ where
   kernelEquiv := a.kernelEquiv.symm
   quotientEquiv := a.quotientEquiv.symm
   intertwines := by
@@ -69,7 +73,7 @@ protected def symm (a : Equiv ρ ρ') : Equiv ρ' ρ where
       (a.intertwines (a.quotientEquiv.symm h) (a.kernelEquiv.symm t)).symm
 
 /-- Compose equivalences of explicit additive actions. -/
-protected def trans (a : Equiv ρ ρ') (a' : Equiv ρ' ρ'') : Equiv ρ ρ'' where
+@[expose] protected def trans (a : Equiv ρ ρ') (a' : Equiv ρ' ρ'') : Equiv ρ ρ'' where
   kernelEquiv := a.kernelEquiv.trans a'.kernelEquiv
   quotientEquiv := a.quotientEquiv.trans a'.quotientEquiv
   intertwines := by
@@ -95,7 +99,7 @@ variable
 namespace NormalizedCochain
 
 /-- Transport a normalized cochain forward along an equivalence of actions. -/
-def transport (b : NormalizedCochain H T) (a : AdditiveAction.Equiv ρ ρ') :
+@[expose] def transport (b : NormalizedCochain H T) (a : AdditiveAction.Equiv ρ ρ') :
     NormalizedCochain H' T' where
   toFun := fun h ↦ a.kernelEquiv (b (a.quotientEquiv.symm h))
   map_one := by
@@ -142,7 +146,7 @@ end NormalizedCochain
 namespace NormalizedCocycle
 
 /-- Transport a normalized cocycle forward along an equivalence of actions. -/
-def transport (c : NormalizedCocycle ρ) (a : AdditiveAction.Equiv ρ ρ') :
+@[expose] def transport (c : NormalizedCocycle ρ) (a : AdditiveAction.Equiv ρ ρ') :
     NormalizedCocycle ρ' where
   toFun := fun g h ↦
     a.kernelEquiv

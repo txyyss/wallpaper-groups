@@ -1,4 +1,7 @@
-import WallpaperGroups.Extensions.Section
+module
+
+public import WallpaperGroups.Extensions.Section
+import Mathlib.Tactic.Group
 
 set_option linter.style.header false
 
@@ -15,6 +18,8 @@ two normalized cocycles are endpoint-preservingly equivalent exactly when the co
 an explicit normalized coboundary.  No quotient over varying middle-group types and no
 group-cohomology library is used.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -48,7 +53,7 @@ variable [Group N] [Group E] [Group E']
 variable {S : GroupExtension N E H} {S' : GroupExtension N E' H}
 
 /-- Transport a normalized section through an endpoint-preserving extension equivalence. -/
-def equivComp (s : NormalizedSection S) (e : S.Equiv S') :
+@[expose] def equivComp (s : NormalizedSection S) (e : S.Equiv S') :
     NormalizedSection S' where
   toSection := s.toSection.equivComp e
   map_one := by
@@ -85,7 +90,7 @@ theorem toCocycle_equivComp
     (e : X.toGroupExtension.Equiv Y.toGroupExtension) :
     (s.equivComp e).toCocycle Y = s.toCocycle X := by
   ext g h
-  exact factor_equivComp s e g h
+  simpa only [toCocycle_apply] using factor_equivComp s e g h
 
 /-- The cocycles extracted from any two normalized sections of a fixed-action extension are
 cohomologous.  The witnessing cochain is their pointwise kernel difference. -/
@@ -115,15 +120,21 @@ noncomputable def normalFormHom
     simp
   map_mul' := by
     intro x y
-    change
-      X.inl (Multiplicative.ofAdd
-          (x.left + ρ.apply x.right y.left + factor s x.right y.right)) *
-          s (x.right * y.right) =
-        (X.inl (Multiplicative.ofAdd x.left) * s x.right) *
-          (X.inl (Multiplicative.ofAdd y.left) * s y.right)
+    rw [TwistedProduct.mul_left, TwistedProduct.mul_right,
+      NormalizedSection.toCocycle_apply]
     rw [ofAdd_add, ofAdd_add, map_mul, map_mul]
     rw [conjugation_inl X s, inl_factor]
     group
+
+/-- Private reduction fact: the public API observes `normalFormHom` through
+`normalFormHom_apply`, without exposing the constructor itself. -/
+private theorem normalFormHom_apply_impl
+    (X : ExtensionOverAction (E := E) ρ)
+    (s : NormalizedSection X.toGroupExtension)
+    (x : TwistedProduct (s.toCocycle X)) :
+    normalFormHom X s x =
+      X.inl (Multiplicative.ofAdd x.left) * s x.right :=
+  rfl
 
 @[simp]
 theorem normalFormHom_apply
@@ -132,7 +143,7 @@ theorem normalFormHom_apply
     (x : TwistedProduct (s.toCocycle X)) :
     normalFormHom X s x =
       X.inl (Multiplicative.ofAdd x.left) * s x.right :=
-  rfl
+  normalFormHom_apply_impl X s x
 
 @[simp]
 theorem normalFormHom_inl
@@ -142,6 +153,7 @@ theorem normalFormHom_inl
     normalFormHom X s
         (TwistedProduct.inl (s.toCocycle X) t) =
       X.inl t := by
+  rw [normalFormHom_apply]
   simp
 
 @[simp]
@@ -151,6 +163,7 @@ theorem rightHom_normalFormHom
     (x : TwistedProduct (s.toCocycle X)) :
     X.rightHom (normalFormHom X s x) =
       TwistedProduct.rightHom (s.toCocycle X) x := by
+  rw [normalFormHom_apply]
   simp
 
 /-- Reconstruction from a normalized section as an endpoint-preserving extension equivalence. -/
@@ -168,6 +181,14 @@ noncomputable def twistedProductExtensionEquiv
       ext x
       simp)
 
+/-- Private reduction fact isolating the implementation of the reconstruction equivalence. -/
+private theorem twistedProductExtensionEquiv_apply_impl
+    (X : ExtensionOverAction (E := E) ρ)
+    (s : NormalizedSection X.toGroupExtension)
+    (x : TwistedProduct (s.toCocycle X)) :
+    twistedProductExtensionEquiv X s x = normalFormHom X s x :=
+  rfl
+
 @[simp]
 theorem twistedProductExtensionEquiv_apply
     (X : ExtensionOverAction (E := E) ρ)
@@ -175,7 +196,8 @@ theorem twistedProductExtensionEquiv_apply
     (x : TwistedProduct (s.toCocycle X)) :
     twistedProductExtensionEquiv X s x =
       X.inl (Multiplicative.ofAdd x.left) * s x.right :=
-  rfl
+  (twistedProductExtensionEquiv_apply_impl X s x).trans
+    (normalFormHom_apply X s x)
 
 end Reconstruction
 

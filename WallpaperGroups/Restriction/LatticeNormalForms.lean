@@ -1,7 +1,9 @@
+module
+
 import Mathlib.Algebra.Module.ZLattice.Basic
 import Mathlib.Algebra.Order.Round
-import WallpaperGroups.Basic.RankTwoLattice
-import WallpaperGroups.Restriction.Crystallographic
+public import WallpaperGroups.Basic.RankTwoLattice
+public import WallpaperGroups.Restriction.Crystallographic
 
 set_option linter.style.header false
 
@@ -14,6 +16,8 @@ the orbit pair `(t, A t)` of a shortest vector is an integral basis.  In that ba
 the standard order-three, order-four, or order-six companion matrix used by later classification
 milestones.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -242,14 +246,14 @@ noncomputable def shortestOrbitBasis
 end RankTwoLattice
 
 /-- The standard integral rotation matrix with trace `c`. -/
-def rotationMatrix (c : ℤ) : Matrix (Fin 2) (Fin 2) ℤ := !![0, -1; 1, c]
+@[expose] def rotationMatrix (c : ℤ) : Matrix (Fin 2) (Fin 2) ℤ := !![0, -1; 1, c]
 
 /-- Standard order-three lattice rotation matrix. -/
-def rotationMatrix3 : Matrix (Fin 2) (Fin 2) ℤ := rotationMatrix (-1)
+@[expose] def rotationMatrix3 : Matrix (Fin 2) (Fin 2) ℤ := rotationMatrix (-1)
 /-- Standard order-four lattice rotation matrix. -/
-def rotationMatrix4 : Matrix (Fin 2) (Fin 2) ℤ := rotationMatrix 0
+@[expose] def rotationMatrix4 : Matrix (Fin 2) (Fin 2) ℤ := rotationMatrix 0
 /-- Standard order-six lattice rotation matrix. -/
-def rotationMatrix6 : Matrix (Fin 2) (Fin 2) ℤ := rotationMatrix 1
+@[expose] def rotationMatrix6 : Matrix (Fin 2) (Fin 2) ℤ := rotationMatrix 1
 
 /-- Cayley–Hamilton for a real endomorphism of the plane in trace-determinant form. -/
 lemma plane_endomorphism_cayley_hamilton (T : Plane →ₗ[ℝ] Plane) :

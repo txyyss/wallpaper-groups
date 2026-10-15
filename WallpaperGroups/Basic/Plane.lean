@@ -1,4 +1,6 @@
-import Mathlib.Analysis.InnerProductSpace.PiL2
+module
+
+public import Mathlib.Analysis.InnerProductSpace.PiL2
 
 set_option linter.style.header false
 
@@ -9,6 +11,8 @@ This module fixes the ambient plane used throughout the classification and recor
 coordinate basis and dimension.  The public type remains mathlib's Euclidean space, so its norm,
 inner product, and finite-dimensional instances are available without adapters.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -25,7 +29,7 @@ theorem finrank : Module.finrank ℝ Plane = 2 :=
   finrank_euclideanSpace_fin
 
 /-- The canonical real coordinate basis of the Euclidean plane. -/
-noncomputable def canonicalRealBasis : Module.Basis (Fin 2) ℝ Plane :=
+@[expose] noncomputable def canonicalRealBasis : Module.Basis (Fin 2) ℝ Plane :=
   (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis
 
 /-- A vector of the canonical basis is the corresponding Euclidean coordinate vector. -/

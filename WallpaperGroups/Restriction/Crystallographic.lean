@@ -1,8 +1,12 @@
-import Mathlib.Analysis.InnerProductSpace.Trace
-import Mathlib.GroupTheory.OrderOfElement
+module
+
+public import Mathlib.Analysis.InnerProductSpace.Trace
+public import Mathlib.GroupTheory.OrderOfElement
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Coeff
-import WallpaperGroups.Invariants.IntegralAction
-import WallpaperGroups.Restriction.Orientation
+-- Proof-only access to unfold the opaque implementation of `RankTwoLattice.extendEquiv`.
+import all WallpaperGroups.Basic.RankTwoLattice
+public import WallpaperGroups.Invariants.IntegralAction
+public import WallpaperGroups.Restriction.Orientation
 
 set_option linter.style.header false
 
@@ -14,6 +18,8 @@ orientation-preserving element of a plane point group has order `1`, `2`, `3`, `
 The public trace bridge relates the integral lattice action to the ambient real isometry, while
 the exact `GL₂(ℤ)` order lemmas provide reusable algebraic input for later lattice normal forms.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -48,7 +54,7 @@ instance : Fintype CrystallographicOrder where
 namespace CrystallographicOrder
 
 /-- Interpret a crystallographic order as its natural-number value. -/
-def toNat : CrystallographicOrder → ℕ
+@[expose] def toNat : CrystallographicOrder → ℕ
   | .one => 1
   | .two => 2
   | .three => 3
@@ -58,7 +64,7 @@ def toNat : CrystallographicOrder → ℕ
 end CrystallographicOrder
 
 /-- A natural number is an allowed two-dimensional crystallographic rotation order. -/
-def IsCrystallographicOrder (n : ℕ) : Prop :=
+@[expose] def IsCrystallographicOrder (n : ℕ) : Prop :=
   n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4 ∨ n = 6
 
 /-- The predicate of allowed orders is exactly membership in the typed five-element list. -/

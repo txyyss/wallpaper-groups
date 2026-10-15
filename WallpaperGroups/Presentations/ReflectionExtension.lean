@@ -1,4 +1,6 @@
-import WallpaperGroups.Presentations.CyclicExtension
+module
+
+public import WallpaperGroups.Presentations.CyclicExtension
 
 set_option linter.style.header false
 
@@ -10,6 +12,8 @@ form.  This file packages that normal form and proves a reusable translation-pre
 isomorphism theorem.  The square of a selected reflection lift is the only extra relation; changing
 the lift changes this square shift by the order-two norm vector.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -31,7 +35,7 @@ structure ReflectionExtensionData (G : PlaneGroup) where
   lift_sq : lift ^ 2 = translationElement G.carrier shift
 
 /-- Decode translation/reflection normal-form coordinates. -/
-def reflectionDecode {G : PlaneGroup} (c : ReflectionExtensionData G) :
+@[expose] def reflectionDecode {G : PlaneGroup} (c : ReflectionExtensionData G) :
     translationVectors G.carrier × Bool → G.carrier
   | (t, false) => translationElement G.carrier t
   | (t, true) => translationElement G.carrier t * c.lift
@@ -182,7 +186,7 @@ theorem reflectionDecode_mul_tt {G : PlaneGroup}
           exact (translationElement_add G.carrier _ _).symm
 
 /-- The order-two norm vector attached to the selected reflection action. -/
-def reflectionNormVector {G : PlaneGroup} (c : ReflectionExtensionData G)
+@[expose] def reflectionNormVector {G : PlaneGroup} (c : ReflectionExtensionData G)
     (t : translationVectors G.carrier) : translationVectors G.carrier :=
   t + pointAction G.carrier c.generator t
 

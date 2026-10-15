@@ -1,7 +1,9 @@
-import WallpaperGroups.Classification.PlaneGroupClasses
-import WallpaperGroups.Geometry.MotionType
-import WallpaperGroups.Geometry.StrongToGeometric
-import WallpaperGroups.Geometry.TranslationLatticeRecovery
+module
+
+public import WallpaperGroups.Classification.PlaneGroupClasses
+public import WallpaperGroups.Geometry.MotionType
+public import WallpaperGroups.Geometry.StrongToGeometric
+public import WallpaperGroups.Geometry.TranslationLatticeRecovery
 
 set_option linter.style.header false
 
@@ -18,6 +20,8 @@ equivalence is the direct textbook relation preserving translations, rotations, 
 glide reflections.  Adapters to M8a make the geometric seventeen-class theorem a corollary of the
 existing Version 1 classification.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -47,7 +51,7 @@ def toPlaneGroup (X : GeometricWallpaperGroup) : PlaneGroup where
 @[simp]
 theorem toPlaneGroup_carrier (X : GeometricWallpaperGroup) :
     X.toPlaneGroup.carrier = X.carrier :=
-  rfl
+  by rfl
 
 /-- The recovered strong translation lattice has exactly the original translation module. -/
 @[simp]
@@ -242,7 +246,7 @@ def toPlaneGroupTarget {X : GeometricWallpaperGroup} {G : PlaneGroup}
 end MotionTypePreservingIso
 
 /-- Direct textbook equivalence is nonempty direct motion-type-preserving isomorphism. -/
-def TextbookEquivalent (X Y : GeometricWallpaperGroup) : Prop :=
+@[expose] def TextbookEquivalent (X Y : GeometricWallpaperGroup) : Prop :=
   Nonempty (MotionTypePreservingIso X Y)
 
 namespace TextbookEquivalent
@@ -320,7 +324,7 @@ theorem toPlaneGroup_toGeometric (X : GeometricWallpaperGroup) :
 theorem toPlaneGroup_toGeometric_carrier
     (X : GeometricWallpaperGroup) :
     X.toPlaneGroup.toGeometricWallpaperGroup.carrier = X.carrier :=
-  rfl
+  by rfl
 
 /-- Geometric wallpaper groups modulo direct textbook equivalence. -/
 abbrev EquivalenceClass :=
@@ -340,7 +344,7 @@ def geometricModel (w : WallpaperType) : GeometricWallpaperGroup :=
 @[simp]
 theorem geometricModel_carrier (w : WallpaperType) :
     w.geometricModel.carrier = w.model.carrier :=
-  rfl
+  by rfl
 
 end WallpaperType
 
@@ -420,7 +424,7 @@ theorem geometricEquivalenceClassEquiv_apply
     (w : WallpaperType) :
     geometricEquivalenceClassEquiv w =
       toGeometricEquivalenceClass w :=
-  rfl
+  by rfl
 
 end WallpaperType
 

@@ -1,4 +1,6 @@
-import WallpaperGroups.Classification.Wallpaper
+module
+
+public import WallpaperGroups.Classification.Wallpaper
 
 set_option linter.style.header false
 
@@ -18,6 +20,8 @@ translation-preserving equivalence used by the Version 1 classification.  The fi
 statement is therefore a corollary of the existing classifier.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -31,34 +35,34 @@ noncomputable section
 namespace PlaneMotion
 
 /-- The real determinant of the linear part of a Euclidean motion of the plane. -/
-def determinant (g : EuclideanMotion Plane) : ℝ :=
+@[expose] def determinant (g : EuclideanMotion Plane) : ℝ :=
   LinearMap.det
     ((linearPart g).toLinearEquiv : Plane →ₗ[ℝ] Plane)
 
 /-- A plane motion has a fixed point when it fixes at least one point of the affine plane. -/
-def HasFixedPoint (g : EuclideanMotion Plane) : Prop :=
+@[expose] def HasFixedPoint (g : EuclideanMotion Plane) : Prop :=
   ∃ x : Plane, g x = x
 
 /--
 A translation is a plane motion with identity linear part.  This convention includes the identity
 motion as translation by zero.
 -/
-def IsTranslation (g : EuclideanMotion Plane) : Prop :=
+@[expose] def IsTranslation (g : EuclideanMotion Plane) : Prop :=
   linearPart g = 1
 
 /--
 A rotation is an orientation-preserving plane motion that is not a translation.  In particular,
 the identity is not classified as a rotation.
 -/
-def IsRotation (g : EuclideanMotion Plane) : Prop :=
+@[expose] def IsRotation (g : EuclideanMotion Plane) : Prop :=
   0 < determinant g ∧ ¬ IsTranslation g
 
 /-- A reflection is an orientation-reversing plane motion with a fixed point. -/
-def IsReflection (g : EuclideanMotion Plane) : Prop :=
+@[expose] def IsReflection (g : EuclideanMotion Plane) : Prop :=
   determinant g < 0 ∧ HasFixedPoint g
 
 /-- A glide reflection is an orientation-reversing plane motion without a fixed point. -/
-def IsGlideReflection (g : EuclideanMotion Plane) : Prop :=
+@[expose] def IsGlideReflection (g : EuclideanMotion Plane) : Prop :=
   determinant g < 0 ∧ ¬ HasFixedPoint g
 
 /-- The determinant of the linear part of a Euclidean motion is nonzero. -/
@@ -382,7 +386,7 @@ namespace TranslationPreservingIso
 variable {G H : PlaneGroup}
 
 /-- Forget no data: a translation-preserving isomorphism automatically preserves all four types. -/
-def toMotionTypePreservingIso (e : TranslationPreservingIso G H) :
+@[expose] def toMotionTypePreservingIso (e : TranslationPreservingIso G H) :
     MotionTypePreservingIso G H where
   toMulEquiv := e.toMulEquiv
   map_isTranslation_iff g := (e.map_isTranslation_iff g).symm
@@ -400,7 +404,7 @@ variable {G H : PlaneGroup}
 Keeping only translation preservation turns a motion-type-preserving isomorphism into the Version 1
 notion.  The other three fields are consequences rather than extra restrictions.
 -/
-def toTranslationPreservingIso (e : MotionTypePreservingIso G H) :
+@[expose] def toTranslationPreservingIso (e : MotionTypePreservingIso G H) :
     TranslationPreservingIso G H where
   toMulEquiv := e.toMulEquiv
   map_translationSubgroup := by
@@ -424,7 +428,7 @@ end MotionTypePreservingIso
 namespace PlaneGroup
 
 /-- Textbook equivalence is nonempty motion-type-preserving abstract isomorphism. -/
-def TextbookEquivalent (G H : PlaneGroup) : Prop :=
+@[expose] def TextbookEquivalent (G H : PlaneGroup) : Prop :=
   Nonempty (MotionTypePreservingIso G H)
 
 /-- Textbook equivalence is logically identical to Version 1 translation-preserving equivalence. -/

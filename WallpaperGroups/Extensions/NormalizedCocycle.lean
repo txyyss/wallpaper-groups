@@ -1,5 +1,7 @@
+module
+
 import Mathlib.Tactic.Abel
-import WallpaperGroups.Extensions.Action
+public import WallpaperGroups.Extensions.Action
 
 set_option linter.style.header false
 
@@ -20,6 +22,8 @@ and a normalized section change by `b` changes the factor by
 δb(g,h) = b(g) + g • b(h) - b(gh).
 ```
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -68,7 +72,7 @@ theorem ext {c d : NormalizedCocycle ρ}
   exact h g k
 
 /-- The normalized zero cocycle. -/
-def zero (ρ : AdditiveAction H T) : NormalizedCocycle ρ where
+@[expose] def zero (ρ : AdditiveAction H T) : NormalizedCocycle ρ where
   toFun := fun _ _ ↦ 0
   one_left := fun _ ↦ rfl
   one_right := fun _ ↦ rfl
@@ -109,7 +113,7 @@ theorem ext {b d : NormalizedCochain H T}
   exact h g
 
 /-- The zero normalized cochain. -/
-def zero : NormalizedCochain H T where
+@[expose] def zero : NormalizedCochain H T where
   toFun := fun _ ↦ 0
   map_one := rfl
 
@@ -118,7 +122,7 @@ theorem zero_apply (g : H) : (zero : NormalizedCochain H T) g = 0 :=
   rfl
 
 /-- Pointwise addition of normalized cochains. -/
-def add (b d : NormalizedCochain H T) : NormalizedCochain H T where
+@[expose] def add (b d : NormalizedCochain H T) : NormalizedCochain H T where
   toFun := fun g ↦ b g + d g
   map_one := by simp
 
@@ -128,7 +132,7 @@ theorem add_apply (b d : NormalizedCochain H T) (g : H) :
   rfl
 
 /-- Pointwise negation of a normalized cochain. -/
-def neg (b : NormalizedCochain H T) : NormalizedCochain H T where
+@[expose] def neg (b : NormalizedCochain H T) : NormalizedCochain H T where
   toFun := fun g ↦ -b g
   map_one := by simp
 
@@ -138,7 +142,7 @@ theorem neg_apply (b : NormalizedCochain H T) (g : H) :
   rfl
 
 /-- The explicit coboundary of a normalized `1`-cochain. -/
-def coboundary (ρ : AdditiveAction H T) (b : NormalizedCochain H T) :
+@[expose] def coboundary (ρ : AdditiveAction H T) (b : NormalizedCochain H T) :
     NormalizedCocycle ρ where
   toFun := fun g h ↦ b g + ρ.apply g (b h) - b (g * h)
   one_left := by
@@ -165,7 +169,7 @@ namespace NormalizedCocycle
 variable {ρ : AdditiveAction H T}
 
 /-- Change a cocycle by the explicit coboundary of a normalized cochain. -/
-def changeBy (c : NormalizedCocycle ρ) (b : NormalizedCochain H T) :
+@[expose] def changeBy (c : NormalizedCocycle ρ) (b : NormalizedCochain H T) :
     NormalizedCocycle ρ where
   toFun := fun g h ↦ c g h + b.coboundary ρ g h
   one_left := by
@@ -222,7 +226,7 @@ end NormalizedCocycle
 
 /-- Two normalized cocycles are cohomologous when they differ by the explicit coboundary of a
 normalized cochain. -/
-def CocycleCohomologous {ρ : AdditiveAction H T}
+@[expose] def CocycleCohomologous {ρ : AdditiveAction H T}
     (c d : NormalizedCocycle ρ) : Prop :=
   ∃ b : NormalizedCochain H T, d = c.changeBy b
 

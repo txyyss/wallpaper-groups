@@ -1,6 +1,8 @@
-import Mathlib.Topology.Algebra.ConstMulAction
-import WallpaperGroups.Basic.EuclideanMotion
-import WallpaperGroups.Basic.Plane
+module
+
+public import Mathlib.Topology.Algebra.ConstMulAction
+public import WallpaperGroups.Basic.EuclideanMotion
+public import WallpaperGroups.Basic.Plane
 
 set_option linter.style.header false
 
@@ -12,6 +14,8 @@ the geometric definitions used by the Version 2 bridge.  Discreteness means prop
 in the compact-set finite-intersection sense.  Cocompactness is witnessed by a compact set whose
 translates cover the plane.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -40,14 +44,14 @@ namespace MotionSubgroup
 Geometric discreteness of a Euclidean-motion subgroup: its evaluation action is properly
 discontinuous, in the compact-set finite-intersection sense.
 -/
-def IsDiscrete (Γ : Subgroup (EuclideanMotion Plane)) : Prop :=
+@[expose] def IsDiscrete (Γ : Subgroup (EuclideanMotion Plane)) : Prop :=
   ProperlyDiscontinuousSMul Γ Plane
 
 /--
 Cocompactness of a Euclidean-motion subgroup: some compact subset of the plane has translates
 covering the whole plane.
 -/
-def IsCocompact (Γ : Subgroup (EuclideanMotion Plane)) : Prop :=
+@[expose] def IsCocompact (Γ : Subgroup (EuclideanMotion Plane)) : Prop :=
   ∃ K : Set Plane, IsCompact K ∧ ⋃ γ : Γ, (γ • ·) '' K = Set.univ
 
 /-- The orbit space of a Euclidean-motion subgroup acting on the plane. -/

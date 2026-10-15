@@ -3,8 +3,10 @@ Copyright (c) 2026 Shengyi Wang. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Shengyi Wang
 -/
-import WallpaperGroups.Restriction.LatticeNormalForms
-import Mathlib.Data.Int.GCD
+module
+
+public import WallpaperGroups.Restriction.LatticeNormalForms
+public import Mathlib.Data.Int.GCD
 import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
 
 /-!
@@ -15,6 +17,8 @@ up to an integral change of basis.  It then applies that classification to the
 lattice action of an orientation-reversing point-group element and computes the
 fixed, anti-fixed, and norm directions used by the one-reflection classification.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -152,7 +156,8 @@ inductive ReflectionLatticeKind
   deriving DecidableEq
 
 /-- The primitive and centered reflection matrices, written in column convention. -/
-def reflectionLatticeMatrix : ReflectionLatticeKind → Matrix (Fin 2) (Fin 2) ℤ
+@[expose] def reflectionLatticeMatrix :
+    ReflectionLatticeKind → Matrix (Fin 2) (Fin 2) ℤ
   | .primitive => !![1, 0; 0, -1]
   | .centered => !![1, 1; 0, -1]
 
@@ -305,23 +310,23 @@ noncomputable section
 namespace PlaneGroup
 
 /-- Lattice translations fixed by the point element `s`. -/
-def reflectionFixedSubmodule (G : PlaneGroup)
+@[expose] def reflectionFixedSubmodule (G : PlaneGroup)
     (s : pointGroup G.carrier) : Submodule ℤ G.translationLattice.carrier :=
   LinearMap.ker ((G.latticeAction s).toLinearMap - LinearMap.id)
 
 /-- Lattice translations sent to their negatives by the point element `s`. -/
-def reflectionAntiFixedSubmodule (G : PlaneGroup)
+@[expose] def reflectionAntiFixedSubmodule (G : PlaneGroup)
     (s : pointGroup G.carrier) : Submodule ℤ G.translationLattice.carrier :=
   LinearMap.ker ((G.latticeAction s).toLinearMap + LinearMap.id)
 
 /-- The reflection norm `t ↦ t + s t` on the translation lattice. -/
-def reflectionNormMap (G : PlaneGroup)
+@[expose] def reflectionNormMap (G : PlaneGroup)
     (s : pointGroup G.carrier) :
     G.translationLattice.carrier →ₗ[ℤ] G.translationLattice.carrier :=
   LinearMap.id + (G.latticeAction s).toLinearMap
 
 /-- The range of the reflection norm map. -/
-def reflectionNormRange (G : PlaneGroup)
+@[expose] def reflectionNormRange (G : PlaneGroup)
     (s : pointGroup G.carrier) : Submodule ℤ G.translationLattice.carrier :=
   LinearMap.range (reflectionNormMap G s)
 

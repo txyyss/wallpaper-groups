@@ -1,6 +1,10 @@
-import Mathlib.Topology.Algebra.Group.DiscontinuousSubgroup
-import WallpaperGroups.Basic.PlaneGroup
-import WallpaperGroups.Geometry.GeometricWallpaperGroup
+module
+
+public import Mathlib.Topology.Algebra.Group.DiscontinuousSubgroup
+public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
+public import WallpaperGroups.Basic.PlaneGroup
+public import WallpaperGroups.Geometry.GeometricWallpaperGroup
+import Mathlib.Algebra.Module.ZLattice.Basic
 import WallpaperGroups.Restriction.LatticeNormalForms
 
 set_option linter.style.header false
@@ -16,6 +20,8 @@ finite-index, so proper discontinuity passes to the full plane group.
 
 No converse construction is attempted here.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -42,7 +48,7 @@ theorem finite_inter_of_isBounded (L : RankTwoLattice Plane)
   exact ZSpan.setFinite_inter L.realBasis hs
 
 /-- The closed fundamental parallelogram associated to the chosen lattice basis. -/
-def compactParallelogram (L : RankTwoLattice Plane) : Set Plane :=
+@[expose] def compactParallelogram (L : RankTwoLattice Plane) : Set Plane :=
   parallelepiped L.realBasis
 
 /-- The closed fundamental parallelogram is compact. -/
@@ -168,7 +174,7 @@ theorem motionGroup_compactOrbitSpace (G : PlaneGroup) :
 /--
 Package a strong plane group as a geometric wallpaper group without changing its motion carrier.
 -/
-def toGeometricWallpaperGroup (G : PlaneGroup) : GeometricWallpaperGroup where
+@[expose] def toGeometricWallpaperGroup (G : PlaneGroup) : GeometricWallpaperGroup where
   carrier := G.carrier
   isDiscrete := G.motionGroup_isDiscrete
   isCocompact := G.motionGroup_isCocompact
@@ -177,7 +183,7 @@ def toGeometricWallpaperGroup (G : PlaneGroup) : GeometricWallpaperGroup where
 @[simp]
 theorem toGeometricWallpaperGroup_carrier (G : PlaneGroup) :
     G.toGeometricWallpaperGroup.carrier = G.carrier :=
-  rfl
+  by rfl
 
 end PlaneGroup
 

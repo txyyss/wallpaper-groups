@@ -1,4 +1,6 @@
-import WallpaperGroups.Basic.Plane
+module
+
+public import WallpaperGroups.Basic.Plane
 import Mathlib.Algebra.Module.Submodule.Equiv
 import Mathlib.LinearAlgebra.Basis.Submodule
 import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
@@ -14,6 +16,8 @@ vectors remain linearly independent over the reals.  This gives unique integral 
 keeping the ambient embedding explicit.  The second half of the file develops the matrix,
 `GL₂(ℤ)`, basis-change, and real-extension interfaces used by the classification.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -57,7 +61,7 @@ instance : Membership E (RankTwoLattice E) :=
   ⟨fun L x => x ∈ L.carrier⟩
 
 /-- The underlying additive subgroup of a rank-two lattice. -/
-def toAddSubgroup (L : RankTwoLattice E) : AddSubgroup E :=
+@[expose] def toAddSubgroup (L : RankTwoLattice E) : AddSubgroup E :=
   L.carrier.toAddSubgroup
 
 /-- Membership in the additive carrier is ordinary lattice membership. -/
@@ -79,7 +83,7 @@ theorem carrier_ext (L : RankTwoLattice E) {x y : L.carrier}
   Subtype.ext h
 
 /-- Equal carriers give a canonical integer-linear equivalence of their element types. -/
-def carrierEquivOfEq (L L' : RankTwoLattice E) (h : L.carrier = L'.carrier) :
+@[expose] def carrierEquivOfEq (L L' : RankTwoLattice E) (h : L.carrier = L'.carrier) :
     L.carrier ≃ₗ[ℤ] L'.carrier :=
   LinearEquiv.ofEq L.carrier L'.carrier h
 
@@ -91,7 +95,7 @@ theorem carrierEquivOfEq_apply (L L' : RankTwoLattice E)
   rfl
 
 /-- An additive equivalence of carriers is canonically integer-linear. -/
-def equivOfAddEquiv (L : RankTwoLattice E) (L' : RankTwoLattice E')
+@[expose] def equivOfAddEquiv (L : RankTwoLattice E) (L' : RankTwoLattice E')
     (f : L.toAddSubgroup ≃+ L'.toAddSubgroup) : L.carrier ≃ₗ[ℤ] L'.carrier :=
   f.toIntLinearEquiv
 
@@ -103,11 +107,11 @@ theorem equivOfAddEquiv_apply (L : RankTwoLattice E) (L' : RankTwoLattice E')
   rfl
 
 /-- Unique integer coordinates in the chosen lattice basis. -/
-def coordinates (L : RankTwoLattice E) : L.carrier ≃ₗ[ℤ] (Fin 2 → ℤ) :=
+@[expose] def coordinates (L : RankTwoLattice E) : L.carrier ≃ₗ[ℤ] (Fin 2 → ℤ) :=
   L.basis.equivFun
 
 /-- Reconstruct a lattice element from its two integer coordinates. -/
-def ofCoordinates (L : RankTwoLattice E) : (Fin 2 → ℤ) ≃ₗ[ℤ] L.carrier :=
+@[expose] def ofCoordinates (L : RankTwoLattice E) : (Fin 2 → ℤ) ≃ₗ[ℤ] L.carrier :=
   L.coordinates.symm
 
 /-- Coordinate reconstruction is a left inverse. -/
@@ -141,7 +145,7 @@ theorem basis_expansion (L : RankTwoLattice E) (x : L.carrier) :
   L.basis.sum_equivFun x
 
 /-- Replace the chosen frame while retaining the same integer carrier. -/
-def reframe (L : RankTwoLattice E) (b : Module.Basis (Fin 2) ℤ L.carrier)
+@[expose] def reframe (L : RankTwoLattice E) (b : Module.Basis (Fin 2) ℤ L.carrier)
     (hb : LinearIndependent ℝ (fun i => (b i : E))) : RankTwoLattice E where
   carrier := L.carrier
   basis := b
@@ -162,7 +166,7 @@ theorem reframe_basis (L : RankTwoLattice E) (b : Module.Basis (Fin 2) ℤ L.car
   rfl
 
 /-- Transport a lattice along an ambient real-linear equivalence. -/
-def map (L : RankTwoLattice E) (e : E ≃ₗ[ℝ] E') : RankTwoLattice E' where
+@[expose] def map (L : RankTwoLattice E) (e : E ≃ₗ[ℝ] E') : RankTwoLattice E' where
   carrier := L.carrier.map (e.restrictScalars ℤ : E →ₗ[ℤ] E')
   basis := L.basis.map ((e.restrictScalars ℤ).submoduleMap L.carrier)
   basis_real_linearIndependent := by
@@ -178,15 +182,15 @@ theorem map_basis_apply (L : RankTwoLattice E) (e : E ≃ₗ[ℝ] E') (i : Fin 2
   rfl
 
 /-- The standard copy of `ℤ²` inside the Euclidean plane. -/
-def standardCarrier : Submodule ℤ Plane :=
+@[expose] def standardCarrier : Submodule ℤ Plane :=
   Submodule.span ℤ (Set.range Plane.canonicalRealBasis)
 
 /-- The canonical real coordinate frame, restricted to the standard integer lattice. -/
-def standardBasis : Module.Basis (Fin 2) ℤ standardCarrier :=
+@[expose] def standardBasis : Module.Basis (Fin 2) ℤ standardCarrier :=
   Plane.canonicalRealBasis.restrictScalars ℤ
 
 /-- The standard framed rank-two lattice in the Euclidean plane. -/
-def standardLattice : RankTwoLattice Plane where
+@[expose] def standardLattice : RankTwoLattice Plane where
   carrier := standardCarrier
   basis := standardBasis
   basis_real_linearIndependent := by
@@ -226,7 +230,7 @@ theorem real_span_eq_top (L : RankTwoLattice Plane) :
 /-! ## Integral matrices and `GL₂(ℤ)` -/
 
 /-- The integer matrix of a lattice equivalence in the chosen source and target bases. -/
-def equivMatrix (L : RankTwoLattice E) (L' : RankTwoLattice E')
+@[expose] def equivMatrix (L : RankTwoLattice E) (L' : RankTwoLattice E')
     (f : L.carrier ≃ₗ[ℤ] L'.carrier) : Matrix (Fin 2) (Fin 2) ℤ :=
   LinearMap.toMatrix L.basis L'.basis f.toLinearMap
 
@@ -281,7 +285,7 @@ theorem equivMatrix_symm_mul (L : RankTwoLattice E) (L' : RankTwoLattice E')
   simp
 
 /-- A lattice equivalence as an element of `GL₂(ℤ)`. -/
-def equivGL (L : RankTwoLattice E) (L' : RankTwoLattice E')
+@[expose] def equivGL (L : RankTwoLattice E) (L' : RankTwoLattice E')
     (f : L.carrier ≃ₗ[ℤ] L'.carrier) : Matrix.GeneralLinearGroup (Fin 2) ℤ where
   val := L.equivMatrix L' f
   inv := L'.equivMatrix L f.symm
@@ -395,12 +399,12 @@ theorem matrix_conjugacy (L : RankTwoLattice E) (L' : RankTwoLattice E')
         L'.equivMatrix L f.symm := rfl
 
 /-- The matrix converting old lattice coordinates to a supplied new frame. -/
-def basisChangeMatrix (L : RankTwoLattice E) (b : Module.Basis (Fin 2) ℤ L.carrier)
+@[expose] def basisChangeMatrix (L : RankTwoLattice E) (b : Module.Basis (Fin 2) ℤ L.carrier)
     (hb : LinearIndependent ℝ (fun i => (b i : E))) : Matrix (Fin 2) (Fin 2) ℤ :=
   L.equivMatrix (L.reframe b hb) (LinearEquiv.refl ℤ L.carrier)
 
 /-- The coordinate change bundled as an element of `GL₂(ℤ)`. -/
-def basisChangeGL (L : RankTwoLattice E) (b : Module.Basis (Fin 2) ℤ L.carrier)
+@[expose] def basisChangeGL (L : RankTwoLattice E) (b : Module.Basis (Fin 2) ℤ L.carrier)
     (hb : LinearIndependent ℝ (fun i => (b i : E))) :
     Matrix.GeneralLinearGroup (Fin 2) ℤ :=
   L.equivGL (L.reframe b hb) (LinearEquiv.refl ℤ L.carrier)
@@ -420,7 +424,7 @@ theorem matrix_conjugacy_reframe (L : RankTwoLattice E)
 /-! ## Extension of lattice equivalences to the real plane -/
 
 /-- Cast the integer matrix of a plane-lattice equivalence to a real matrix. -/
-def realEquivMatrix (L L' : RankTwoLattice Plane)
+@[expose] def realEquivMatrix (L L' : RankTwoLattice Plane)
     (f : L.carrier ≃ₗ[ℤ] L'.carrier) : Matrix (Fin 2) (Fin 2) ℝ :=
   (L.equivMatrix L' f).map (Int.castRingHom ℝ)
 

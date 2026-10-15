@@ -1,4 +1,6 @@
-import Mathlib.Analysis.Normed.Affine.Isometry
+module
+
+public import Mathlib.Analysis.Normed.Affine.Isometry
 
 set_option linter.style.header false
 
@@ -9,6 +11,8 @@ This module gives a thin project interface to mathlib's affine isometric equival
 is kept coordinate-free; its translation part is its value at the origin and its linear part is
 the canonical linear isometry supplied by mathlib.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -25,11 +29,11 @@ noncomputable section
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 /-- The translation component of a Euclidean motion, obtained by evaluating it at the origin. -/
-def translationPart (g : EuclideanMotion E) : E :=
+@[expose] def translationPart (g : EuclideanMotion E) : E :=
   g 0
 
 /-- The linear-isometry component of a Euclidean motion, as a group homomorphism. -/
-def linearPart : EuclideanMotion E →* (E ≃ₗᵢ[ℝ] E) where
+@[expose] def linearPart : EuclideanMotion E →* (E ≃ₗᵢ[ℝ] E) where
   toFun g := g.linearIsometryEquiv
   map_one' := by
     apply LinearIsometryEquiv.ext
@@ -41,7 +45,7 @@ def linearPart : EuclideanMotion E →* (E ≃ₗᵢ[ℝ] E) where
     rfl
 
 /-- A linear isometry regarded as a Euclidean motion fixing the origin. -/
-def pureLinear : (E ≃ₗᵢ[ℝ] E) →* EuclideanMotion E where
+@[expose] def pureLinear : (E ≃ₗᵢ[ℝ] E) →* EuclideanMotion E where
   toFun A := A.toAffineIsometryEquiv
   map_one' := by
     apply AffineIsometryEquiv.ext
@@ -53,7 +57,7 @@ def pureLinear : (E ≃ₗᵢ[ℝ] E) →* EuclideanMotion E where
     rfl
 
 /-- The pure translation by a vector `t`. -/
-def translation (t : E) : EuclideanMotion E :=
+@[expose] def translation (t : E) : EuclideanMotion E :=
   AffineIsometryEquiv.constVAdd ℝ E t
 
 /-- A pure translation acts by adding its translation vector. -/
@@ -171,7 +175,7 @@ theorem translation_neg (t : E) : translation (-t) = (translation t)⁻¹ := by
   simp
 
 /-- Pure translations, bundled as a homomorphism from the multiplicative tag of `E`. -/
-def translationHom : Multiplicative E →* EuclideanMotion E where
+@[expose] def translationHom : Multiplicative E →* EuclideanMotion E where
   toFun t := translation t.toAdd
   map_one' := translation_zero
   map_mul' t u := by

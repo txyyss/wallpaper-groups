@@ -1,50 +1,52 @@
-import WallpaperGroups.Basic.EuclideanMotion
-import WallpaperGroups.Basic.Equivalence
-import WallpaperGroups.Basic.Plane
-import WallpaperGroups.Basic.PlaneGroup
-import WallpaperGroups.Basic.RankTwoLattice
-import WallpaperGroups.Extensions.Action
-import WallpaperGroups.Extensions.NormalizedCocycle
-import WallpaperGroups.Extensions.Transport
-import WallpaperGroups.Extensions.EndpointTransport
-import WallpaperGroups.Extensions.TwistedProduct
-import WallpaperGroups.Extensions.Section
-import WallpaperGroups.Extensions.Classification
-import WallpaperGroups.Extensions.HeterogeneousClassification
-import WallpaperGroups.Extensions.PointGroup
-import WallpaperGroups.Extensions.DihedralFactor
-import WallpaperGroups.Invariants.EquivalenceAction
-import WallpaperGroups.Invariants.ExactSequence
-import WallpaperGroups.Invariants.IntegralAction
-import WallpaperGroups.Invariants.PointGroup
-import WallpaperGroups.Invariants.DihedralShift
-import WallpaperGroups.Invariants.ReflectionFamilies
-import WallpaperGroups.Invariants.ReflectionShiftCount
-import WallpaperGroups.Invariants.ShiftClass
-import WallpaperGroups.Invariants.Translation
-import WallpaperGroups.Models.Common
-import WallpaperGroups.Models.DihedralModels
-import WallpaperGroups.Models.ReflectionModels
-import WallpaperGroups.Models.RotationModels
-import WallpaperGroups.Models.WallpaperModels
-import WallpaperGroups.Presentations.CyclicExtension
-import WallpaperGroups.Presentations.DihedralExtension
-import WallpaperGroups.Presentations.ReflectionExtension
-import WallpaperGroups.Presentations.TwoReflectionExtension
-import WallpaperGroups.Restriction.Orientation
-import WallpaperGroups.Restriction.Crystallographic
-import WallpaperGroups.Restriction.DihedralNormalForms
-import WallpaperGroups.Restriction.LatticeNormalForms
-import WallpaperGroups.Restriction.ReflectionNormalForms
-import WallpaperGroups.Classification.ManyReflections
-import WallpaperGroups.Classification.MultipleReflectionInequivalence
-import WallpaperGroups.Classification.NoReflections
-import WallpaperGroups.Classification.OneReflection
-import WallpaperGroups.Classification.Wallpaper
-import WallpaperGroups.Classification.PlaneGroupClasses
-import WallpaperGroups.Geometry.GeometricClassification
-import WallpaperGroups.Geometry.GeometricWallpaperGroup
-import WallpaperGroups.Geometry.GeometricToStrong
-import WallpaperGroups.Geometry.MotionType
-import WallpaperGroups.Geometry.StrongToGeometric
-import WallpaperGroups.Geometry.TranslationLatticeRecovery
+module
+
+public import WallpaperGroups.Basic.EuclideanMotion
+public import WallpaperGroups.Basic.Equivalence
+public import WallpaperGroups.Basic.Plane
+public import WallpaperGroups.Basic.PlaneGroup
+public import WallpaperGroups.Basic.RankTwoLattice
+public import WallpaperGroups.Extensions.Action
+public import WallpaperGroups.Extensions.NormalizedCocycle
+public import WallpaperGroups.Extensions.Transport
+public import WallpaperGroups.Extensions.EndpointTransport
+public import WallpaperGroups.Extensions.TwistedProduct
+public import WallpaperGroups.Extensions.Section
+public import WallpaperGroups.Extensions.Classification
+public import WallpaperGroups.Extensions.HeterogeneousClassification
+public import WallpaperGroups.Extensions.PointGroup
+public import WallpaperGroups.Extensions.DihedralFactor
+public import WallpaperGroups.Invariants.EquivalenceAction
+public import WallpaperGroups.Invariants.ExactSequence
+public import WallpaperGroups.Invariants.IntegralAction
+public import WallpaperGroups.Invariants.PointGroup
+public import WallpaperGroups.Invariants.DihedralShift
+public import WallpaperGroups.Invariants.ReflectionFamilies
+public import WallpaperGroups.Invariants.ReflectionShiftCount
+public import WallpaperGroups.Invariants.ShiftClass
+public import WallpaperGroups.Invariants.Translation
+public import WallpaperGroups.Models.Common
+public import WallpaperGroups.Models.DihedralModels
+public import WallpaperGroups.Models.ReflectionModels
+public import WallpaperGroups.Models.RotationModels
+public import WallpaperGroups.Models.WallpaperModels
+public import WallpaperGroups.Presentations.CyclicExtension
+public import WallpaperGroups.Presentations.DihedralExtension
+public import WallpaperGroups.Presentations.ReflectionExtension
+public import WallpaperGroups.Presentations.TwoReflectionExtension
+public import WallpaperGroups.Restriction.Orientation
+public import WallpaperGroups.Restriction.Crystallographic
+public import WallpaperGroups.Restriction.DihedralNormalForms
+public import WallpaperGroups.Restriction.LatticeNormalForms
+public import WallpaperGroups.Restriction.ReflectionNormalForms
+public import WallpaperGroups.Classification.ManyReflections
+public import WallpaperGroups.Classification.MultipleReflectionInequivalence
+public import WallpaperGroups.Classification.NoReflections
+public import WallpaperGroups.Classification.OneReflection
+public import WallpaperGroups.Classification.Wallpaper
+public import WallpaperGroups.Classification.PlaneGroupClasses
+public import WallpaperGroups.Geometry.GeometricClassification
+public import WallpaperGroups.Geometry.GeometricWallpaperGroup
+public import WallpaperGroups.Geometry.GeometricToStrong
+public import WallpaperGroups.Geometry.MotionType
+public import WallpaperGroups.Geometry.StrongToGeometric
+public import WallpaperGroups.Geometry.TranslationLatticeRecovery

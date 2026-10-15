@@ -1,3 +1,5 @@
+module
+
 import WallpaperGroups.Invariants.ExactSequence
 
 set_option linter.style.header false

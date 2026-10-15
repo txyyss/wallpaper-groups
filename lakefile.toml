@@ -16,4 +16,4 @@ rev = "v4.35.0"
 
 [[lean_lib]]
 name = "WallpaperGroups"
-allowNonModules = true # The project has not yet migrated to Lean's module system.
+requiresModuleSystem = true

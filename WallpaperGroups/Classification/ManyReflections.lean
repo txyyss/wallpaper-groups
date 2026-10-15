@@ -1,6 +1,8 @@
+module
+
 import WallpaperGroups.Classification.NoReflections
-import WallpaperGroups.Models.DihedralModels
-import WallpaperGroups.Presentations.TwoReflectionExtension
+public import WallpaperGroups.Models.DihedralModels
+public import WallpaperGroups.Presentations.TwoReflectionExtension
 
 set_option linter.style.header false
 
@@ -16,6 +18,8 @@ equivalence, `twoReflectionExtensionIsoOfShiftClasses` identifies the full plane
 
 The nine concrete signatures and standard models are deliberately kept out of this file.
 -/
+
+public section
 
 set_option autoImplicit false
 set_option maxRecDepth 4000

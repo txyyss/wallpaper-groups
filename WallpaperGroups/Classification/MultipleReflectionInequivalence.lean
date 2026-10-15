@@ -1,5 +1,7 @@
-import WallpaperGroups.Classification.ManyReflections
-import WallpaperGroups.Invariants.ReflectionShiftCount
+module
+
+public import WallpaperGroups.Classification.ManyReflections
+public import WallpaperGroups.Invariants.ReflectionShiftCount
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ multiple-reflection wallpaper groups.  The first layer treats the six symmorphic
 models: every reversing coset has an unshifted pure-linear representative, hence every intrinsic
 order-two reflection shift vanishes.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -369,7 +373,7 @@ end DihedralGenerators
 /-- Every orientation-reversing point action has surjective reflection norm on its fixed
 lattice.  This intrinsic predicate distinguishes the centered order-two lattice action from
 the primitive rectangular action. -/
-def PlaneGroup.AllReversingActionsCentered (G : PlaneGroup) : Prop :=
+@[expose] def PlaneGroup.AllReversingActionsCentered (G : PlaneGroup) : Prop :=
   ∀ s : pointGroup G.carrier, s ∉ orientationPreservingPointGroup G →
     G.ReflectionActionIsCentered s
 
@@ -512,13 +516,13 @@ theorem cmmModel_allReversingActionsCentered :
       simpa [x] using congrArg Subtype.val hi.symm
     rw [hsref]
     apply cmmDihedralNormalForm.firstReflection_centered_of_matrix
-    rw [show cmmDihedralNormalForm.form = .orderTwoCentered by rfl]
+    rw [cmmDihedralNormalForm_form]
     exact matrixReflectionIsCentered_orderTwoCentered_first
   · have hsref : s = cmmDihedralGenerators.secondReflection := by
       simpa [x] using congrArg Subtype.val hi.symm
     rw [hsref]
     apply cmmDihedralNormalForm.secondReflection_centered_of_matrix
-    rw [show cmmDihedralNormalForm.form = .orderTwoCentered by rfl]
+    rw [cmmDihedralNormalForm_form]
     exact matrixReflectionIsCentered_orderTwoCentered_second
 
 /-- The primitive order-two `pmm` model has a reversing point action which is not centered. -/
@@ -527,7 +531,7 @@ theorem pmmModel_not_allReversingActionsCentered :
   intro hcentered
   apply pmmDihedralNormalForm.firstReflection_not_centered_of_matrix
     (by
-      rw [show pmmDihedralNormalForm.form = .orderTwoPrimitive by rfl]
+      rw [pmmDihedralNormalForm_form]
       exact not_matrixReflectionIsCentered_orderTwoPrimitive_first)
   exact hcentered pmmDihedralGenerators.reflection
     pmmDihedralGenerators.reflection_reversing
@@ -544,7 +548,8 @@ theorem cmmModel_not_equivalent_pmmModel :
 theorem p3m1Model_not_equivalent_p31mModel :
     ¬ PlaneGroup.Equivalent p3m1Model p31mModel :=
   PlaneGroup.DihedralLatticeNormalForm.p3m1_not_equivalent_p31m
-    p3m1DihedralNormalForm rfl p31mDihedralNormalForm rfl
+    p3m1DihedralNormalForm p3m1DihedralNormalForm_form
+    p31mDihedralNormalForm p31mDihedralNormalForm_form
 
 /-- Exchanging the two order-two `pmg` reflection generators exchanges exactly the two
 quotient-valued vanishing tests. -/
@@ -572,7 +577,7 @@ namespace MultipleReflectionType
 
 /-- The intrinsic number of reversing point elements with vanishing shift for each standard
 multiple-reflection label. -/
-def vanishingCount : MultipleReflectionType → ℕ
+@[expose] def vanishingCount : MultipleReflectionType → ℕ
   | .cmm | .pmm => 2
   | .pmg => 1
   | .pgg => 0

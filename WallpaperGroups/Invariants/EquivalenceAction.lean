@@ -1,5 +1,7 @@
-import WallpaperGroups.Basic.Equivalence
-import WallpaperGroups.Invariants.IntegralAction
+module
+
+public import WallpaperGroups.Basic.Equivalence
+public import WallpaperGroups.Invariants.IntegralAction
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ translation-preserving group isomorphism intertwine the point actions.  It then 
 lattice map to an ordinary real-linear equivalence of the plane and derives the corresponding
 integer matrix conjugacy.  The real-linear map is not asserted to be an isometry.
 -/
+
+public section
 
 set_option autoImplicit false
 

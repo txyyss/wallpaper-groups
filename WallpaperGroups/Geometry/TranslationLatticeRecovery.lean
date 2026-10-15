@@ -1,7 +1,9 @@
+module
+
+public import WallpaperGroups.Geometry.GeometricToStrong
 import Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional
 import Mathlib.Analysis.Normed.Module.Normalize
 import Mathlib.Topology.DiscreteSubset
-import WallpaperGroups.Geometry.GeometricToStrong
 
 set_option linter.style.header false
 
@@ -17,6 +19,8 @@ The final construction uses `RankTwoLattice.ofZLattice`.  Its basis is noncanoni
 data; the public carrier theorem records that the recovered lattice is exactly the original
 translation module.  Constructing a strong `PlaneGroup` is deliberately deferred to M8c-c.
 -/
+
+public section
 
 set_option autoImplicit false
 

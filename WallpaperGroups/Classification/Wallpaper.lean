@@ -1,4 +1,6 @@
-import WallpaperGroups.Models.WallpaperModels
+module
+
+public import WallpaperGroups.Models.WallpaperModels
 
 set_option linter.style.header false
 
@@ -9,6 +11,8 @@ The reflection-family trichotomy combines the completed `5 + 3 + 9` component cl
 Family predicates are invariant under translation-preserving isomorphism and pairwise disjoint,
 so the component-model inequivalence theorems also give global uniqueness.
 -/
+
+public section
 
 set_option autoImplicit false
 

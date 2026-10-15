@@ -1,5 +1,7 @@
-import WallpaperGroups.Extensions.PointGroup
-import WallpaperGroups.Presentations.DihedralExtension
+module
+
+public import WallpaperGroups.Extensions.PointGroup
+public import WallpaperGroups.Presentations.DihedralExtension
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ already used in the Version 1 multiple-reflection classification.  It does not c
 that classification code.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -19,15 +23,33 @@ open EuclideanMotion
 
 noncomputable section
 
+private theorem pointGroupExtensionOverAction_rightHom
+    (G : Subgroup (EuclideanMotion Plane)) (g : G) :
+    (pointGroupExtensionOverAction G).toGroupExtension.rightHom g =
+      pointProjection G g := by
+  rw [pointGroupExtensionOverAction_toGroupExtension,
+    pointGroupVectorExtension_rightHom]
+
+private theorem pointGroupExtensionOverAction_inl
+    (G : Subgroup (EuclideanMotion Plane))
+    (t : Multiplicative (translationVectors G)) :
+    (pointGroupExtensionOverAction G).toGroupExtension.inl t =
+      translationElement G t.toAdd := by
+  rw [pointGroupExtensionOverAction_toGroupExtension,
+    pointGroupVectorExtension_inl]
+
 /-- A `DihedralExtensionData` lift, viewed as a normalized section of the canonical point-group
 extension with translation-vector kernel. -/
-def dihedralNormalizedSection {G : PlaneGroup}
+@[expose] def dihedralNormalizedSection {G : PlaneGroup}
     (c : DihedralExtensionData G) :
     NormalizedSection
       (pointGroupExtensionOverAction G.carrier).toGroupExtension where
   toSection :=
     { toFun := c.lift
-      rightInverse_rightHom := c.lift_projection }
+      rightInverse_rightHom := by
+        intro q
+        rw [pointGroupExtensionOverAction_rightHom]
+        exact c.lift_projection q }
   map_one := c.lift_one
 
 /-- The generic section factor is the existing Version 1 `dihedralFactor`. -/
@@ -38,6 +60,7 @@ theorem dihedralNormalizedSection_factor {G : PlaneGroup}
       dihedralFactor c q r := by
   apply (NormalizedSection.factor_eq_iff
     (dihedralNormalizedSection c) q r (dihedralFactor c q r)).2
+  rw [pointGroupExtensionOverAction_inl]
   change
     translationElement G.carrier (dihedralFactor c q r) =
       c.lift q * c.lift r * (c.lift (q * r))⁻¹
@@ -57,7 +80,10 @@ theorem dihedralNormalizedCocycle_apply {G : PlaneGroup}
     (q r : pointGroup G.carrier) :
     dihedralNormalizedCocycle c q r =
       dihedralFactor c q r :=
-  dihedralNormalizedSection_factor c q r
+  by
+    simpa only [dihedralNormalizedCocycle,
+      NormalizedSection.toCocycle_apply] using
+      dihedralNormalizedSection_factor c q r
 
 /-- The existing dihedral factor table satisfies the generic cocycle identity. -/
 theorem dihedralFactor_cocycle {G : PlaneGroup}

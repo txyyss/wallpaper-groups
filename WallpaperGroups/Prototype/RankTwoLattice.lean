@@ -1,3 +1,5 @@
+module
+
 import WallpaperGroups.Invariants.EquivalenceAction
 
 set_option linter.style.header false

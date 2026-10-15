@@ -1,6 +1,8 @@
-import WallpaperGroups.Models.RotationModels
-import WallpaperGroups.Presentations.CyclicExtension
-import WallpaperGroups.Restriction.LatticeNormalForms
+module
+
+public import WallpaperGroups.Models.RotationModels
+public import WallpaperGroups.Presentations.CyclicExtension
+public import WallpaperGroups.Restriction.LatticeNormalForms
 
 set_option linter.style.header false
 
@@ -13,6 +15,8 @@ determinant.  Its cyclic extension splits because rotation power shifts vanish, 
 action normal forms from M3 identify groups having the same rotation order.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -22,7 +26,7 @@ open EuclideanMotion
 noncomputable section
 
 /-- A point group has no reflections when all of its elements preserve orientation. -/
-def PointGroupHasNoReflections (G : PlaneGroup) : Prop :=
+@[expose] def PointGroupHasNoReflections (G : PlaneGroup) : Prop :=
   ∀ p : pointGroup G.carrier, p ∈ orientationPreservingPointGroup G
 
 /-- A no-reflection point group is cyclic. -/
@@ -232,7 +236,7 @@ theorem basisLinearEquiv_intertwine
 /-! ## Five lattice-action normal forms -/
 
 /-- The selected-basis integral matrix for each reflection-free rotation order. -/
-def noReflectionRotationMatrix :
+@[expose] def noReflectionRotationMatrix :
     CrystallographicOrder → Matrix (Fin 2) (Fin 2) ℤ
   | .one => 1
   | .two => -1

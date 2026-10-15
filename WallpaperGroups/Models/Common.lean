@@ -1,4 +1,6 @@
-import WallpaperGroups.Basic.PlaneGroup
+module
+
+public import WallpaperGroups.Basic.PlaneGroup
 
 set_option linter.style.header false
 
@@ -11,6 +13,8 @@ linear part belongs to a selected finite point group.  The two defining conditio
 translation subgroup and point group computable without appealing to subgroup generators.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -21,7 +25,7 @@ noncomputable section
 
 /-- A linear point group preserves a lattice when each point element sends lattice vectors back
 to lattice vectors. -/
-def LatticePreservingPointGroup
+@[expose] def LatticePreservingPointGroup
     (L : RankTwoLattice Plane)
     (K : Subgroup (Plane ≃ₗᵢ[ℝ] Plane)) : Prop :=
   ∀ A : K, ∀ t : Plane, t ∈ L.carrier →
@@ -30,7 +34,7 @@ def LatticePreservingPointGroup
 /-- The transparent symmorphic carrier associated to a lattice and a lattice-preserving point
 group.  Its elements are precisely the affine motions with translation part in `L` and linear
 part in `K`. -/
-def symmorphicCarrier
+@[expose] def symmorphicCarrier
     (L : RankTwoLattice Plane)
     (K : Subgroup (Plane ≃ₗᵢ[ℝ] Plane))
     (hK : LatticePreservingPointGroup L K) :
@@ -103,7 +107,7 @@ theorem symmorphicCarrier_pointGroup
 
 /-- A finite lattice-preserving linear point group and a rank-two lattice determine a
 symmorphic `PlaneGroup` with transparent normal forms. -/
-def symmorphicPlaneGroup
+@[expose] def symmorphicPlaneGroup
     (L : RankTwoLattice Plane)
     (K : Subgroup (Plane ≃ₗᵢ[ℝ] Plane))
     (hK : LatticePreservingPointGroup L K)

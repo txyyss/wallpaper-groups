@@ -1,7 +1,9 @@
-import WallpaperGroups.Models.ReflectionModels
-import WallpaperGroups.Presentations.TwoReflectionExtension
-import WallpaperGroups.Restriction.DihedralNormalForms
-import Mathlib.GroupTheory.SpecificGroups.Dihedral
+module
+
+public import WallpaperGroups.Models.ReflectionModels
+public import WallpaperGroups.Presentations.TwoReflectionExtension
+public import WallpaperGroups.Restriction.DihedralNormalForms
+public import Mathlib.GroupTheory.SpecificGroups.Dihedral
 
 set_option linter.style.header false
 
@@ -12,6 +14,8 @@ A finite point group is represented faithfully on the plane.  A section of its a
 stored only modulo the selected lattice: its failure to be a genuine cocycle is required to be a
 lattice vector.  This gives a single transparent normal form for both symmorphic and glide models.
 -/
+
+public section
 
 set_option autoImplicit false
 set_option maxRecDepth 4000
@@ -36,7 +40,7 @@ structure FiniteCosetData (P : Type*) [Group P] [Finite P] where
     shift p + linearRep p (shift q) - shift (p * q) ∈ lattice.carrier
 
 /-- The transparent affine-coset carrier attached to finite-coset data. -/
-def finiteCosetCarrier {P : Type*} [Group P] [Finite P]
+@[expose] def finiteCosetCarrier {P : Type*} [Group P] [Finite P]
     (D : FiniteCosetData P) : Subgroup (EuclideanMotion Plane) where
   carrier := {g | ∃ p : P,
     linearPart g = D.linearRep p ∧
@@ -131,7 +135,7 @@ theorem finiteCosetCarrier_pointGroup
         linearPart_pureLinear, one_mul]
 
 /-- A faithful finite-coset datum determines a plane group with exact lattice and point group. -/
-def finiteCosetPlaneGroup {P : Type*} [Group P] [Finite P]
+@[expose] def finiteCosetPlaneGroup {P : Type*} [Group P] [Finite P]
     (D : FiniteCosetData P) : PlaneGroup := by
   letI : Finite D.linearRep.range :=
     Finite.of_surjective D.linearRep.rangeRestrict D.linearRep.rangeRestrict_surjective
@@ -172,7 +176,7 @@ theorem finiteCosetPlaneGroup_pointGroup_card
 /-! ## Canonical point elements and affine representatives -/
 
 /-- The point-group element represented by a finite-coset coordinate. -/
-def finiteCosetPointElement {P : Type*} [Group P] [Finite P]
+@[expose] def finiteCosetPointElement {P : Type*} [Group P] [Finite P]
     (D : FiniteCosetData P) (p : P) :
     pointGroup (finiteCosetPlaneGroup D).carrier :=
   ⟨D.linearRep p, by
@@ -207,7 +211,7 @@ theorem finiteCosetPointElement_inv {P : Type*} [Group P] [Finite P]
   simp
 
 /-- The chosen affine representative of a finite-coset coordinate. -/
-def finiteCosetRepresentative {P : Type*} [Group P] [Finite P]
+@[expose] def finiteCosetRepresentative {P : Type*} [Group P] [Finite P]
     (D : FiniteCosetData P) (p : P) : EuclideanMotion Plane :=
   translation (D.shift p) * pureLinear (D.linearRep p)
 
@@ -222,7 +226,7 @@ theorem finiteCosetRepresentative_mem {P : Type*} [Group P] [Finite P]
   · simp [finiteCosetRepresentative, translationPart_mul]
 
 /-- The chosen affine representative, bundled as an element of the model. -/
-def finiteCosetLift {P : Type*} [Group P] [Finite P]
+@[expose] def finiteCosetLift {P : Type*} [Group P] [Finite P]
     (D : FiniteCosetData P) (p : P) : (finiteCosetPlaneGroup D).carrier :=
   ⟨finiteCosetRepresentative D p, finiteCosetRepresentative_mem D p⟩
 
@@ -245,7 +249,7 @@ theorem finiteCosetLift_projection {P : Type*} [Group P] [Finite P]
 /-! ## Faithful linear dihedral representations -/
 
 /-- Integer powers of a circle element as an additive homomorphism into the additive type tag. -/
-def circleZPowAddHom (a : Circle) : ℤ →+ Additive Circle where
+@[expose] def circleZPowAddHom (a : Circle) : ℤ →+ Additive Circle where
   toFun k := Additive.ofMul (a ^ k)
   map_zero' := by simp
   map_add' m n := by
@@ -253,7 +257,7 @@ def circleZPowAddHom (a : Circle) : ℤ →+ Additive Circle where
     exact zpow_add a m n
 
 /-- Powers of an element of order dividing `q`, indexed by `ZMod q`. -/
-def circlePowerMod (a : Circle) (q : ℕ) (hq : a ^ q = 1) : ZMod q →+ Additive Circle :=
+@[expose] def circlePowerMod (a : Circle) (q : ℕ) (hq : a ^ q = 1) : ZMod q →+ Additive Circle :=
   ZMod.lift q ⟨circleZPowAddHom a, by
     change a ^ (q : ℤ) = 1
     simpa using hq⟩
@@ -327,7 +331,7 @@ theorem planeRotation_mul_axisReflection (a : Circle) :
 
 /-- The faithful dihedral representation with `r i` acting by a rotation and `sr i` by the
 selected axis reflection followed by that rotation. -/
-def dihedralLinearRepresentation (a : Circle) (q : ℕ) (horder : orderOf a = q) :
+@[expose] def dihedralLinearRepresentation (a : Circle) (q : ℕ) (horder : orderOf a = q) :
     DihedralGroup q →* (Plane ≃ₗᵢ[ℝ] Plane) where
   toFun
     | .r i => planeRotation
@@ -506,7 +510,7 @@ theorem dihedralLinearRepresentation_mem_stabilizer
       exact (latticeStabilizer L).zpow_mem ha k
 
 /-- Symmorphic finite-coset data for a faithful dihedral lattice action. -/
-def symmorphicDihedralCosetData
+@[expose] def symmorphicDihedralCosetData
     (L : RankTwoLattice Plane) (a : Circle) (q : ℕ) [NeZero q]
     (horder : orderOf a = q)
     (ha : planeRotation a ∈ latticeStabilizer L)
@@ -643,7 +647,7 @@ theorem halfTurn_commute_dihedralLinearRepresentation
 
 /-- Twist the reversing coset by the central half turn.  For rotation order three this changes
 the integral reflection embedding from the full-axis-span form to the index-three form. -/
-def halfTurnTwistedDihedralRepresentation
+@[expose] def halfTurnTwistedDihedralRepresentation
     (a : Circle) (q : ℕ) (horder : orderOf a = q) :
     DihedralGroup q →* (Plane ≃ₗᵢ[ℝ] Plane) where
   toFun
@@ -750,7 +754,7 @@ theorem halfTurnTwistedDihedralRepresentation_injective
           exact hxy
 
 /-- Symmorphic data using the half-turn-twisted reflection embedding. -/
-def twistedSymmorphicDihedralCosetData
+@[expose] def twistedSymmorphicDihedralCosetData
     (L : RankTwoLattice Plane) (a : Circle) (q : ℕ) [NeZero q]
     (horder : orderOf a = q)
     (ha : planeRotation a ∈ latticeStabilizer L)
@@ -773,15 +777,15 @@ def twistedSymmorphicDihedralCosetData
 
 /-! ## Six symmorphic models among the nine multiple-reflection classes -/
 
-def pmmCosetData : FiniteCosetData (DihedralGroup 2) :=
+@[expose] def pmmCosetData : FiniteCosetData (DihedralGroup 2) :=
   symmorphicDihedralCosetData RankTwoLattice.standardLattice (squareRoot ^ 2) 2
     squareRoot_sq_order (halfTurn_mem_stabilizer _) axisReflection_mem_squareStabilizer
 
-def cmmCosetData : FiniteCosetData (DihedralGroup 2) :=
+@[expose] def cmmCosetData : FiniteCosetData (DihedralGroup 2) :=
   symmorphicDihedralCosetData centeredLattice (squareRoot ^ 2) 2
     squareRoot_sq_order (halfTurn_mem_stabilizer _) axisReflection_mem_centeredStabilizer
 
-def p3m1CosetData : FiniteCosetData (DihedralGroup 3) :=
+@[expose] def p3m1CosetData : FiniteCosetData (DihedralGroup 3) :=
   symmorphicDihedralCosetData hexLattice (hexRoot ^ 2) 3 hexRoot_sq_order
     (by
       change planeRotationHom (hexRoot ^ 2) ∈ latticeStabilizer hexLattice
@@ -789,7 +793,7 @@ def p3m1CosetData : FiniteCosetData (DihedralGroup 3) :=
       exact (latticeStabilizer hexLattice).pow_mem hexRotation_mem_stabilizer 2)
     axisReflection_mem_hexStabilizer
 
-def p31mCosetData : FiniteCosetData (DihedralGroup 3) :=
+@[expose] def p31mCosetData : FiniteCosetData (DihedralGroup 3) :=
   twistedSymmorphicDihedralCosetData hexLattice (hexRoot ^ 2) 3 hexRoot_sq_order
     (by
       change planeRotationHom (hexRoot ^ 2) ∈ latticeStabilizer hexLattice
@@ -797,31 +801,31 @@ def p31mCosetData : FiniteCosetData (DihedralGroup 3) :=
       exact (latticeStabilizer hexLattice).pow_mem hexRotation_mem_stabilizer 2)
     axisReflection_mem_hexStabilizer
 
-def p4mCosetData : FiniteCosetData (DihedralGroup 4) :=
+@[expose] def p4mCosetData : FiniteCosetData (DihedralGroup 4) :=
   symmorphicDihedralCosetData RankTwoLattice.standardLattice squareRoot 4
     squareRoot_order squareRotation_mem_stabilizer axisReflection_mem_squareStabilizer
 
-def p6mCosetData : FiniteCosetData (DihedralGroup 6) :=
+@[expose] def p6mCosetData : FiniteCosetData (DihedralGroup 6) :=
   symmorphicDihedralCosetData hexLattice hexRoot 6
     hexRoot_order hexRotation_mem_stabilizer axisReflection_mem_hexStabilizer
 
 /-- Primitive rectangular model with two mirror families. -/
-def pmmModel : PlaneGroup := finiteCosetPlaneGroup pmmCosetData
+@[expose] def pmmModel : PlaneGroup := finiteCosetPlaneGroup pmmCosetData
 
 /-- Centered rectangular model with two mirror families. -/
-def cmmModel : PlaneGroup := finiteCosetPlaneGroup cmmCosetData
+@[expose] def cmmModel : PlaneGroup := finiteCosetPlaneGroup cmmCosetData
 
 /-- Triangular model whose reflection-axis spans generate the full lattice. -/
-def p3m1Model : PlaneGroup := finiteCosetPlaneGroup p3m1CosetData
+@[expose] def p3m1Model : PlaneGroup := finiteCosetPlaneGroup p3m1CosetData
 
 /-- Triangular model whose reflection-axis spans have index three. -/
-def p31mModel : PlaneGroup := finiteCosetPlaneGroup p31mCosetData
+@[expose] def p31mModel : PlaneGroup := finiteCosetPlaneGroup p31mCosetData
 
 /-- Square symmorphic dihedral model. -/
-def p4mModel : PlaneGroup := finiteCosetPlaneGroup p4mCosetData
+@[expose] def p4mModel : PlaneGroup := finiteCosetPlaneGroup p4mCosetData
 
 /-- Hexagonal symmorphic dihedral model. -/
-def p6mModel : PlaneGroup := finiteCosetPlaneGroup p6mCosetData
+@[expose] def p6mModel : PlaneGroup := finiteCosetPlaneGroup p6mCosetData
 
 @[simp] theorem pmmModel_translationLattice :
     pmmModel.translationLattice = RankTwoLattice.standardLattice := rfl
@@ -903,10 +907,12 @@ theorem p6mModel_pointGroup :
 
 /-! ## The three nonsymmorphic glide models -/
 
-private def squareBasisZero : Plane :=
+/-- The first standard square-lattice basis vector, viewed in the ambient plane. -/
+@[expose] def squareBasisZero : Plane :=
   (RankTwoLattice.standardLattice.basis 0 : Plane)
 
-private def squareBasisOne : Plane :=
+/-- The second standard square-lattice basis vector, viewed in the ambient plane. -/
+@[expose] def squareBasisOne : Plane :=
   (RankTwoLattice.standardLattice.basis 1 : Plane)
 
 @[simp]
@@ -1017,7 +1023,7 @@ theorem pmmCosetData_linearRep_sr_one :
 
 /-- The `pmg` coset section: one reflection family is mirrored and the other has half-period
 glide. -/
-def pmgShift : DihedralGroup 2 → Plane
+@[expose] def pmgShift : DihedralGroup 2 → Plane
   | .r i => match i.val with
     | 0 => 0
     | _ => -(1 / 2 : ℝ) • squareBasisOne
@@ -1073,7 +1079,7 @@ def pmgShift : DihedralGroup 2 → Plane
   rw [show (-1 : ZMod 2) = 1 by decide, pmgShift_sr_one]
 
 /-- The `pgg` coset section: both primitive reflection families have nonzero half-period glide. -/
-def pggShift : DihedralGroup 2 → Plane
+@[expose] def pggShift : DihedralGroup 2 → Plane
   | .r i => match i.val with
     | 0 => 0
     | _ => (1 / 2 : ℝ) • (squareBasisZero - squareBasisOne)
@@ -1144,7 +1150,8 @@ private theorem zmod_two_eq_zero_or_one (i : ZMod 2) : i = 0 ∨ i = 1 := by
       i = (i.val : ZMod 2) := (ZMod.natCast_zmod_val i).symm
       _ = 1 := by simp [hi]
 
-private theorem pmgShift_cocycle_mem (p q : DihedralGroup 2) :
+/-- The `pmg` section has lattice-valued factor set. -/
+theorem pmgShift_cocycle_mem (p q : DihedralGroup 2) :
     pmgShift p + pmmCosetData.linearRep p (pmgShift q) - pmgShift (p * q) ∈
       RankTwoLattice.standardLattice.carrier := by
   cases p <;> rename_i i
@@ -1169,7 +1176,8 @@ private theorem pmgShift_cocycle_mem (p q : DihedralGroup 2) :
     | (convert squareBasis_integer_combination_mem 0 1 using 1; module)
     | (convert squareBasis_integer_combination_mem 0 (-1) using 1; module)
 
-private theorem pggShift_cocycle_mem (p q : DihedralGroup 2) :
+/-- The `pgg` section has lattice-valued factor set. -/
+theorem pggShift_cocycle_mem (p q : DihedralGroup 2) :
     pggShift p + pmmCosetData.linearRep p (pggShift q) - pggShift (p * q) ∈
       RankTwoLattice.standardLattice.carrier := by
   cases p <;> rename_i i
@@ -1197,7 +1205,7 @@ private theorem pggShift_cocycle_mem (p q : DihedralGroup 2) :
     | (convert squareBasis_integer_combination_mem 1 (-1) using 1; module)
     | (convert squareBasis_integer_combination_mem (-1) 1 using 1; module)
 
-def pmgCosetData : FiniteCosetData (DihedralGroup 2) where
+@[expose] def pmgCosetData : FiniteCosetData (DihedralGroup 2) where
   lattice := RankTwoLattice.standardLattice
   linearRep := pmmCosetData.linearRep
   linearRep_injective := pmmCosetData.linearRep_injective
@@ -1208,7 +1216,7 @@ def pmgCosetData : FiniteCosetData (DihedralGroup 2) where
     simp [pmgShift]
   cocycle_mem := pmgShift_cocycle_mem
 
-def pggCosetData : FiniteCosetData (DihedralGroup 2) where
+@[expose] def pggCosetData : FiniteCosetData (DihedralGroup 2) where
   lattice := RankTwoLattice.standardLattice
   linearRep := pmmCosetData.linearRep
   linearRep_injective := pmmCosetData.linearRep_injective
@@ -1220,10 +1228,10 @@ def pggCosetData : FiniteCosetData (DihedralGroup 2) where
   cocycle_mem := pggShift_cocycle_mem
 
 /-- Primitive rectangular model with one mirror and one glide-reflection family. -/
-def pmgModel : PlaneGroup := finiteCosetPlaneGroup pmgCosetData
+@[expose] def pmgModel : PlaneGroup := finiteCosetPlaneGroup pmgCosetData
 
 /-- Primitive rectangular model with two glide-reflection families. -/
-def pggModel : PlaneGroup := finiteCosetPlaneGroup pggCosetData
+@[expose] def pggModel : PlaneGroup := finiteCosetPlaneGroup pggCosetData
 
 @[simp] theorem pmgModel_translationLattice :
     pmgModel.translationLattice = RankTwoLattice.standardLattice := rfl
@@ -1382,7 +1390,7 @@ theorem p4mCosetData_linearRep_sr_three :
   rw [p4mCosetData_linearRep_sr_eq, p4mCosetData_linearRep_r_three]
 
 /-- The half-diagonal glide vector in the `p4g` normal form. -/
-def p4gGlideShift : Plane :=
+@[expose] def p4gGlideShift : Plane :=
   (1 / 2 : ℝ) • (squareBasisZero + squareBasisOne)
 
 @[simp] private theorem p4mLinear_r_zero_p4gGlideShift :
@@ -1448,7 +1456,7 @@ def p4gGlideShift : Plane :=
 
 /-- The `p4g` finite-coset section.  Rotation cosets are unshifted and every reversing coset uses
 the same half-diagonal glide representative. -/
-def p4gShift : DihedralGroup 4 → Plane
+@[expose] def p4gShift : DihedralGroup 4 → Plane
   | .r _ => 0
   | .sr _ => p4gGlideShift
 
@@ -1518,7 +1526,8 @@ private theorem p4g_reflection_glide_add_mem (i : ZMod 4) :
     | (convert squareBasis_integer_combination_mem 0 (-1) using 1; module)
     | (convert squareBasis_integer_combination_mem 1 1 using 1; module)
 
-private theorem p4gShift_cocycle_mem (p q : DihedralGroup 4) :
+/-- The `p4g` section has lattice-valued factor set. -/
+theorem p4gShift_cocycle_mem (p q : DihedralGroup 4) :
     p4gShift p + p4mCosetData.linearRep p (p4gShift q) - p4gShift (p * q) ∈
       RankTwoLattice.standardLattice.carrier := by
   cases p with
@@ -1537,7 +1546,7 @@ private theorem p4gShift_cocycle_mem (p q : DihedralGroup 4) :
           simpa only [DihedralGroup.sr_mul_sr, p4gShift_sr, p4gShift_r,
             sub_zero] using p4g_reflection_glide_add_mem i
 
-def p4gCosetData : FiniteCosetData (DihedralGroup 4) where
+@[expose] def p4gCosetData : FiniteCosetData (DihedralGroup 4) where
   lattice := RankTwoLattice.standardLattice
   linearRep := p4mCosetData.linearRep
   linearRep_injective := p4mCosetData.linearRep_injective
@@ -1549,7 +1558,7 @@ def p4gCosetData : FiniteCosetData (DihedralGroup 4) where
   cocycle_mem := p4gShift_cocycle_mem
 
 /-- Square nonsymmorphic dihedral model. -/
-def p4gModel : PlaneGroup := finiteCosetPlaneGroup p4gCosetData
+@[expose] def p4gModel : PlaneGroup := finiteCosetPlaneGroup p4gCosetData
 
 @[simp] theorem p4gModel_translationLattice :
     p4gModel.translationLattice = RankTwoLattice.standardLattice := rfl
@@ -1584,7 +1593,7 @@ instance : Fintype MultipleReflectionType where
   complete w := by cases w <;> simp
 
 /-- The transparent standard model attached to a multiple-reflection label. -/
-def MultipleReflectionType.model : MultipleReflectionType → PlaneGroup
+@[expose] def MultipleReflectionType.model : MultipleReflectionType → PlaneGroup
   | .cmm => cmmModel
   | .pmm => pmmModel
   | .pmg => pmgModel
@@ -1596,7 +1605,7 @@ def MultipleReflectionType.model : MultipleReflectionType → PlaneGroup
   | .p6m => p6mModel
 
 /-- Rotation order associated to a multiple-reflection standard model. -/
-def MultipleReflectionType.rotationOrder : MultipleReflectionType → ℕ
+@[expose] def MultipleReflectionType.rotationOrder : MultipleReflectionType → ℕ
   | .cmm | .pmm | .pmg | .pgg => 2
   | .p3m1 | .p31m => 3
   | .p4m | .p4g => 4
@@ -1661,7 +1670,7 @@ theorem halfTurnTwistedDihedralRepresentation_det_sr
 /-- Canonical adjacent point generators for a faithful dihedral finite-coset model.  The two
 determinant hypotheses say exactly that the `r` and `sr` coordinates are the positive and
 reversing cosets. -/
-def finiteCosetDihedralGenerators {q : ℕ} [NeZero q]
+@[expose] def finiteCosetDihedralGenerators {q : ℕ} [NeZero q]
     (D : FiniteCosetData (DihedralGroup q))
     (order : DihedralRotationOrder) (horder : q = order.toNat)
     (hrdet : ∀ i : ZMod q,
@@ -1828,7 +1837,7 @@ theorem finiteCosetDihedralGenerators_reflection_action_coe {q : ℕ} [NeZero q]
 
 /-- The affine representatives of `sr 0` and `sr 1` give canonical adjacent-reflection lift
 data for every finite-coset dihedral model. -/
-def finiteCosetTwoReflectionExtensionData {q : ℕ} [NeZero q]
+@[expose] def finiteCosetTwoReflectionExtensionData {q : ℕ} [NeZero q]
     (D : FiniteCosetData (DihedralGroup q))
     (order : DihedralRotationOrder) (horder : q = order.toNat)
     (hrdet : ∀ i : ZMod q,
@@ -1849,49 +1858,49 @@ def finiteCosetTwoReflectionExtensionData {q : ℕ} [NeZero q]
       finiteCosetDihedralGenerators_secondReflection]
 
 /-- Canonical adjacent point generators for the primitive rectangular model. -/
-def pmmDihedralGenerators : DihedralGenerators pmmModel :=
+@[expose] def pmmDihedralGenerators : DihedralGenerators pmmModel :=
   finiteCosetDihedralGenerators pmmCosetData .two rfl
     (by intro i; simp [pmmCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [pmmCosetData, symmorphicDihedralCosetData])
 
 /-- Canonical adjacent point generators for the centered rectangular model. -/
-def cmmDihedralGenerators : DihedralGenerators cmmModel :=
+@[expose] def cmmDihedralGenerators : DihedralGenerators cmmModel :=
   finiteCosetDihedralGenerators cmmCosetData .two rfl
     (by intro i; simp [cmmCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [cmmCosetData, symmorphicDihedralCosetData])
 
 /-- Canonical adjacent point generators for `pmg`. -/
-def pmgDihedralGenerators : DihedralGenerators pmgModel :=
+@[expose] def pmgDihedralGenerators : DihedralGenerators pmgModel :=
   finiteCosetDihedralGenerators pmgCosetData .two rfl
     (by intro i; simp [pmgCosetData, pmmCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [pmgCosetData, pmmCosetData, symmorphicDihedralCosetData])
 
 /-- Canonical adjacent point generators for `pgg`. -/
-def pggDihedralGenerators : DihedralGenerators pggModel :=
+@[expose] def pggDihedralGenerators : DihedralGenerators pggModel :=
   finiteCosetDihedralGenerators pggCosetData .two rfl
     (by intro i; simp [pggCosetData, pmmCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [pggCosetData, pmmCosetData, symmorphicDihedralCosetData])
 
 /-- Canonical adjacent point generators for the full-axis-span triangular model. -/
-def p3m1DihedralGenerators : DihedralGenerators p3m1Model :=
+@[expose] def p3m1DihedralGenerators : DihedralGenerators p3m1Model :=
   finiteCosetDihedralGenerators p3m1CosetData .three rfl
     (by intro i; simp [p3m1CosetData, symmorphicDihedralCosetData])
     (by intro i; simp [p3m1CosetData, symmorphicDihedralCosetData])
 
 /-- Canonical adjacent point generators for the index-three triangular model. -/
-def p31mDihedralGenerators : DihedralGenerators p31mModel :=
+@[expose] def p31mDihedralGenerators : DihedralGenerators p31mModel :=
   finiteCosetDihedralGenerators p31mCosetData .three rfl
     (by intro i; simp [p31mCosetData, twistedSymmorphicDihedralCosetData])
     (by intro i; simp [p31mCosetData, twistedSymmorphicDihedralCosetData])
 
 /-- Canonical adjacent point generators for the symmorphic square model. -/
-def p4mDihedralGenerators : DihedralGenerators p4mModel :=
+@[expose] def p4mDihedralGenerators : DihedralGenerators p4mModel :=
   finiteCosetDihedralGenerators p4mCosetData .four rfl
     (by intro i; simp [p4mCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [p4mCosetData, symmorphicDihedralCosetData])
 
 /-- Canonical adjacent point generators for the square glide model. -/
-def p4gDihedralGenerators : DihedralGenerators p4gModel :=
+@[expose] def p4gDihedralGenerators : DihedralGenerators p4gModel :=
   finiteCosetDihedralGenerators p4gCosetData .four rfl
     (by intro i; simp [p4gCosetData, p4mCosetData,
       symmorphicDihedralCosetData])
@@ -1899,56 +1908,56 @@ def p4gDihedralGenerators : DihedralGenerators p4gModel :=
       symmorphicDihedralCosetData])
 
 /-- Canonical adjacent point generators for the hexagonal model. -/
-def p6mDihedralGenerators : DihedralGenerators p6mModel :=
+@[expose] def p6mDihedralGenerators : DihedralGenerators p6mModel :=
   finiteCosetDihedralGenerators p6mCosetData .six rfl
     (by intro i; simp [p6mCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [p6mCosetData, symmorphicDihedralCosetData])
 
 /-! ## Canonical adjacent affine lifts -/
 
-def pmmTwoReflectionData :
+@[expose] def pmmTwoReflectionData :
     TwoReflectionExtensionData pmmModel pmmDihedralGenerators :=
   finiteCosetTwoReflectionExtensionData pmmCosetData .two rfl
     (by intro i; simp [pmmCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [pmmCosetData, symmorphicDihedralCosetData])
 
-def cmmTwoReflectionData :
+@[expose] def cmmTwoReflectionData :
     TwoReflectionExtensionData cmmModel cmmDihedralGenerators :=
   finiteCosetTwoReflectionExtensionData cmmCosetData .two rfl
     (by intro i; simp [cmmCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [cmmCosetData, symmorphicDihedralCosetData])
 
-def pmgTwoReflectionData :
+@[expose] def pmgTwoReflectionData :
     TwoReflectionExtensionData pmgModel pmgDihedralGenerators :=
   finiteCosetTwoReflectionExtensionData pmgCosetData .two rfl
     (by intro i; simp [pmgCosetData, pmmCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [pmgCosetData, pmmCosetData, symmorphicDihedralCosetData])
 
-def pggTwoReflectionData :
+@[expose] def pggTwoReflectionData :
     TwoReflectionExtensionData pggModel pggDihedralGenerators :=
   finiteCosetTwoReflectionExtensionData pggCosetData .two rfl
     (by intro i; simp [pggCosetData, pmmCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [pggCosetData, pmmCosetData, symmorphicDihedralCosetData])
 
-def p3m1TwoReflectionData :
+@[expose] def p3m1TwoReflectionData :
     TwoReflectionExtensionData p3m1Model p3m1DihedralGenerators :=
   finiteCosetTwoReflectionExtensionData p3m1CosetData .three rfl
     (by intro i; simp [p3m1CosetData, symmorphicDihedralCosetData])
     (by intro i; simp [p3m1CosetData, symmorphicDihedralCosetData])
 
-def p31mTwoReflectionData :
+@[expose] def p31mTwoReflectionData :
     TwoReflectionExtensionData p31mModel p31mDihedralGenerators :=
   finiteCosetTwoReflectionExtensionData p31mCosetData .three rfl
     (by intro i; simp [p31mCosetData, twistedSymmorphicDihedralCosetData])
     (by intro i; simp [p31mCosetData, twistedSymmorphicDihedralCosetData])
 
-def p4mTwoReflectionData :
+@[expose] def p4mTwoReflectionData :
     TwoReflectionExtensionData p4mModel p4mDihedralGenerators :=
   finiteCosetTwoReflectionExtensionData p4mCosetData .four rfl
     (by intro i; simp [p4mCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [p4mCosetData, symmorphicDihedralCosetData])
 
-def p4gTwoReflectionData :
+@[expose] def p4gTwoReflectionData :
     TwoReflectionExtensionData p4gModel p4gDihedralGenerators :=
   finiteCosetTwoReflectionExtensionData p4gCosetData .four rfl
     (by intro i; simp [p4gCosetData, p4mCosetData,
@@ -1956,18 +1965,18 @@ def p4gTwoReflectionData :
     (by intro i; simp [p4gCosetData, p4mCosetData,
       symmorphicDihedralCosetData])
 
-def p6mTwoReflectionData :
+@[expose] def p6mTwoReflectionData :
     TwoReflectionExtensionData p6mModel p6mDihedralGenerators :=
   finiteCosetTwoReflectionExtensionData p6mCosetData .six rfl
     (by intro i; simp [p6mCosetData, symmorphicDihedralCosetData])
     (by intro i; simp [p6mCosetData, symmorphicDihedralCosetData])
 
 /-- The `pmg` presentation after exchanging its two adjacent order-two reflection families. -/
-def pmgSwappedDihedralGenerators : DihedralGenerators pmgModel :=
+@[expose] def pmgSwappedDihedralGenerators : DihedralGenerators pmgModel :=
   pmgDihedralGenerators.rotateReflection 1
 
 /-- In the swapped `pmg` presentation the glide family is first and the mirror family second. -/
-def pmgSwappedTwoReflectionData :
+@[expose] def pmgSwappedTwoReflectionData :
     TwoReflectionExtensionData pmgModel pmgSwappedDihedralGenerators :=
   pmgTwoReflectionData.swapOrderTwo rfl
 
@@ -2367,6 +2376,16 @@ def p6mDihedralNormalForm :
           axisReflection_hex_basis_one]
         module)
 
+private theorem p6mDihedralNormalForm_form_aux :
+    p6mDihedralNormalForm.form = .orderSix :=
+  rfl
+
+/-- The canonical `p6m` normal form has the advertised order-six lattice form. -/
+@[simp]
+theorem p6mDihedralNormalForm_form :
+    p6mDihedralNormalForm.form = .orderSix :=
+  p6mDihedralNormalForm_form_aux
+
 /-- The unimodular shear `(b₀,b₁) ↦ (b₀,b₁-b₀)` used by both order-three
 models. -/
 def hexOrderThreeBasis : Module.Basis (Fin 2) ℤ hexLattice.carrier :=
@@ -2543,6 +2562,73 @@ def p31mDihedralNormalForm :
               (hexRoot ^ 2) 3 hexRoot_sq_order,
           halfTurnAxis_orderThreeBasis_one]
         module)
+
+/-! The following observation lemmas expose the stable lattice-form labels without exposing the
+normal-form construction proofs themselves. -/
+
+private theorem pmmDihedralNormalForm_form_aux :
+    pmmDihedralNormalForm.form = .orderTwoPrimitive :=
+  rfl
+
+@[simp] theorem pmmDihedralNormalForm_form :
+    pmmDihedralNormalForm.form = .orderTwoPrimitive :=
+  pmmDihedralNormalForm_form_aux
+
+private theorem cmmDihedralNormalForm_form_aux :
+    cmmDihedralNormalForm.form = .orderTwoCentered :=
+  rfl
+
+@[simp] theorem cmmDihedralNormalForm_form :
+    cmmDihedralNormalForm.form = .orderTwoCentered :=
+  cmmDihedralNormalForm_form_aux
+
+private theorem pmgDihedralNormalForm_form_aux :
+    pmgDihedralNormalForm.form = .orderTwoPrimitive :=
+  rfl
+
+@[simp] theorem pmgDihedralNormalForm_form :
+    pmgDihedralNormalForm.form = .orderTwoPrimitive :=
+  pmgDihedralNormalForm_form_aux
+
+private theorem pggDihedralNormalForm_form_aux :
+    pggDihedralNormalForm.form = .orderTwoPrimitive :=
+  rfl
+
+@[simp] theorem pggDihedralNormalForm_form :
+    pggDihedralNormalForm.form = .orderTwoPrimitive :=
+  pggDihedralNormalForm_form_aux
+
+private theorem p3m1DihedralNormalForm_form_aux :
+    p3m1DihedralNormalForm.form = .p3m1 :=
+  rfl
+
+@[simp] theorem p3m1DihedralNormalForm_form :
+    p3m1DihedralNormalForm.form = .p3m1 :=
+  p3m1DihedralNormalForm_form_aux
+
+private theorem p31mDihedralNormalForm_form_aux :
+    p31mDihedralNormalForm.form = .p31m :=
+  rfl
+
+@[simp] theorem p31mDihedralNormalForm_form :
+    p31mDihedralNormalForm.form = .p31m :=
+  p31mDihedralNormalForm_form_aux
+
+private theorem p4mDihedralNormalForm_form_aux :
+    p4mDihedralNormalForm.form = .orderFour :=
+  rfl
+
+@[simp] theorem p4mDihedralNormalForm_form :
+    p4mDihedralNormalForm.form = .orderFour :=
+  p4mDihedralNormalForm_form_aux
+
+private theorem p4gDihedralNormalForm_form_aux :
+    p4gDihedralNormalForm.form = .orderFour :=
+  rfl
+
+@[simp] theorem p4gDihedralNormalForm_form :
+    p4gDihedralNormalForm.form = .orderFour :=
+  p4gDihedralNormalForm_form_aux
 
 /-! ## Quotient-valued shift status of the canonical adjacent lifts -/
 
@@ -2986,7 +3072,7 @@ theorem p4gTwoReflectionData_secondShiftClass_eq_zero :
   module
 
 /-- The lattice form advertised by each multiple-reflection standard model. -/
-def MultipleReflectionType.latticeForm : MultipleReflectionType → DihedralLatticeForm
+@[expose] def MultipleReflectionType.latticeForm : MultipleReflectionType → DihedralLatticeForm
   | .cmm => .orderTwoCentered
   | .pmm | .pmg | .pgg => .orderTwoPrimitive
   | .p3m1 => .p3m1
@@ -3003,35 +3089,53 @@ structure MultipleReflectionModelData (w : MultipleReflectionType) where
   form_eq : N.form = w.latticeForm
 
 /-- The complete transparent model data used by the M6 comparison theorems. -/
-def multipleReflectionModelData :
+@[expose] def multipleReflectionModelData :
     (w : MultipleReflectionType) → MultipleReflectionModelData w
   | .cmm =>
       ⟨cmmDihedralGenerators, cmmDihedralNormalForm,
-        cmmTwoReflectionData, rfl⟩
+        cmmTwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            cmmDihedralNormalForm_form⟩
   | .pmm =>
       ⟨pmmDihedralGenerators, pmmDihedralNormalForm,
-        pmmTwoReflectionData, rfl⟩
+        pmmTwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            pmmDihedralNormalForm_form⟩
   | .pmg =>
       ⟨pmgDihedralGenerators, pmgDihedralNormalForm,
-        pmgTwoReflectionData, rfl⟩
+        pmgTwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            pmgDihedralNormalForm_form⟩
   | .pgg =>
       ⟨pggDihedralGenerators, pggDihedralNormalForm,
-        pggTwoReflectionData, rfl⟩
+        pggTwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            pggDihedralNormalForm_form⟩
   | .p3m1 =>
       ⟨p3m1DihedralGenerators, p3m1DihedralNormalForm,
-        p3m1TwoReflectionData, rfl⟩
+        p3m1TwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            p3m1DihedralNormalForm_form⟩
   | .p31m =>
       ⟨p31mDihedralGenerators, p31mDihedralNormalForm,
-        p31mTwoReflectionData, rfl⟩
+        p31mTwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            p31mDihedralNormalForm_form⟩
   | .p4m =>
       ⟨p4mDihedralGenerators, p4mDihedralNormalForm,
-        p4mTwoReflectionData, rfl⟩
+        p4mTwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            p4mDihedralNormalForm_form⟩
   | .p4g =>
       ⟨p4gDihedralGenerators, p4gDihedralNormalForm,
-        p4gTwoReflectionData, rfl⟩
+        p4gTwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            p4gDihedralNormalForm_form⟩
   | .p6m =>
       ⟨p6mDihedralGenerators, p6mDihedralNormalForm,
-        p6mTwoReflectionData, rfl⟩
+        p6mTwoReflectionData, by
+          simpa only [MultipleReflectionType.latticeForm] using
+            p6mDihedralNormalForm_form⟩
 
 end
 

@@ -1,7 +1,9 @@
-import WallpaperGroups.Invariants.DihedralShift
-import WallpaperGroups.Presentations.DihedralExtension
-import WallpaperGroups.Restriction.DihedralNormalForms
-import Mathlib.GroupTheory.SpecificGroups.Dihedral
+module
+
+public import WallpaperGroups.Invariants.DihedralShift
+public import WallpaperGroups.Presentations.DihedralExtension
+public import WallpaperGroups.Restriction.DihedralNormalForms
+public import Mathlib.GroupTheory.SpecificGroups.Dihedral
 
 set_option linter.style.header false
 
@@ -22,6 +24,8 @@ translations `S^2` and `T^2`.  The exact comparison theorem below packages this 
 translation-preserving isomorphism.  Its quotient-valued version first adjusts the two target
 lifts by norm vectors and then applies the exact theorem.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -57,7 +61,7 @@ noncomputable def choose (G : PlaneGroup) (d : DihedralGenerators G) :
     (pointProjection_surjective G.carrier d.secondReflection)
 
 /-- The affine rotation lift is the product of the adjacent reflection lifts. -/
-def rotationLift (c : TwoReflectionExtensionData G d) : G.carrier :=
+@[expose] def rotationLift (c : TwoReflectionExtensionData G d) : G.carrier :=
   c.firstLift * c.secondLift
 
 /-- The product lift projects to the selected positive point generator. -/
@@ -107,13 +111,13 @@ theorem rotationLiftHom_projection (c : TwoReflectionExtensionData G d)
   exact DFunLike.congr_fun hcomp i
 
 /-- The exact square translation of the first reflection lift. -/
-def firstSquareShift (c : TwoReflectionExtensionData G d) :
+@[expose] def firstSquareShift (c : TwoReflectionExtensionData G d) :
     translationVectors G.carrier :=
   liftPowerTranslation G d.reflection 2 d.reflection_sq
     c.firstLift c.first_projection
 
 /-- The exact square translation of the adjacent second reflection lift. -/
-def secondSquareShift (c : TwoReflectionExtensionData G d) :
+@[expose] def secondSquareShift (c : TwoReflectionExtensionData G d) :
     translationVectors G.carrier :=
   liftPowerTranslation G d.secondReflection 2 d.secondReflection_sq
     c.secondLift c.second_projection
@@ -151,12 +155,12 @@ theorem secondLift_sq (c : TwoReflectionExtensionData G d) :
   rfl
 
 /-- The first square shift as a quotient-valued reflection shift. -/
-def firstShiftClass (c : TwoReflectionExtensionData G d) :
+@[expose] def firstShiftClass (c : TwoReflectionExtensionData G d) :
     ShiftClassGroup G d.reflection 2 d.reflection_sq :=
   shiftClass G d.reflection 2 d.reflection_sq c.firstLift c.first_projection
 
 /-- The second square shift as a quotient-valued reflection shift. -/
-def secondShiftClass (c : TwoReflectionExtensionData G d) :
+@[expose] def secondShiftClass (c : TwoReflectionExtensionData G d) :
     ShiftClassGroup G d.secondReflection 2 d.secondReflection_sq :=
   shiftClass G d.secondReflection 2 d.secondReflection_sq
     c.secondLift c.second_projection
@@ -202,7 +206,7 @@ theorem rotateReflection_one_secondReflection_eq_reflection
 
 /-- For rotation order two, swap the two adjacent affine reflection lifts by rotating the
 chosen point-reflection generator once. -/
-def swapOrderTwo (c : TwoReflectionExtensionData G d) (horder : d.order = .two) :
+@[expose] def swapOrderTwo (c : TwoReflectionExtensionData G d) (horder : d.order = .two) :
     TwoReflectionExtensionData G (d.rotateReflection 1) where
   firstLift := c.secondLift
   first_projection := c.second_projection.trans
@@ -301,7 +305,7 @@ theorem pointRotationHom_mul_reflection (d : DihedralGenerators G)
   simpa using (reflection_mul_pointRotationHom d i⁻¹).symm
 
 /-- Interpret the abstract dihedral group in the selected point group. -/
-def pointDihedralHom (d : DihedralGenerators G) :
+@[expose] def pointDihedralHom (d : DihedralGenerators G) :
     DihedralGroup d.order.toNat →* pointGroup G.carrier where
   toFun
     | .r i => pointRotationHom d (Multiplicative.ofAdd i)

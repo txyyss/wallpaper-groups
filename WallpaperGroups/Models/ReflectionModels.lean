@@ -1,7 +1,11 @@
-import WallpaperGroups.Models.RotationModels
+module
+
+public import WallpaperGroups.Models.RotationModels
 import Mathlib.Analysis.Complex.OperatorNorm
 
 set_option linter.style.header false
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -19,7 +23,7 @@ shift representative `s`; its square is the lattice translation `s + ρ s`.
 -/
 
 /-- Reflection in the first coordinate axis, transported from complex conjugation. -/
-def axisReflection : Plane ≃ₗᵢ[ℝ] Plane :=
+@[expose] def axisReflection : Plane ≃ₗᵢ[ℝ] Plane :=
   (coordinateIsometry.trans Complex.conjLIE).trans coordinateIsometry.symm
 
 @[simp]
@@ -126,7 +130,7 @@ lemma axisReflection_mem_squareStabilizer :
 /-! ## A centered rectangular lattice -/
 
 /-- The real-linear shear taking `(1,i)` to `(1,(1+i)/2)`. -/
-def centeredShear : ℂ ≃ₗ[ℝ] ℂ where
+@[expose] def centeredShear : ℂ ≃ₗ[ℝ] ℂ where
   toFun z := ((z.re + z.im / 2 : ℝ) : ℂ) +
     ((z.im / 2 : ℝ) : ℂ) * Complex.I
   invFun z := ((z.re - z.im : ℝ) : ℂ) +
@@ -153,12 +157,12 @@ lemma centeredShear_I :
   apply Complex.ext <;> simp [centeredShear]
 
 /-- Change of coordinates from the square frame to the centered rectangular frame. -/
-def centeredPlaneEquiv : Plane ≃ₗ[ℝ] Plane :=
+@[expose] def centeredPlaneEquiv : Plane ≃ₗ[ℝ] Plane :=
   (coordinateIsometry.toLinearEquiv.trans centeredShear).trans
     coordinateIsometry.symm.toLinearEquiv
 
 /-- The centered rectangular lattice with basis `(1,(1+i)/2)`. -/
-def centeredLattice : RankTwoLattice Plane :=
+@[expose] def centeredLattice : RankTwoLattice Plane :=
   RankTwoLattice.standardLattice.map centeredPlaneEquiv
 
 @[simp]
@@ -239,7 +243,7 @@ lemma axisReflection_mem_centeredStabilizer :
 /-- Motions in the identity point coset have translation in `L`; motions in the reflection
 coset have translation in `s + L`.  The condition `s + R s ∈ L` is exactly closure of the
 reflection coset under multiplication. -/
-def shiftedReflectionCarrier
+@[expose] def shiftedReflectionCarrier
     (L : RankTwoLattice Plane) (R : Plane ≃ₗᵢ[ℝ] Plane) (s : Plane)
     (hR : R ∈ latticeStabilizer L)
     (hR2 : R * R = 1)
@@ -374,7 +378,7 @@ theorem shiftedReflectionCarrier_pointGroup
         linearPart_pureLinear, one_mul]
 
 /-- A finite shifted reflection extension is a plane group with exact lattice and point group. -/
-def shiftedReflectionPlaneGroup
+@[expose] def shiftedReflectionPlaneGroup
     (L : RankTwoLattice Plane) (R : Plane ≃ₗᵢ[ℝ] Plane) (s : Plane)
     (hR : R ∈ latticeStabilizer L)
     (hR2 : R * R = 1)
@@ -400,19 +404,19 @@ def shiftedReflectionPlaneGroup
 /-! ## The three one-reflection standard-model candidates -/
 
 /-- Primitive mirror model. -/
-def pmModel : PlaneGroup :=
+@[expose] def pmModel : PlaneGroup :=
   shiftedReflectionPlaneGroup RankTwoLattice.standardLattice axisReflection 0
     axisReflection_mem_squareStabilizer axisReflection_sq
     (by simp) axisReflection_ne_one axisReflection_order
 
 /-- Centered mirror model. -/
-def cmModel : PlaneGroup :=
+@[expose] def cmModel : PlaneGroup :=
   shiftedReflectionPlaneGroup centeredLattice axisReflection 0
     axisReflection_mem_centeredStabilizer axisReflection_sq
     (by simp) axisReflection_ne_one axisReflection_order
 
 /-- The half-primitive translation used by the glide-reflection model. -/
-def glideShift : Plane :=
+@[expose] def glideShift : Plane :=
   (1 / 2 : ℝ) •
     (RankTwoLattice.standardLattice.basis 0 : Plane)
 
@@ -434,7 +438,7 @@ lemma glideShift_norm_mem :
   exact (RankTwoLattice.standardLattice.basis 0).property
 
 /-- Primitive glide model. -/
-def pgModel : PlaneGroup :=
+@[expose] def pgModel : PlaneGroup :=
   shiftedReflectionPlaneGroup RankTwoLattice.standardLattice axisReflection glideShift
     axisReflection_mem_squareStabilizer axisReflection_sq glideShift_norm_mem
     axisReflection_ne_one axisReflection_order
@@ -492,7 +496,7 @@ theorem pgModel_pointGroup_card :
 /-! ## Lift-square and reflection-norm calculations -/
 
 /-- The canonical representative of the reflection coset with shift `s`. -/
-def shiftedReflectionLift (R : Plane ≃ₗᵢ[ℝ] Plane) (s : Plane) :
+@[expose] def shiftedReflectionLift (R : Plane ≃ₗᵢ[ℝ] Plane) (s : Plane) :
     EuclideanMotion Plane :=
   translation s * pureLinear R
 

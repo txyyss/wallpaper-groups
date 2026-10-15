@@ -1,5 +1,8 @@
-import Mathlib.Algebra.Group.MinimalAxioms
-import WallpaperGroups.Extensions.NormalizedCocycle
+module
+
+public import Mathlib.Algebra.Group.MinimalAxioms
+public import WallpaperGroups.Extensions.NormalizedCocycle
+import Mathlib.Tactic.Abel
 
 set_option linter.style.header false
 
@@ -16,6 +19,8 @@ with multiplication
 The cocycle identity is used directly in the associativity proof.  The resulting group carries a
 canonical mathlib `GroupExtension` and its conjugation action is the prescribed action `ρ`.
 -/
+
+public section
 
 set_option autoImplicit false
 
@@ -128,7 +133,7 @@ theorem associative (x y z : TwistedProduct c) :
   mul_assoc x y z
 
 /-- The canonical inclusion of the additive kernel into a twisted product. -/
-def inl (c : NormalizedCocycle ρ) :
+@[expose] def inl (c : NormalizedCocycle ρ) :
     Multiplicative T →* TwistedProduct c where
   toFun t := ⟨t.toAdd, 1⟩
   map_one' := by
@@ -147,7 +152,7 @@ theorem inl_right (c : NormalizedCocycle ρ) (t : Multiplicative T) :
   rfl
 
 /-- The canonical projection of a twisted product to its quotient coordinate. -/
-def rightHom (c : NormalizedCocycle ρ) :
+@[expose] def rightHom (c : NormalizedCocycle ρ) :
     TwistedProduct c →* H where
   toFun := TwistedProduct.right
   map_one' := rfl
@@ -164,7 +169,7 @@ theorem inl_injective (c : NormalizedCocycle ρ) :
   exact Multiplicative.toAdd.injective (congrArg TwistedProduct.left h)
 
 /-- The canonical short exact sequence associated to a twisted product. -/
-def toGroupExtension (c : NormalizedCocycle ρ) :
+@[expose] def toGroupExtension (c : NormalizedCocycle ρ) :
     GroupExtension (Multiplicative T) (TwistedProduct c) H where
   inl := inl c
   rightHom := rightHom c
@@ -207,7 +212,7 @@ theorem mul_inl (c : NormalizedCocycle ρ)
   · simp
 
 /-- The canonical twisted-product extension realizes the prescribed action by conjugation. -/
-def toExtensionOverAction (c : NormalizedCocycle ρ) :
+@[expose] def toExtensionOverAction (c : NormalizedCocycle ρ) :
     ExtensionOverAction (E := TwistedProduct c) ρ where
   toGroupExtension := toGroupExtension c
   conjugation_inl := by
@@ -232,7 +237,7 @@ theorem toExtensionOverAction_rightHom (c : NormalizedCocycle ρ)
 The sign matches the convention `c.changeBy b = c + δb`: the kernel coordinate changes by
 `t ↦ t - b(g)`.
 -/
-def changeByMulEquiv (c : NormalizedCocycle ρ)
+@[expose] def changeByMulEquiv (c : NormalizedCocycle ρ)
     (b : NormalizedCochain H T) :
     TwistedProduct c ≃* TwistedProduct (c.changeBy b) where
   toFun x := ⟨x.left - b x.right, x.right⟩

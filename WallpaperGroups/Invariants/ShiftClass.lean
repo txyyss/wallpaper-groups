@@ -1,3 +1,8 @@
+module
+
+public import Mathlib.Algebra.BigOperators.Group.Finset.Defs
+public import Mathlib.GroupTheory.QuotientGroup.Basic
+public import WallpaperGroups.Invariants.EquivalenceAction
 import WallpaperGroups.Presentations.CyclicExtension
 
 set_option linter.style.header false
@@ -12,6 +17,8 @@ translation fixed by `h`.  Replacing the lift changes that translation by the fi
 isomorphisms.
 -/
 
+public section
+
 set_option autoImplicit false
 
 namespace WallpaperGroups
@@ -22,7 +29,7 @@ open scoped BigOperators
 noncomputable section
 
 /-- The finite norm for the action of a point-group element on translation vectors. -/
-def finiteNormHom (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ) :
+@[expose] def finiteNormHom (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ) :
     translationVectors G.carrier →+ translationVectors G.carrier :=
   ∑ i ∈ Finset.range q, (pointAction G.carrier (h ^ i)).toAddMonoidHom
 
@@ -68,7 +75,7 @@ theorem finiteNormHom_fixed (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ
   exact add_right_cancel hsum
 
 /-- Translation vectors fixed by a selected point-group element. -/
-def fixedTranslationSubgroup (G : PlaneGroup) (h : pointGroup G.carrier) :
+@[expose] def fixedTranslationSubgroup (G : PlaneGroup) (h : pointGroup G.carrier) :
     AddSubgroup (translationVectors G.carrier) where
   carrier := {t | pointAction G.carrier h t = t}
   zero_mem' := by simp
@@ -85,7 +92,7 @@ def fixedTranslationSubgroup (G : PlaneGroup) (h : pointGroup G.carrier) :
     rw [map_neg, ht]
 
 /-- The finite norm, with codomain restricted to the fixed translations. -/
-def finiteNormFixedHom (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
+@[expose] def finiteNormFixedHom (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
     (hq : h ^ q = 1) :
     translationVectors G.carrier →+ fixedTranslationSubgroup G h where
   toFun t := ⟨finiteNormHom G h q t, finiteNormHom_fixed G h q hq t⟩
@@ -95,7 +102,7 @@ def finiteNormFixedHom (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
     exact (finiteNormHom G h q).map_add t u
 
 /-- Norm translations inside the fixed translation subgroup. -/
-def normTranslationSubgroup (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
+@[expose] def normTranslationSubgroup (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
     (hq : h ^ q = 1) : AddSubgroup (fixedTranslationSubgroup G h) :=
   (finiteNormFixedHom G h q hq).range
 
@@ -129,7 +136,7 @@ theorem translationPart_translation_mul_pow
   exact Finset.sum_add_distrib
 
 /-- The full-period translation vector of a lift. -/
-def liftPowerTranslation (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
+@[expose] def liftPowerTranslation (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
     (hq : h ^ q = 1) (g : G.carrier) (hg : pointProjection G.carrier g = h) :
     translationVectors G.carrier :=
   ⟨translationPart ((g : EuclideanMotion Plane) ^ q), by
@@ -137,7 +144,7 @@ def liftPowerTranslation (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
     simpa [hg] using hq⟩
 
 /-- The lift-power translation, bundled with its point-action fixedness. -/
-def liftPowerFixedTranslation (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
+@[expose] def liftPowerFixedTranslation (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
     (hq : h ^ q = 1) (g : G.carrier) (hg : pointProjection G.carrier g = h) :
     fixedTranslationSubgroup G h :=
   ⟨liftPowerTranslation G h q hq g hg, by
@@ -151,7 +158,7 @@ def liftPowerFixedTranslation (G : PlaneGroup) (h : pointGroup G.carrier) (q : �
     exact lift_pow_translationPart_fixed G.carrier g q (by simpa [hg] using hq)⟩
 
 /-- The canonical quotient-valued shift class of a finite-order point lift. -/
-def shiftClass (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
+@[expose] def shiftClass (G : PlaneGroup) (h : pointGroup G.carrier) (q : ℕ)
     (hq : h ^ q = 1) (g : G.carrier) (hg : pointProjection G.carrier g = h) :
     ShiftClassGroup G h q hq :=
   QuotientAddGroup.mk' (normTranslationSubgroup G h q hq)
@@ -292,7 +299,7 @@ theorem fixedTranslationSubgroup_map_of_intertwining
     exact hu
 
 /-- The fixed-subgroup equivalence induced by an arbitrary additive action intertwiner. -/
-def fixedTranslationEquivOfIntertwining
+@[expose] def fixedTranslationEquivOfIntertwining
     {G H : PlaneGroup}
     (eT : translationVectors G.carrier ≃+ translationVectors H.carrier)
     (hG : pointGroup G.carrier) (hH : pointGroup H.carrier)
@@ -379,7 +386,7 @@ theorem normTranslationSubgroup_map_of_intertwining
 
 /-- An additive equivalence intertwining selected finite point actions induces an equivalence of
 their quotient-valued shift groups. -/
-def shiftClassEquivOfIntertwining
+@[expose] def shiftClassEquivOfIntertwining
     {G H : PlaneGroup}
     (eT : translationVectors G.carrier ≃+ translationVectors H.carrier)
     (hG : pointGroup G.carrier) (hH : pointGroup H.carrier)
@@ -439,7 +446,7 @@ theorem fixedTranslationSubgroup_map {G H : PlaneGroup}
     exact hu
 
 /-- The induced equivalence between the fixed translation subgroups. -/
-def fixedTranslationEquiv {G H : PlaneGroup} (e : TranslationPreservingIso G H)
+@[expose] def fixedTranslationEquiv {G H : PlaneGroup} (e : TranslationPreservingIso G H)
     (h : pointGroup G.carrier) :
     fixedTranslationSubgroup G h ≃+ fixedTranslationSubgroup H (e.pointGroupEquiv h) :=
   (e.translationVectorEquiv.addSubgroupMap (fixedTranslationSubgroup G h)).trans
