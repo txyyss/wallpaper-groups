@@ -315,8 +315,8 @@ lemma matrix_eq_of_mul_rotationMatrix_eq_inverse_mul
     Fin.sum_univ_two] at h00 h01
   ext i j
   fin_cases i <;> fin_cases j <;> simp_all
-  all_goals ring_nf at *
-  all_goals omega
+  ring_nf at *
+  omega
 
 /-- Determinant `-1` reduces the shaped reflection matrix to a positive-definite norm equation. -/
 lemma reflection_norm_equation

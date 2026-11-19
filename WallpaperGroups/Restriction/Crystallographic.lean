@@ -326,7 +326,7 @@ theorem order_four (U : GL2Z)
     calc
       A ^ 4 = (A ^ 2) ^ 2 := by noncomm_ring
       _ = 1 := by rw [hA2]; simp
-  apply orderOf_eq_of_pow_and_pow_div_prime (by norm_num) hU4
+  apply orderOf_eq_of_pow_and_pow_div_prime hU4
   intro p hpprime hpdiv
   have hp2pow : p ∣ 2 ^ 2 := by
     norm_num
@@ -374,7 +374,7 @@ theorem order_six (U : GL2Z)
     calc
       A ^ 6 = (A ^ 3) ^ 2 := by noncomm_ring
       _ = 1 := by rw [hA3]; simp
-  apply orderOf_eq_of_pow_and_pow_div_prime (by norm_num) hU6
+  apply orderOf_eq_of_pow_and_pow_div_prime hU6
   intro p hpprime hpdiv
   have hp23 : p ∣ 2 * 3 := by simpa using hpdiv
   rcases (hpprime.dvd_mul).mp hp23 with hp2dvd | hp3dvd

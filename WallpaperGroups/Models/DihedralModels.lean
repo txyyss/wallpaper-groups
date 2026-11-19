@@ -574,7 +574,7 @@ theorem axisReflection_mem_hexStabilizer :
       coordinateIsometry_hexLattice_basis_one]
     apply Complex.ext
     all_goals simp [hexRoot]
-    all_goals ring
+    ring
   apply mem_latticeStabilizer_of_basis
   · intro i
     fin_cases i

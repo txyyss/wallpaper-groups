@@ -83,7 +83,7 @@ lemma axisReflection_order : orderOf axisReflection = 2 := by
   · exact axisReflection_sq
   · intro m hm hpos
     interval_cases m
-    all_goals norm_num at hpos hm ⊢
+    norm_num at hpos hm ⊢
     exact axisReflection_ne_one
 
 /-- The coordinate-axis reflection reverses orientation. -/
@@ -269,8 +269,8 @@ reflection coset under multiplication. -/
       · rw [translationPart_mul, hg.1]
         have hm := L.carrier.add_mem hg.2 hh.2
         convert hm using 1
-        all_goals simp
-        all_goals abel
+        simp
+        abel
     · right
       constructor
       · rw [linearPart_mul, hg.1, hh.1, mul_one]
@@ -279,7 +279,7 @@ reflection coset under multiplication. -/
           (hR (translationPart h)).mp hh.2
         have hm := L.carrier.add_mem hg.2 hRh
         convert hm using 1
-        all_goals abel
+        abel
     · left
       constructor
       · rw [linearPart_mul, hg.1, hh.1, hR2]
@@ -288,8 +288,8 @@ reflection coset under multiplication. -/
           (hR (translationPart h - s)).mp hh.2
         have hm := L.carrier.add_mem hs (L.carrier.add_mem hg.2 hRdiff)
         convert hm using 1
-        all_goals simp [map_sub]
-        all_goals abel
+        simp [map_sub]
+        abel
   inv_mem' := by
     intro g hg
     have hRi : R⁻¹ = R := by
@@ -310,8 +310,8 @@ reflection coset under multiplication. -/
         have hm := L.carrier.add_mem (L.carrier.neg_mem hRdiff)
           (L.carrier.neg_mem hs)
         convert hm using 1
-        all_goals simp [map_sub]
-        all_goals abel
+        simp [map_sub]
+        abel
 
 @[simp]
 theorem mem_shiftedReflectionCarrier

@@ -25,6 +25,8 @@ the build.  The focused representation experiments are in `EuclideanMotion.lean`
 -/
 
 set_option autoImplicit false
+-- The named audit experiment is intentionally private to this regression module.
+set_option linter.privateModule false
 
 namespace WallpaperGroups.Prototype.APIAudit
 

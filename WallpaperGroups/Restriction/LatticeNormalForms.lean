@@ -285,7 +285,7 @@ lemma linearIsometry_inner_map_eq_trace_half
   have hch := plane_endomorphism_cayley_hamilton T
   have hx := LinearMap.congr_fun hch x
   have hx' : φ (φ x) - LinearMap.trace ℝ Plane T • φ x + x = 0 := by
-    simpa [T, Module.End.mul_apply, hdet] using hx
+    simpa [T, mul_apply_eq_comp, hdet] using hx
   have hin := congrArg (fun y : Plane => ⟪φ x, y⟫_ℝ) hx'
   have hpres : ⟪φ x, φ (φ x)⟫_ℝ = ⟪x, φ x⟫_ℝ := by
     exact φ.inner_map_map x (φ x)

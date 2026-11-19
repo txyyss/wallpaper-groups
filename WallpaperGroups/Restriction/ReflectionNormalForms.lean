@@ -113,7 +113,7 @@ lemma mulVec_integralFixedVector
     fin_cases i <;>
       simp [integralFixedVector, hspecial, Matrix.mulVec, dotProduct,
         Fin.sum_univ_two, hd1]
-    all_goals ring
+    ring
   · have hdneg : A 1 1 = -A 0 0 := by omega
     rw [hdneg] at hd
     funext i

@@ -110,7 +110,7 @@ lemma hexRoot_pow_six : hexRoot ^ 6 = 1 := by
   norm_num
 
 lemma hexRoot_order : orderOf hexRoot = 6 := by
-  apply orderOf_eq_of_pow_and_pow_div_prime (by norm_num) hexRoot_pow_six
+  apply orderOf_eq_of_pow_and_pow_div_prime hexRoot_pow_six
   intro p hp hd
   have hp23 : p ∣ 2 * 3 := by simpa using hd
   rcases (hp.dvd_mul).mp hp23 with hp2 | hp3

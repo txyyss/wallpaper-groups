@@ -20,9 +20,7 @@ open WallpaperGroups.EuclideanMotion
 
 noncomputable section
 
-/-- The production standard copy of `ℤ²` inside the Euclidean plane. -/
-abbrev standardRankTwoLattice : RankTwoLattice Plane :=
-  RankTwoLattice.standardLattice
+open RankTwoLattice (standardRankTwoLattice)
 
 example (z : Fin 2 → ℤ) :
     standardRankTwoLattice.coordinates (standardRankTwoLattice.ofCoordinates z) = z := by
